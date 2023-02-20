@@ -1,0 +1,10 @@
+{
+  "emailerror": "Enter a valid E-mail",
+  "fullnameerror": "Insert a full name in Hebrew or in English only, letters only",
+  "phoneerror": "Insert a proper Israeli mobile number",
+  "formsuccess": "Form sent successfully!",
+  "formerror": "Problem in sending the form, please contact us via phone!",
+  "interestedinmailsub": "Yes, Subscribe to mailing list",
+  "messageerror": "Message must be in English or in Hebrew. Allowed: ,.?:@()[]-_",
+  "companyerror": "Company must be in English or in Hebrew. Allowed: -_"
+}

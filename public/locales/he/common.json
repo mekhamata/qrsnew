@@ -1,8 +1,15 @@
 {
+  "home": "בית",
   "implants": "Implants",
-  "category":"קטגוריה",
-  "fullname":"שם מלא",
-  "phone":"טלפון",
-  "email":"דוא\"ל",
-  "send":"שלח/י"
+  "category": "קטגוריה",
+  "fullname": "שם מלא",
+  "phone": "טלפון",
+  "cellphone": "נייד",
+  "message": "הודעה",
+  "company": "חברה",
+  "email": "דוא\"ל",
+  "send": "שלח/י",
+  "map": "מפת הגעה",
+  "contactus": "צרו קשר",
+  "serves": "שירותים"
 }

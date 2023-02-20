@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
-import styles from './index.module.css';
-import Image from 'next/image';
-import NavLink from '../../../components/NavLink';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { showSiteName } from '../../../store/slices/generalSlice';
-import Head from 'next/head';
-import CheckBox from 'react-animated-checkbox';
+import styles from "./indexcat.module.css";
+import Image from "next/image";
+import NavLink from "../../components/NavLink";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { showSiteName } from "../../store/slices/generalSlice";
+import Head from "next/head";
+import CheckBox from "react-animated-checkbox";
 
 const ProductsIn = () => {
   const siteName = useSelector(showSiteName);
@@ -26,21 +26,21 @@ const ProductsIn = () => {
   return (
     <section>
       <Head>
-        <meta charSet='utf-8' />
+        <meta charSet="utf-8" />
         <title>{siteName} | Products In</title>
       </Head>
       {/* {icon.icon}
       {name.name} */}
-      <div id='pageCover' className={styles.pageCover}>
+      <div id="pageCover" className={styles.pageCover}>
         <Image
-          alt='page cover'
-          src='/img/productscover.png'
-          layout='fill'
-          objectFit='cover'
+          alt="page cover"
+          src="/img/productscover.png"
+          layout="fill"
+          objectFit="cover"
         />
       </div>
-      <div id='pageData' className={styles.pageData}>
-        <div id='pageDataIn' className={styles.pageDataIn}>
+      <div id="pageData" className={styles.pageData}>
+        <div id="pageDataIn" className={styles.pageDataIn}>
           <div className={styles.productsContainer}>
             <div className={styles.productsHeader}>
               <div className={styles.productsHeaderDead}>
@@ -53,24 +53,24 @@ const ProductsIn = () => {
                 <div className={styles.productsHeaderActiveNav}>
                   <div className={styles.pageNavigator}>
                     <NavLink
-                      href='/'
+                      href="/"
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title='בית'
+                      title="בית"
                     />
                     /
                     <NavLink
-                      href='/products'
+                      href="/products"
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title='מוצרים'
+                      title="מוצרים"
                     />
                     /
                     <NavLink
-                      href='/products/in'
+                      href="/products/in"
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title='Implants'
+                      title="Implants"
                     />
                   </div>
                 </div>
@@ -84,11 +84,11 @@ const ProductsIn = () => {
                       <div className={`${styles.layer}`}></div>
                       <div className={styles.productItemImg}>
                         <Image
-                          alt='page cover'
-                          src='/img/prod2.png'
+                          alt="page cover"
+                          src="/img/prod2.png"
                           width={221}
                           height={221}
-                          objectFit='scale-down'
+                          objectFit="scale-down"
                         />
                       </div>
                       <div className={styles.productItemText}>
@@ -111,11 +111,11 @@ const ProductsIn = () => {
                       <div className={`${styles.layer}`}></div>
                       <div className={styles.productItemImg}>
                         <Image
-                          alt='page cover'
-                          src='/img/prod2.png'
+                          alt="page cover"
+                          src="/img/prod2.png"
                           width={221}
                           height={221}
-                          objectFit='scale-down'
+                          objectFit="scale-down"
                         />
                       </div>
                       <div className={styles.productItemText}>
@@ -138,11 +138,11 @@ const ProductsIn = () => {
                       <div className={`${styles.layer}`}></div>
                       <div className={styles.productItemImg}>
                         <Image
-                          alt='page cover'
-                          src='/img/prod1.png'
+                          alt="page cover"
+                          src="/img/prod1.png"
                           width={221}
                           height={221}
-                          objectFit='scale-down'
+                          objectFit="scale-down"
                         />
                       </div>
                       <div className={styles.productItemText}>
@@ -165,11 +165,11 @@ const ProductsIn = () => {
                       <div className={`${styles.layer}`}></div>
                       <div className={styles.productItemImg}>
                         <Image
-                          alt='page cover'
-                          src='/img/prod2.png'
+                          alt="page cover"
+                          src="/img/prod2.png"
                           width={221}
                           height={221}
-                          objectFit='scale-down'
+                          objectFit="scale-down"
                         />
                       </div>
                       <div className={styles.productItemText}>
@@ -192,11 +192,11 @@ const ProductsIn = () => {
                       <div className={`${styles.layer}`}></div>
                       <div className={styles.productItemImg}>
                         <Image
-                          alt='page cover'
-                          src='/img/prod1.png'
+                          alt="page cover"
+                          src="/img/prod1.png"
                           width={221}
                           height={221}
-                          objectFit='scale-down'
+                          objectFit="scale-down"
                         />
                       </div>
                       <div className={styles.productItemText}>
@@ -219,11 +219,11 @@ const ProductsIn = () => {
                       <div className={`${styles.layer}`}></div>
                       <div className={styles.productItemImg}>
                         <Image
-                          alt='page cover'
-                          src='/img/prod2.png'
+                          alt="page cover"
+                          src="/img/prod2.png"
                           width={221}
                           height={221}
-                          objectFit='scale-down'
+                          objectFit="scale-down"
                         />
                       </div>
                       <div className={styles.productItemText}>
@@ -246,11 +246,11 @@ const ProductsIn = () => {
                       <div className={`${styles.layer}`}></div>
                       <div className={styles.productItemImg}>
                         <Image
-                          alt='page cover'
-                          src='/img/prod2.png'
+                          alt="page cover"
+                          src="/img/prod2.png"
                           width={221}
                           height={221}
-                          objectFit='scale-down'
+                          objectFit="scale-down"
                         />
                       </div>
                       <div className={styles.productItemText}>
@@ -276,11 +276,11 @@ const ProductsIn = () => {
             <div className={styles.filterContainerIn}>
               <div className={styles.filterImg}>
                 <Image
-                  alt='page cover'
-                  src='/img/filterimg.png'
+                  alt="page cover"
+                  src="/img/filterimg.png"
                   width={218}
                   height={171}
-                  objectFit='scale-down'
+                  objectFit="scale-down"
                 />
               </div>
               <div className={styles.filterItemsContainer}>
@@ -292,9 +292,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -308,9 +308,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -324,9 +324,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -340,9 +340,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -356,93 +356,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                  </div>
-                  {/*  */}
-                  <div className={styles.filterItemCat}>
-                    <div className={styles.filterItemTitle}>Trade Name</div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: '#004b8d',
-                          size: 15,
-                          unCheckedColor: '#b8b8b8',
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: '#004b8d',
-                          size: 15,
-                          unCheckedColor: '#b8b8b8',
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: '#004b8d',
-                          size: 15,
-                          unCheckedColor: '#b8b8b8',
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: '#004b8d',
-                          size: 15,
-                          unCheckedColor: '#b8b8b8',
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: '#004b8d',
-                          size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -460,9 +376,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -476,9 +392,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -492,9 +408,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -508,9 +424,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -524,9 +440,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -544,9 +460,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -560,9 +476,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -576,9 +492,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -592,9 +508,9 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}
@@ -608,9 +524,93 @@ const ProductsIn = () => {
                         // checked={this.state.checked}
                         checked={true}
                         checkBoxStyle={{
-                          checkedColor: '#004b8d',
+                          checkedColor: "#004b8d",
                           size: 15,
-                          unCheckedColor: '#b8b8b8',
+                          unCheckedColor: "#b8b8b8",
+                        }}
+                        duration={400}
+                        // onClick={()=>this.handleClick()}
+                      />
+                      <div className={styles.filterItemInputLabel}>
+                        Blue Class
+                      </div>
+                    </div>
+                  </div>
+                  {/*  */}
+                  <div className={styles.filterItemCat}>
+                    <div className={styles.filterItemTitle}>Trade Name</div>
+                    <div className={styles.filterItemInput}>
+                      <CheckBox
+                        // checked={this.state.checked}
+                        checked={true}
+                        checkBoxStyle={{
+                          checkedColor: "#004b8d",
+                          size: 15,
+                          unCheckedColor: "#b8b8b8",
+                        }}
+                        duration={400}
+                        // onClick={()=>this.handleClick()}
+                      />
+                      <div className={styles.filterItemInputLabel}>
+                        Blue Class
+                      </div>
+                    </div>
+                    <div className={styles.filterItemInput}>
+                      <CheckBox
+                        // checked={this.state.checked}
+                        checked={true}
+                        checkBoxStyle={{
+                          checkedColor: "#004b8d",
+                          size: 15,
+                          unCheckedColor: "#b8b8b8",
+                        }}
+                        duration={400}
+                        // onClick={()=>this.handleClick()}
+                      />
+                      <div className={styles.filterItemInputLabel}>
+                        Blue Class
+                      </div>
+                    </div>
+                    <div className={styles.filterItemInput}>
+                      <CheckBox
+                        // checked={this.state.checked}
+                        checked={true}
+                        checkBoxStyle={{
+                          checkedColor: "#004b8d",
+                          size: 15,
+                          unCheckedColor: "#b8b8b8",
+                        }}
+                        duration={400}
+                        // onClick={()=>this.handleClick()}
+                      />
+                      <div className={styles.filterItemInputLabel}>
+                        Blue Class
+                      </div>
+                    </div>
+                    <div className={styles.filterItemInput}>
+                      <CheckBox
+                        // checked={this.state.checked}
+                        checked={true}
+                        checkBoxStyle={{
+                          checkedColor: "#004b8d",
+                          size: 15,
+                          unCheckedColor: "#b8b8b8",
+                        }}
+                        duration={400}
+                        // onClick={()=>this.handleClick()}
+                      />
+                      <div className={styles.filterItemInputLabel}>
+                        Blue Class
+                      </div>
+                    </div>
+                    <div className={styles.filterItemInput}>
+                      <CheckBox
+                        // checked={this.state.checked}
+                        checked={true}
+                        checkBoxStyle={{
+                          checkedColor: "#004b8d",
+                          size: 15,
+                          unCheckedColor: "#b8b8b8",
                         }}
                         duration={400}
                         // onClick={()=>this.handleClick()}

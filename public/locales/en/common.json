@@ -1,8 +1,15 @@
 {
+  "home": "Home",
   "implants": "Implants",
-  "category":"Category",
-  "fullname":"Full Name",
-  "phone":"Phone",
-  "email":"E-mail",
-  "send":"Send"
+  "category": "Category",
+  "fullname": "Full Name",
+  "phone": "Phone",
+  "cellphone": "Cellphone",
+  "message": "Message",
+  "company": "Company",
+  "email": "E-mail",
+  "send": "Send",
+  "map": "Map",
+  "contactus": "Contact Us",
+  "serves": "Serves"
 }

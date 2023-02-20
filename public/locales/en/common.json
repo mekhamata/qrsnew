@@ -1,3 +1,8 @@
 {
-  "implants": "Implants"
+  "implants": "Implants",
+  "category":"Category",
+  "fullname":"Full Name",
+  "phone":"Phone",
+  "email":"E-mail",
+  "send":"Send"
 }

@@ -82,7 +82,7 @@ const MobHeader = () => {
             </Link>
           </li>
           <li>
-            <Link href='/'>
+            <Link href='/contact'>
               <a className={styles.navlink}>צור קשר</a>
             </Link>
           </li>

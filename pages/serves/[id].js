@@ -228,7 +228,7 @@ const LearningIn = ({ serve }) => {
                         <div className={styles.courseItemInInside}>
                           <div className={styles.courseItemInInsideImg}>
                             <NavLink
-                              href='/products'
+                              href='/serves/course/1'
                               className={styles.courseItemInInsideImg_link}
                               activeClassName={
                                 styles.courseItemInInsideImg_link

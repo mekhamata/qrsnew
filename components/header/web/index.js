@@ -95,7 +95,7 @@ const WebHeader = () => {
       <li>
         <NavLink
           title='צור קשר'
-          href='/'
+          href='/contact'
           className={styles.navlink}
           activeClassName={styles.navlink_active}
         />

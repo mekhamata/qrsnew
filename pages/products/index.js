@@ -8,14 +8,7 @@ import { showSiteName } from '../../store/slices/generalSlice';
 import { useEffect } from 'react';
 import Head from 'next/head';
 
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common', 'products'])),
-      // Will be passed to the page component as props
-    },
-  };
-}
+
 const Products = (props) => {
   const { t } = useTranslation();
   const siteName = useSelector(showSiteName);
@@ -152,5 +145,12 @@ const Products = (props) => {
   );
 };
 // Products.title = 'Products';
-
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common', 'products'])),
+      // Will be passed to the page component as props
+    },
+  };
+}
 export default Products;

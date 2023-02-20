@@ -11,6 +11,7 @@ import {
   showSiteTelePhone,
   showSiteAddress,
 } from '../../store/slices/generalSlice';
+import {useRouter} from 'next/router';
 // import FloatingLabel from 'react-bootstrap/FloatingLabel';
 // import Form from 'react-bootstrap/Form';
 function TextInput({ type = 'text', label, name }) {
@@ -35,10 +36,11 @@ const Footer = () => {
   const sitePhone = useSelector(showSitePhone);
   const sitePhone2 = useSelector(showSitePhone2);
   const siteAddress = useSelector(showSiteAddress);
+  const router = useRouter();
   return (
     <footer>
       <div id='footerContainer' className={styles.footerContainer}>
-        <div id='footerContainer_in' className={styles.footerContainer_in}>
+        {router?.pathname!=='/contact' && <div id='footerContainer_in' className={styles.footerContainer_in}>
           <div id='footerForm' className={styles.footerForm}>
             <div className={styles.footerTitles}>צור קשר</div>
             <div className={styles.footerFormRow}>
@@ -138,7 +140,7 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </footer>
   );

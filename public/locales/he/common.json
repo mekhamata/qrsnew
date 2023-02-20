@@ -1,3 +1,8 @@
 {
-  "implants": "Implants"
+  "implants": "Implants",
+  "category":"קטגוריה",
+  "fullname":"שם מלא",
+  "phone":"טלפון",
+  "email":"דוא\"ל",
+  "send":"שלח/י"
 }

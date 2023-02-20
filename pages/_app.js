@@ -10,6 +10,7 @@ import { appWithTranslation } from 'next-i18next';
 import { Provider } from 'react-redux';
 import store from '../store/index';
 
+
 function Loading() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);

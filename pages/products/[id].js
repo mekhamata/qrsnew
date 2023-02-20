@@ -3,13 +3,19 @@ import styles from "./indexcat.module.css";
 import Image from "next/image";
 import NavLink from "../../components/NavLink";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect } from "react";
 import { showSiteName } from "../../store/slices/generalSlice";
 import Head from "next/head";
 import CheckBox from "react-animated-checkbox";
+import { useRouter } from "next/router";
 
-const ProductsIn = () => {
+const ProductsIn = ({ productscats, catproducts }) => {
   const siteName = useSelector(showSiteName);
+  const { t } = useTranslation(["common", "products"]);
+  // const router = useRouter();
+  // const { id } = router.query;
   //dispacher example to update states
 
   // const dispatcher = useDispatch();
@@ -23,11 +29,17 @@ const ProductsIn = () => {
 
   // let icon = useSelector((state) => state.icon);
   // let name = useSelector((state) => state.name);
+  if (!productscats) {
+    //loading or return...
+    return;
+  }
   return (
     <section>
       <Head>
         <meta charSet="utf-8" />
-        <title>{siteName} | Products In</title>
+        <title>
+          {siteName} | {productscats.title}
+        </title>
       </Head>
       {/* {icon.icon}
       {name.name} */}
@@ -48,7 +60,7 @@ const ProductsIn = () => {
               </div>
               <div className={styles.productsHeaderActive}>
                 <div className={styles.productsHeaderActiveTitle}>
-                  <h1>Implants</h1>
+                  <h1>{productscats.title}</h1>
                 </div>
                 <div className={styles.productsHeaderActiveNav}>
                   <div className={styles.pageNavigator}>
@@ -56,21 +68,21 @@ const ProductsIn = () => {
                       href="/"
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title="בית"
+                      title={t("common:home")}
                     />
                     /
                     <NavLink
                       href="/products"
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title="מוצרים"
+                      title={t("common:products")}
                     />
                     /
                     <NavLink
-                      href="/products/in"
+                      href={`/products/${productscats.id}`}
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title="Implants"
+                      title={productscats.title}
                     />
                   </div>
                 </div>
@@ -79,195 +91,41 @@ const ProductsIn = () => {
             <div className={styles.productsList}>
               <div className={styles.productsListIn}>
                 <ul className={styles.productsListUl}>
-                  <li>
-                    <div className={styles.productItemContainer}>
-                      <div className={`${styles.layer}`}></div>
-                      <div className={styles.productItemImg}>
-                        <Image
-                          alt="page cover"
-                          src="/img/prod2.png"
-                          width={221}
-                          height={221}
-                          objectFit="scale-down"
-                        />
-                      </div>
-                      <div className={styles.productItemText}>
-                        Blue Class implant One Piece. Dia 3.75mm L 10mm
-                      </div>
-                      <div className={styles.productItemTextFull}>
-                        <div className={styles.productItemTextFullIn}>
-                          <div className={styles.productItemText2}>
-                            Blue Class implant One Piece. Dia 3.75mm L 10mm
+                  {catproducts &&
+                    catproducts.map((item) => {
+                      return (
+                        <li key={item.id}>
+                          <div className={styles.productItemContainer}>
+                            <div className={`${styles.layer}`}></div>
+                            <div className={styles.productItemImg}>
+                              <Image
+                                alt="page cover"
+                                src={`https://qrs-global.com/uploads/${item.pic}`}
+                                width={221}
+                                height={221}
+                                objectFit="scale-down"
+                              />
+                            </div>
+                            <div className={styles.productItemText}>
+                              {item.title}
+                            </div>
+                            <div className={styles.productItemTextFull}>
+                              <div className={styles.productItemTextFullIn}>
+                                <div className={styles.productItemText2}>
+                                  {item.title}
+                                </div>
+                                <div
+                                  className={styles.productItemText2_desc}
+                                  dangerouslySetInnerHTML={{
+                                    __html: item.text,
+                                  }}
+                                ></div>
+                              </div>
+                            </div>
                           </div>
-                          <div className={styles.productItemText2_desc}>
-                            here wil be desc
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className={styles.productItemContainer}>
-                      <div className={`${styles.layer}`}></div>
-                      <div className={styles.productItemImg}>
-                        <Image
-                          alt="page cover"
-                          src="/img/prod2.png"
-                          width={221}
-                          height={221}
-                          objectFit="scale-down"
-                        />
-                      </div>
-                      <div className={styles.productItemText}>
-                        Blue Class implant One Piece. Dia 3.75mm L 10mm
-                      </div>
-                      <div className={styles.productItemTextFull}>
-                        <div className={styles.productItemTextFullIn}>
-                          <div className={styles.productItemText2}>
-                            Blue Class implant One Piece. Dia 3.75mm L 10mm
-                          </div>
-                          <div className={styles.productItemText2_desc}>
-                            here wil be desc
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className={styles.productItemContainer}>
-                      <div className={`${styles.layer}`}></div>
-                      <div className={styles.productItemImg}>
-                        <Image
-                          alt="page cover"
-                          src="/img/prod1.png"
-                          width={221}
-                          height={221}
-                          objectFit="scale-down"
-                        />
-                      </div>
-                      <div className={styles.productItemText}>
-                        Blue Class implant One Piece. Dia 3.75mm L 10mm
-                      </div>
-                      <div className={styles.productItemTextFull}>
-                        <div className={styles.productItemTextFullIn}>
-                          <div className={styles.productItemText2}>
-                            Blue Class implant One Piece. Dia 3.75mm L 10mm
-                          </div>
-                          <div className={styles.productItemText2_desc}>
-                            here wil be desc
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className={styles.productItemContainer}>
-                      <div className={`${styles.layer}`}></div>
-                      <div className={styles.productItemImg}>
-                        <Image
-                          alt="page cover"
-                          src="/img/prod2.png"
-                          width={221}
-                          height={221}
-                          objectFit="scale-down"
-                        />
-                      </div>
-                      <div className={styles.productItemText}>
-                        Blue Class implant One Piece. Dia 3.75mm L 10mm
-                      </div>
-                      <div className={styles.productItemTextFull}>
-                        <div className={styles.productItemTextFullIn}>
-                          <div className={styles.productItemText2}>
-                            Blue Class implant One Piece. Dia 3.75mm L 10mm
-                          </div>
-                          <div className={styles.productItemText2_desc}>
-                            here wil be desc
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className={styles.productItemContainer}>
-                      <div className={`${styles.layer}`}></div>
-                      <div className={styles.productItemImg}>
-                        <Image
-                          alt="page cover"
-                          src="/img/prod1.png"
-                          width={221}
-                          height={221}
-                          objectFit="scale-down"
-                        />
-                      </div>
-                      <div className={styles.productItemText}>
-                        Blue Class implant One Piece. Dia 3.75mm L 10mm
-                      </div>
-                      <div className={styles.productItemTextFull}>
-                        <div className={styles.productItemTextFullIn}>
-                          <div className={styles.productItemText2}>
-                            Blue Class implant One Piece. Dia 3.75mm L 10mm
-                          </div>
-                          <div className={styles.productItemText2_desc}>
-                            here wil be desc
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className={styles.productItemContainer}>
-                      <div className={`${styles.layer}`}></div>
-                      <div className={styles.productItemImg}>
-                        <Image
-                          alt="page cover"
-                          src="/img/prod2.png"
-                          width={221}
-                          height={221}
-                          objectFit="scale-down"
-                        />
-                      </div>
-                      <div className={styles.productItemText}>
-                        Blue Class implant One Piece. Dia 3.75mm L 10mm
-                      </div>
-                      <div className={styles.productItemTextFull}>
-                        <div className={styles.productItemTextFullIn}>
-                          <div className={styles.productItemText2}>
-                            Blue Class implant One Piece. Dia 3.75mm L 10mm
-                          </div>
-                          <div className={styles.productItemText2_desc}>
-                            here wil be desc
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className={styles.productItemContainer}>
-                      <div className={`${styles.layer}`}></div>
-                      <div className={styles.productItemImg}>
-                        <Image
-                          alt="page cover"
-                          src="/img/prod2.png"
-                          width={221}
-                          height={221}
-                          objectFit="scale-down"
-                        />
-                      </div>
-                      <div className={styles.productItemText}>
-                        Blue Class implant One Piece. Dia 3.75mm L 10mm
-                      </div>
-                      <div className={styles.productItemTextFull}>
-                        <div className={styles.productItemTextFullIn}>
-                          <div className={styles.productItemText2}>
-                            Blue Class implant One Piece. Dia 3.75mm L 10mm
-                          </div>
-                          <div className={styles.productItemText2_desc}>
-                            here wil be desc
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
+                        </li>
+                      );
+                    })}
                 </ul>
               </div>
             </div>
@@ -277,7 +135,7 @@ const ProductsIn = () => {
               <div className={styles.filterImg}>
                 <Image
                   alt="page cover"
-                  src="/img/filterimg.png"
+                  src={`https://qrs-global.com/uploads/${productscats.pic}`}
                   width={218}
                   height={171}
                   objectFit="scale-down"
@@ -634,6 +492,25 @@ const ProductsIn = () => {
   );
 };
 // ProductsIn.title = `Products`;
+export async function getServerSideProps({ locale, params }) {
+  const res1 = await fetch(
+    `https://qrs-global.com/react/productscats/index.php?id=${params.id}`
+  );
+  const data1 = await res1.json();
+
+  const res2 = await fetch(
+    `https://qrs-global.com/react/productscats/catproducts.php?id=${params.id}`
+  );
+  const data2 = await res2.json();
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "he")),
+      productscats: data1?.productscats,
+      catproducts: data2?.catproducts,
+      // Will be passed to the page component as props
+    },
+  };
+}
 export default ProductsIn;
 // import connectMongo from '../../utils/dbConnect';
 // import Samar from '../../models/toursModel';

@@ -1,5 +1,11 @@
 {
   "home": "Home",
+  "main": "Main",
+  "about": "About",
+  "serves": "Serves",
+  "products": "Products",
+  "contactus": "Contact Us",
+  "catalog": "Catalog",
   "implants": "Implants",
   "category": "Category",
   "fullname": "Full Name",
@@ -8,8 +14,13 @@
   "message": "Message",
   "company": "Company",
   "email": "E-mail",
+  "address": "Address",
   "send": "Send",
   "map": "Map",
-  "contactus": "Contact Us",
-  "serves": "Serves"
+  "courseslist": "Courses List",
+  "fromdate": "From Date",
+  "choosecategory": "Choose Category",
+  "search": "Search",
+  "todetails": "Details &",
+  "andregister": "Register"
 }

@@ -1,11 +1,13 @@
-import Link from 'next/link';
-import NavLink from '../../NavLink';
-import styles from './index.module.css';
-import { useRouter } from 'next/router';
+import Link from "next/link";
+import NavLink from "../../NavLink";
+import styles from "./index.module.css";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 const WebHeader = () => {
   const router = useRouter();
+  const { t } = useTranslation(["common"]);
   return (
-    <ul id='headerUlComponent' className={styles.headerUlComponent}>
+    <ul id="headerUlComponent" className={styles.headerUlComponent}>
       <li>
         {/* <NavLink
           title='EN'
@@ -18,33 +20,33 @@ const WebHeader = () => {
         /> */}
         <Link
           href={router.asPath}
-          locale={router.locale === 'he' ? 'en' : 'he'}
+          locale={router.locale === "he" ? "en" : "he"}
         >
           <a className={styles.navlink}>
-            {router.locale === 'he' ? 'EN' : 'עב'}
+            {router.locale === "he" ? "EN" : "עב"}
           </a>
         </Link>
       </li>
       <li>
         <NavLink
-          title='ראשי'
-          href='/'
+          title={t("common:main")}
+          href="/"
           className={styles.navlink}
           activeClassName={styles.navlink_active}
         />
       </li>
       <li>
         <NavLink
-          title='אודות'
-          href='/about'
+          title={t("common:about")}
+          href="/about"
           className={styles.navlink}
           activeClassName={styles.navlink_active}
         />
       </li>
       <li>
         <NavLink
-          title='שירותים'
-          href='/serves'
+          title={t("common:serves")}
+          href="/serves"
           className={styles.navlink}
           activeClassName={styles.navlink_active}
         >
@@ -53,29 +55,29 @@ const WebHeader = () => {
               <ul>
                 <li>
                   <NavLink
-                    title='ייצור'
-                    href='/'
+                    title="ייצור"
+                    href="/"
                     className={styles.subMenuLink}
                   />
                 </li>
                 <li>
                   <NavLink
-                    title='ריגולציה'
-                    href='/'
+                    title="ריגולציה"
+                    href="/"
                     className={styles.subMenuLink}
                   />
                 </li>
                 <li>
                   <NavLink
-                    title='איכות'
-                    href='/'
+                    title="איכות"
+                    href="/"
                     className={styles.subMenuLink}
                   />
                 </li>
                 <li>
                   <NavLink
-                    title='הדרכות'
-                    href='/'
+                    title="הדרכות"
+                    href="/"
                     className={styles.subMenuLink}
                   />
                 </li>
@@ -86,16 +88,16 @@ const WebHeader = () => {
       </li>
       <li>
         <NavLink
-          title='מוצרים'
-          href='/products'
+          title={t("common:products")}
+          href="/products"
           className={styles.navlink}
           activeClassName={styles.navlink_active}
         />
       </li>
       <li>
         <NavLink
-          title='צור קשר'
-          href='/contact'
+          title={t("common:contactus")}
+          href="/contact"
           className={styles.navlink}
           activeClassName={styles.navlink_active}
         />

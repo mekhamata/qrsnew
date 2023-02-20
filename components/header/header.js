@@ -10,6 +10,7 @@ import {
   getSiteDataAsync,
 } from "../../store/slices/generalSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "next-i18next";
 
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
@@ -34,6 +35,7 @@ const Header = () => {
     setMobileView(width <= 991);
   }, [width, mobileView]);
   const siteData = useSelector(showSiteData);
+  const { t } = useTranslation(["common"]);
   return (
     <header>
       <div id="headerPass" className={styles.headerPass}>
@@ -94,7 +96,7 @@ const Header = () => {
               <div id="catalogBtnIn" className={styles.catalogBtnIn}>
                 <NavLink
                   href=""
-                  title="קטלוג"
+                  title={t("common:catalog")}
                   className={styles.catalogBtnInLink}
                 />
               </div>

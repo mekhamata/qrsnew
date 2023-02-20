@@ -1,37 +1,38 @@
 /* eslint-disable react/no-unescaped-entities */
-import styles from './index.module.css';
-import Image from 'next/image';
-import Head from 'next/head';
-import { showSiteName } from '../../store/slices/generalSlice';
-import { useSelector } from 'react-redux';
+import styles from "./index.module.css";
+import Image from "next/image";
+import Head from "next/head";
+import { showSiteName } from "../../store/slices/generalSlice";
+import { useSelector } from "react-redux";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const About = ({ about, eman }) => {
   const siteName = useSelector(showSiteName);
   console.log(eman);
   return (
     <section>
       <Head>
-        <meta charSet='utf-8' />
+        <meta charSet="utf-8" />
         <title>
-          {siteName} | {about.about.title}
+          {siteName} | {about.title}
         </title>
       </Head>
-      <div id='pageCover' className={styles.pageCover}>
+      <div id="pageCover" className={styles.pageCover}>
         <Image
-          alt='page cover'
-          src='/img/aboutcover.jpg'
-          layout='fill'
-          objectFit='cover'
+          alt="page cover"
+          src="/img/aboutcover.jpg"
+          layout="fill"
+          objectFit="cover"
         />
       </div>
-      <div id='pageData' className={styles.pageData}>
-        <div id='pageDataIn' className={styles.pageDataIn}>
-          <div id='emansDiv' className={styles.emansDiv}>
+      <div id="pageData" className={styles.pageData}>
+        <div id="pageDataIn" className={styles.pageDataIn}>
+          <div id="emansDiv" className={styles.emansDiv}>
             <div className={styles.imgDiv}>
               <Image
-                alt='page main pic'
-                src='/img/iman.png'
-                layout='fill'
-                objectFit='cover'
+                alt="page main pic"
+                src="/img/iman.png"
+                layout="fill"
+                objectFit="cover"
               />
             </div>
             <div className={styles.imanTitle}>
@@ -46,14 +47,14 @@ const About = ({ about, eman }) => {
               לקוחותינו
             </div>
           </div>
-          <div id='contentDiv' className={styles.contentDiv}>
+          <div id="contentDiv" className={styles.contentDiv}>
             <div className={styles.contentParagraph}>
               <div className={styles.contentMainTitle}>
-                <h1>{about.about.title}</h1>
+                <h1>{about.title}</h1>
               </div>
               <div
                 className={styles.contentText}
-                dangerouslySetInnerHTML={{ __html: about.about.text }}
+                dangerouslySetInnerHTML={{ __html: about.text }}
               ></div>
             </div>
             <div className={styles.contentParagraph}>
@@ -105,15 +106,16 @@ const About = ({ about, eman }) => {
   );
 };
 
-export const getStaticProps = async () => {
-  const res1 = await fetch('https://qrs-global.com/react/about/index.php?id=6');
+export const getServerSideProps = async ({ locale }) => {
+  const res1 = await fetch("https://qrs-global.com/react/about/index.php?id=6");
   const data1 = await res1.json();
 
-  const res2 = await fetch('https://qrs-global.com/react/about/index.php?id=3');
+  const res2 = await fetch("https://qrs-global.com/react/about/index.php?id=3");
   const data2 = await res2.json();
   return {
     props: {
-      about: data1,
+      ...(await serverSideTranslations(locale ?? "he")),
+      about: data1.about,
       eman: data2,
     },
   };

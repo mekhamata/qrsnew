@@ -1,12 +1,13 @@
 {
   "coursedetails": "פרטי הקורס",
-  "courselength":"משך הקורס",
-  "startdate":"תאריך תחילת הקורס",
-  "coursecoo":"רכזי הקורס",
-  "interested":"מעוניינים?",
-  "sendtofriend":"שלח לחבר",
-  "downloadregisterdoc":"הורד קובץ הרשמה",
-  "onlineregister":"הרשמה ONLINE",
-  "moreinfo":"מעוניין/ת לשמוע עוד?",
-  "filldetails":"מלא/י את הפרטים כאן ונצא לדרך"
+  "courselength": "משך הקורס",
+  "startdate": "תאריך תחילת הקורס",
+  "coursecoo": "רכזי הקורס",
+  "interested": "מעוניינים?",
+  "sendtofriend": "שלח לחבר",
+  "downloadregisterdoc": "הורד קובץ הרשמה",
+  "onlineregister": "הרשמה ONLINE",
+  "moreinfo": "מעוניין/ת לשמוע עוד?",
+  "filldetails": "מלא/י את הפרטים כאן ונצא לדרך",
+  "aboutcourse": "על הקורס"
 }

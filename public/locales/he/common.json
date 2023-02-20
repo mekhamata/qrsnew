@@ -1,5 +1,11 @@
 {
   "home": "בית",
+  "main": "ראשי",
+  "about": "אודות",
+  "serves": "שירותים",
+  "products": "מוצרים",
+  "contactus": "צרו קשר",
+  "catalog": "קטלוג",
   "implants": "Implants",
   "category": "קטגוריה",
   "fullname": "שם מלא",
@@ -8,8 +14,13 @@
   "message": "הודעה",
   "company": "חברה",
   "email": "דוא\"ל",
+  "address": "כתובת",
   "send": "שלח/י",
   "map": "מפת הגעה",
-  "contactus": "צרו קשר",
-  "serves": "שירותים"
+  "courseslist": "רשימת הקורסים",
+  "fromdate": "מתאריך",
+  "choosecategory": "בחר קטגוריה",
+  "search": "חיפוש",
+  "todetails": "לפרטים",
+  "andregister": "והרשמה"
 }

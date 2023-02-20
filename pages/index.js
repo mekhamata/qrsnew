@@ -13,6 +13,7 @@ import {
 } from "../store/slices/generalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home = ({ circles }) => {
   const dispatch = useDispatch();
@@ -77,7 +78,7 @@ const Home = ({ circles }) => {
               {circles &&
                 circles.circles.map((item) => {
                   return (
-                    <div className={styles.homeCircleItem}>
+                    <div className={styles.homeCircleItem} key={item.id}>
                       <NavLink
                         href={`/${item.url}`}
                         className={styles.circlelink}
@@ -110,11 +111,12 @@ const Home = ({ circles }) => {
     </>
   );
 };
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ locale }) => {
   const res1 = await fetch("https://qrs-global.com/react/home/index.php");
   const data1 = await res1.json();
   return {
     props: {
+      ...(await serverSideTranslations(locale ?? "he")),
       circles: data1,
     },
   };

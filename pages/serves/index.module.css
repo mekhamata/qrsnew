@@ -12,17 +12,17 @@
   } */
 .coverTitle {
   position: absolute;
-  margin-inline-end: 13%;
+  left: 13%;
   margin-top: 5%;
   /* font-size: 2vw; */
   font-size: calc(12px + 2vw);
   color: #004b8d;
-  font-family: 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
 }
 .pageData {
   position: relative;
   min-height: 500px;
-  background-image: url('/img/gal2.png');
+  background-image: url("/img/gal2.png");
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center top;
@@ -60,7 +60,7 @@
 .navlink:hover {
   color: #004a8d;
 }
-.navlink__active{
+.navlink__active {
   font-weight: bold;
 }
 .pageRealData {
@@ -74,7 +74,7 @@
   margin: 0;
   font-size: 30px;
   color: #004b8d;
-  font-family: 'FbSpoilerBold', 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "FbSpoilerBold", "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
 }
 .contentText {
   color: black;
@@ -104,7 +104,7 @@
   width: 100%;
   width: 229px;
   height: 229px;
-  background-image: url('/img/nonhovericon.png');
+  background-image: url("/img/nonhovericon.png");
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center center;
@@ -127,7 +127,7 @@
 .homeCircleItem__title {
   font-weight: bold;
   color: #004b8d;
-  font-family: 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
   font-size: 18px;
 }
 .circlelink {
@@ -139,7 +139,7 @@
   /* transition: all 0.3s ease-in-out; */
 }
 .circlelink:hover .homeCircleItem__img {
-  background-image: url('/img/hovericon.png');
+  background-image: url("/img/hovericon.png");
 }
 
 /* For extremely small screen devices (595px and below) */

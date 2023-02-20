@@ -17,6 +17,7 @@ import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
+import { NextProgressbarSpinner } from "nextjs-progressbar-spinner";
 function TextInput({
   type = "text",
   label,
@@ -66,6 +67,7 @@ const Contact = (props) => {
   const [message, setMessage] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
+  const [sendStatus, setSendStatus] = useState(false);
 
   //all serves <--end-->
   const notify = (msg, type) => {
@@ -80,15 +82,18 @@ const Contact = (props) => {
       });
     }
   };
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
+    setSendStatus(true);
     const inputData = e.target.elements;
     if (inputData.from_email) {
       if (validator.isEmail(inputData.from_email.value)) {
         console.log("valid email");
+        setSendStatus(false);
       } else {
         // alert("Enter valid Email!");
         notify(`${t("contact:emailerror")}`, "error");
+        setSendStatus(false);
         return;
       }
     }
@@ -103,16 +108,20 @@ const Contact = (props) => {
         })
       ) {
         console.log("valid name");
+        setSendStatus(false);
       } else {
         notify(`${t("contact:fullnameerror")}`, "error");
+        setSendStatus(false);
         return;
       }
     }
     if (inputData.phone && inputData.phone.value.trim() !== "") {
       if (validator.isMobilePhone(inputData.phone.value, ["he-IL"])) {
         console.log("valid phone");
+        setSendStatus(false);
       } else {
         notify(`${t("contact:phoneerror")}`, "error");
+        setSendStatus(false);
         return;
       }
     }
@@ -126,8 +135,10 @@ const Contact = (props) => {
         })
       ) {
         console.log("valid message");
+        setSendStatus(false);
       } else {
         notify(`${t("contact:messageerror")}`, "error");
+        setSendStatus(false);
         return;
       }
     }
@@ -141,8 +152,10 @@ const Contact = (props) => {
         })
       ) {
         console.log("valid company");
+        setSendStatus(false);
       } else {
         notify(`${t("contact:companyerror")}`, "error");
+        setSendStatus(false);
         return;
       }
     }
@@ -162,6 +175,7 @@ const Contact = (props) => {
           setPhone("");
           setCompany("");
           setMessage("");
+          setSendStatus(false);
           // inputData.from_email.value = "";
           // inputData.full_name.value = "";
           // inputData.phone.value = "";
@@ -169,6 +183,7 @@ const Contact = (props) => {
           // inputData.message.value = "";
         },
         (error) => {
+          setSendStatus(false);
           notify(`${t("contact:formerror")}`, "error");
         }
       );
@@ -181,7 +196,6 @@ const Contact = (props) => {
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
-        rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
@@ -383,7 +397,9 @@ const Contact = (props) => {
                               </label>
                             </div>
                             <div className={styles.formSubmit}>
-                              <button>{t("common:send")}</button>
+                              <button disabled={sendStatus}>
+                                {sendStatus ? <div>a</div> : t("common:send")}
+                              </button>
                             </div>
                           </div>
                         </form>
@@ -473,9 +489,9 @@ const Contact = (props) => {
                       <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3345.47031753989!2d35.27621428445091!3d33.017737578978775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151c2dec8ec81c1d%3A0x928a13de582e4400!2sQrs%20global!5e0!3m2!1siw!2sil!4v1675347873797!5m2!1siw!2sil"
                         style={{ border: 0, width: "100%", height: "100%" }}
-                        allowfullscreen=""
+                        allowFullScreen=""
                         loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
+                        referrerPolicy="no-referrer-when-downgrade"
                       ></iframe>
                     </div>
                   </div>

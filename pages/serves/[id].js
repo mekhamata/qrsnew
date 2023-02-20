@@ -1,18 +1,20 @@
-import styles from './in.module.css';
-import Image from 'next/image';
-import NavLink from '../../components/NavLink';
-import IconComponent from '../../components/iconComponent';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { forwardRef, useState } from 'react';
-import { showSiteName } from '../../store/slices/generalSlice';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
+import styles from "./in.module.css";
+import Image from "next/image";
+import NavLink from "../../components/NavLink";
+import IconComponent from "../../components/iconComponent";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { forwardRef, useState } from "react";
+import { showSiteName } from "../../store/slices/generalSlice";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 //create floating text input
-function TextInput({ type = 'text', label, name, onclick }) {
-  const [value, setValue] = useState('');
+function TextInput({ type = "text", label, name, onclick }) {
+  const [value, setValue] = useState("");
 
   function handleChange(e) {
     setValue(e.target.value);
@@ -33,8 +35,8 @@ function TextInput({ type = 'text', label, name, onclick }) {
   );
 }
 //create floating select
-function SelectInput({ type = 'text', label, name, onclick }) {
-  const [value, setValue] = useState('');
+function SelectInput({ type = "text", label, name, onclick }) {
+  const [value, setValue] = useState("");
 
   function handleChange(e) {
     setValue(e.target.value);
@@ -49,10 +51,10 @@ function SelectInput({ type = 'text', label, name, onclick }) {
         onClick={onclick}
       /> */}
       <select onClick={onclick} onChange={handleChange}>
-        <option selected value=''></option>
-        <option value='1'>asdasdasdasd</option>
-        <option value='2'>asdasdasdasd</option>
-        <option value='3'>asdasdasdasd</option>
+        <option selected value=""></option>
+        <option value="1">asdasdasdasd</option>
+        <option value="2">asdasdasdasd</option>
+        <option value="3">asdasdasdasd</option>
       </select>
       <label className={value && styles.filled}>{label}</label>
     </div>
@@ -61,7 +63,7 @@ function SelectInput({ type = 'text', label, name, onclick }) {
 //date picker custom input
 // eslint-disable-next-line react/display-name
 const FloatingDatePicker = forwardRef(
-  ({ value, onClick, name, label, type = 'text' }, ref) => (
+  ({ value, onClick, name, label, type = "text" }, ref) => (
     <div className={styles.coursesFormInput}>
       <input type={type} value={value} onClick={onClick} />
       <label className={value && styles.filled} htmlFor={name}>
@@ -74,29 +76,30 @@ const LearningIn = ({ serve }) => {
   const router = useRouter();
   const { id } = router.query;
   //datepicker state:
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState("");
   const siteName = useSelector(showSiteName);
+  const { t } = useTranslation(["common"]);
 
-  const theserve = serve.serves || '';
+  const theserve = serve.serves || "";
   return (
     <section>
       <Head>
-        <meta charSet='utf-8' />
+        <meta charSet="utf-8" />
         <title>
           {siteName} | {theserve.title}
         </title>
       </Head>
-      <div id='pageCover' className={styles.pageCover}>
+      <div id="pageCover" className={styles.pageCover}>
         <Image
-          alt='page cover'
-          src='/img/learningcover.jpg'
-          layout='fill'
-          objectFit='cover'
+          alt="page cover"
+          src="/img/learningcover.jpg"
+          layout="fill"
+          objectFit="cover"
         />
         {/* <div className={styles.coverTitle}>SERVES</div> */}
       </div>
-      <div id='pageData' className={styles.pageData}>
-        <div id='pageDataIn' className={styles.pageDataIn}>
+      <div id="pageData" className={styles.pageData}>
+        <div id="pageDataIn" className={styles.pageDataIn}>
           {/* <div className={styles.pageNavigator}>
             <NavLink
               href='/serves'
@@ -115,17 +118,17 @@ const LearningIn = ({ serve }) => {
           <div className={styles.pageRealData}>
             <div className={styles.pageNavigator}>
               <NavLink
-                href='/'
+                href="/"
                 className={styles.navlink}
                 activeClassName={styles.navlink__active}
-                title='בית'
+                title={t("common:home")}
               />
               /
               <NavLink
-                href='/serves'
+                href="/serves"
                 className={styles.navlink}
                 activeClassName={styles.navlink__active}
-                title='שירותים'
+                title={t("common:serves")}
               />
               /
               <NavLink
@@ -140,7 +143,7 @@ const LearningIn = ({ serve }) => {
                 <div className={styles.contentMainTitle_copy}>
                   <div className={styles.titleIconContainer}>
                     <IconComponent
-                      name='fa-sharp fa-solid fa-chalkboard-user'
+                      name="fa-sharp fa-solid fa-chalkboard-user"
                       className={styles.titleIcon}
                     />
                   </div>
@@ -153,69 +156,72 @@ const LearningIn = ({ serve }) => {
               </div>
               <div className={styles.contentParagraph_copy1_img}>
                 <Image
-                  alt='page cover'
-                  src='/img/servesin.png'
+                  alt="page cover"
+                  src="/img/servesin.png"
                   width={624}
                   height={670}
-                  objectFit='scale-down'
+                  objectFit="scale-down"
                 />
               </div>
             </div>
-            {(theserve.title?.includes('courses') ||
-              theserve.title?.includes('הדרכות') ||
-              theserve.title?.includes('קורסים')) && (
+            {(theserve.title?.includes("courses") ||
+              theserve.title?.includes("הדרכות") ||
+              theserve.title?.includes("קורסים")) && (
               <div className={styles.contentParagraph_copy2}>
                 <div className={styles.coursesListTitle}>
-                  <h2>לרשימת הקורסים</h2>
+                  <h2>{t("common:courseslist")}</h2>
                 </div>
                 <div className={styles.coursesListContainer}>
                   <div className={styles.coursesListFormContainer}>
                     <form>
                       <div className={styles.coursesListFormFullRow}>
-                        <TextInput label='כתובת' name='address' />
+                        <TextInput label={t("common:address")} name="address" />
                       </div>
                       <div className={styles.coursesListFormFullRow}>
                         <div
                           className={styles.coursesListFormHalfRow}
-                          style={{ paddingInlineEnd: '10px' }}
+                          style={{ paddingInlineEnd: "10px" }}
                         >
                           <DatePicker
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
                             customInput={
                               <FloatingDatePicker
-                                name='startdate'
-                                label='מתאריך'
+                                name="startdate"
+                                label={t("common:fromdate")}
                               />
                             }
-                            dateFormat='dd/MM/yyyy'
+                            dateFormat="dd/MM/yyyy"
                             // dateFormat='Pp'
                           />
                           {startDate ? (
                             <div
-                              onClick={() => setStartDate('')}
+                              onClick={() => setStartDate("")}
                               className={styles.datePickerClearIcon}
                             >
-                              <IconComponent type='fab' name='fa-solid fa-x' />
+                              <IconComponent type="fab" name="fa-solid fa-x" />
                             </div>
                           ) : (
-                            ''
+                            ""
                           )}
                         </div>
                         <div className={styles.coursesListFormHalfRow}>
                           <div className={styles.coursesFormInput}>
-                            <SelectInput name='cat' label='בחר קטגוריה' />
+                            <SelectInput
+                              name="cat"
+                              label={t("common:choosecategory")}
+                            />
                           </div>
                         </div>
                         <div
                           className={styles.coursesListFormHalfRow}
-                          style={{ flex: 0.7, marginInlineStart: '0.5vw' }}
+                          style={{ flex: 0.7, marginInlineStart: "0.5vw" }}
                         >
                           <button
-                            type='button'
+                            type="button"
                             className={styles.coursesFormButton}
                           >
-                            חיפוש
+                            {t("common:search")}
                           </button>
                         </div>
                       </div>
@@ -228,20 +234,20 @@ const LearningIn = ({ serve }) => {
                         <div className={styles.courseItemInInside}>
                           <div className={styles.courseItemInInsideImg}>
                             <NavLink
-                              href='/serves/course/1'
+                              href="/serves/course/1"
                               className={styles.courseItemInInsideImg_link}
                               activeClassName={
                                 styles.courseItemInInsideImg_link
                               }
                             >
-                              לפרטים
+                              {t("common:todetails")}
                               <br />
-                              והרשמה
+                              {t("common:andregister")}
                             </NavLink>
                           </div>
                           <div className={styles.courseItemInInsideText}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideText_link}
                               activeClassName={
                                 styles.courseItemInInsideText_link
@@ -262,7 +268,7 @@ const LearningIn = ({ serve }) => {
                         <div className={styles.courseItemInInside2}>
                           <div className={styles.courseItemInInside2Text}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideText_link}
                               activeClassName={
                                 styles.courseItemInInsideText_link
@@ -275,7 +281,7 @@ const LearningIn = ({ serve }) => {
                           </div>
                           <div className={styles.courseItemInInside2Img}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideImg_link}
                               activeClassName={
                                 styles.courseItemInInsideImg_link
@@ -297,7 +303,7 @@ const LearningIn = ({ serve }) => {
                         <div className={styles.courseItemInInside}>
                           <div className={styles.courseItemInInsideImg}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideImg_link}
                               activeClassName={
                                 styles.courseItemInInsideImg_link
@@ -310,7 +316,7 @@ const LearningIn = ({ serve }) => {
                           </div>
                           <div className={styles.courseItemInInsideText}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideText_link}
                               activeClassName={
                                 styles.courseItemInInsideText_link
@@ -331,7 +337,7 @@ const LearningIn = ({ serve }) => {
                         <div className={styles.courseItemInInside2}>
                           <div className={styles.courseItemInInside2Text}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideText_link}
                               activeClassName={
                                 styles.courseItemInInsideText_link
@@ -344,7 +350,7 @@ const LearningIn = ({ serve }) => {
                           </div>
                           <div className={styles.courseItemInInside2Img}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideImg_link}
                               activeClassName={
                                 styles.courseItemInInsideImg_link
@@ -366,7 +372,7 @@ const LearningIn = ({ serve }) => {
                         <div className={styles.courseItemInInside}>
                           <div className={styles.courseItemInInsideImg}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideImg_link}
                               activeClassName={
                                 styles.courseItemInInsideImg_link
@@ -379,7 +385,7 @@ const LearningIn = ({ serve }) => {
                           </div>
                           <div className={styles.courseItemInInsideText}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideText_link}
                               activeClassName={
                                 styles.courseItemInInsideText_link
@@ -400,7 +406,7 @@ const LearningIn = ({ serve }) => {
                         <div className={styles.courseItemInInside2}>
                           <div className={styles.courseItemInInside2Text}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideText_link}
                               activeClassName={
                                 styles.courseItemInInsideText_link
@@ -413,7 +419,7 @@ const LearningIn = ({ serve }) => {
                           </div>
                           <div className={styles.courseItemInInside2Img}>
                             <NavLink
-                              href='/products'
+                              href="/products"
                               className={styles.courseItemInInsideImg_link}
                               activeClassName={
                                 styles.courseItemInInsideImg_link
@@ -441,9 +447,9 @@ const LearningIn = ({ serve }) => {
 };
 
 // This function gets called at build time
-export async function getStaticPaths() {
+export async function getServerSideProps({ params, locale }) {
   // Call an external API endpoint to get posts
-  const res = await fetch('https://qrs-global.com/react/serves/serves.php');
+  const res = await fetch("https://qrs-global.com/react/serves/serves.php");
   const serves = await res.json();
 
   // Get the paths we want to pre-render based on posts
@@ -451,26 +457,38 @@ export async function getStaticPaths() {
     params: { id: serve.id },
   }));
 
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false };
-}
-
-// This also gets called at build time
-export async function getStaticProps({ params }) {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
-  const res = await fetch(
+  const res2 = await fetch(
     `https://qrs-global.com/react/serves/index.php?id=${params.id}`
   );
-  const serve = await res.json();
+  const serve = await res2.json();
 
-  // Pass post data to the page via props
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
   return {
     props: {
+      ...(await serverSideTranslations(locale ?? "he")),
       serve,
+      paths: [...paths],
+      fallback: false,
     },
   };
 }
+
+// This also gets called at build time
+// export async function getStaticProps({ params }) {
+//   // params contains the post `id`.
+//   // If the route is like /posts/1, then params.id is 1
+//   const res = await fetch(
+//     `https://qrs-global.com/react/serves/index.php?id=${params.id}`
+//   );
+//   const serve = await res.json();
+
+//   // Pass post data to the page via props
+//   return {
+//     props: {
+//       serve,
+//     },
+//   };
+// }
 // Learning.title = 'Learning';
 export default LearningIn;

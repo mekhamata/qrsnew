@@ -117,6 +117,7 @@
   line-height: 0;
   /* right: 0; */
 }
+
 .footerFormInput label.filled {
   transform: translate(0, 0px) scale(0.9);
 }
@@ -133,6 +134,9 @@
   color: white;
   font-size: 14px;
   padding: 0;
+}
+.footerFormInput input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #004b8d inset;
 }
 
 .footerFormTextAreaTitle {
@@ -220,10 +224,14 @@
     padding-inline-start: 10px;
     padding-inline-end: 10px;
   }
-  .footerContainer_in{
+  .footerContainer_in {
     flex-direction: column;
   }
-  .footerFormInput,.formSubmit,.footerFormTextArea,.footerFormTextAreaTitle,.formSubscription{
+  .footerFormInput,
+  .formSubmit,
+  .footerFormTextArea,
+  .footerFormTextAreaTitle,
+  .formSubscription {
     padding: 10px;
   }
 }

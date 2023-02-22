@@ -273,7 +273,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       href=""
-                      title={siteData?.[0]?.["address"]}
+                      title={siteData?.["address"]}
                       className={styles.footerInfoLink}
                     />
                   </li>
@@ -281,7 +281,7 @@ const Footer = () => {
                     טל.{" "}
                     <NavLink
                       href=""
-                      title={siteData?.[0]?.["phone"]}
+                      title={siteData?.["phone"]}
                       className={styles.footerInfoLink}
                     />
                   </li>
@@ -289,7 +289,7 @@ const Footer = () => {
                     נייד.{" "}
                     <NavLink
                       href=""
-                      title={siteData?.[0]?.["phone2"]}
+                      title={siteData?.["phone2"]}
                       className={styles.footerInfoLink}
                     />
                   </li>
@@ -297,14 +297,14 @@ const Footer = () => {
                     נייד.{" "}
                     <NavLink
                       href=""
-                      title={siteData?.[0]?.["phone3"]}
+                      title={siteData?.["phone3"]}
                       className={styles.footerInfoLink}
                     />
                   </li>
                   <li>
                     <NavLink
                       href=""
-                      title={siteData?.[0]?.["email"]}
+                      title={siteData?.["email"]}
                       className={styles.footerInfoLink}
                     />
                   </li>

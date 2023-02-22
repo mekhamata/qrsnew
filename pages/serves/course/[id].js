@@ -2,16 +2,16 @@
 import styles from "./index.module.css";
 import Image from "next/image";
 import NavLink from "../../../components/NavLink";
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { showSiteName } from "../../../store/slices/generalSlice";
+import { showSiteData } from "../../../store/slices/generalSlice";
 import Head from "next/head";
 import CheckBox from "react-animated-checkbox";
 import IconComponent from "../../../components/iconComponent";
 
-const LeftSide = () => {
+const LeftSide = ({ course }) => {
   const { t } = useTranslation(["common", "course"]);
   return (
     <div className={styles.realLeftSide}>
@@ -149,8 +149,8 @@ const LeftSide = () => {
     </div>
   );
 };
-const CourseIn = () => {
-  const siteName = useSelector(showSiteName);
+const CourseIn = ({ course }) => {
+  const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common", "course"]);
   //dispacher example to update states
 
@@ -165,11 +165,16 @@ const CourseIn = () => {
 
   // let icon = useSelector((state) => state.icon);
   // let name = useSelector((state) => state.name);
+  if (!course) {
+    return;
+  }
   return (
     <section>
       <Head>
         <meta charSet="utf-8" />
-        <title>{siteName} | Course data</title>
+        <title>
+          {siteData["Title"]} | {course.title}
+        </title>
       </Head>
       {/* {icon.icon}
       {name.name} */}
@@ -194,7 +199,7 @@ const CourseIn = () => {
                     className={styles.titleIcon}
                   />
                 </div>
-                <h1>דרישות לרישום מכשור רפואי למתחילים ב ZOOM</h1>
+                <h1>{course.title}</h1>
               </div>
             </div>
             <div className={styles.courseInfoNav}>
@@ -218,15 +223,15 @@ const CourseIn = () => {
                     href="/serves/25"
                     className={styles.navlink}
                     activeClassName={styles.navlink__active}
-                    title="קורסים והדרכות"
+                    title={t("course:coursesandtutorials")}
                   />
-                  /
+                  {/* /
                   <NavLink
-                    href={`/serves/course/1`}
+                    href={`/serves/course/${course.id}`}
                     className={styles.navlink}
                     activeClassName={styles.navlink__active}
-                    title={`קורס מסויים`}
-                  />
+                    title={course.title}
+                  /> */}
                 </div>
               </div>
             </div>
@@ -258,7 +263,7 @@ const CourseIn = () => {
             <div className={styles.filterContainer}>
               <div className={styles.filterContainerIn}>
                 <div className={styles.filterItemsContainer}>
-                  <LeftSide />
+                  <LeftSide course={course} />
                 </div>
               </div>
               <div className={styles.filterCircle}>
@@ -272,10 +277,18 @@ const CourseIn = () => {
   );
 };
 // ProductsIn.title = `Products`;
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps({ locale, params }) {
+  const res = await fetch(
+    `https://qrs-global.com/react/courses/index.php?id=${params.id}`
+  );
+  const course = await res.json();
+  if (process.env.NODE_ENV === "development") {
+    await i18n?.reloadResources();
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
+      course: course?.allcourses,
       // Will be passed to the page component as props
     },
   };

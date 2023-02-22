@@ -15,11 +15,11 @@
 .pageData {
   position: relative;
   min-height: 500px;
-  background-image: url('/img/gal2.png');
+  background-image: url("/img/gal2.png");
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center top;
-  margin-top: -10.8%;
+  margin-top: -10.2%;
   padding-top: 15%;
   z-index: 1;
   display: flex;
@@ -40,8 +40,9 @@
   position: relative;
   display: flex;
   flex: 1;
-  width: 100%;
+  width: 90%;
   margin-bottom: 30px;
+  justify-content: flex-start;
 }
 .imanTitle {
   font-size: 20px;
@@ -74,7 +75,7 @@
   margin: 0;
   font-size: 30px;
   color: #004b8d;
-  font-family: 'FbSpoilerBold', 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "FbSpoilerBold", "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
 }
 .contentMainH2Title h2,
 .contentText h2 {
@@ -91,7 +92,7 @@
   margin: 0;
   color: black;
   font-size: 18px;
-  font-family: 'FbSpoilerBold', 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "FbSpoilerBold", "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
 }
 .contentText {
   color: black;

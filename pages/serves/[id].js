@@ -5,11 +5,11 @@ import IconComponent from "../../components/iconComponent";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { forwardRef, useState } from "react";
-import { showSiteName } from "../../store/slices/generalSlice";
+import { showSiteData } from "../../store/slices/generalSlice";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 //create floating text input
@@ -35,7 +35,13 @@ function TextInput({ type = "text", label, name, onclick }) {
   );
 }
 //create floating select
-function SelectInput({ type = "text", label, name, onclick }) {
+function SelectInput({
+  type = "text",
+  label,
+  name,
+  onclick,
+  coursescats = undefined,
+}) {
   const [value, setValue] = useState("");
 
   function handleChange(e) {
@@ -52,9 +58,13 @@ function SelectInput({ type = "text", label, name, onclick }) {
       /> */}
       <select onClick={onclick} onChange={handleChange}>
         <option selected value=""></option>
-        <option value="1">asdasdasdasd</option>
-        <option value="2">asdasdasdasd</option>
-        <option value="3">asdasdasdasd</option>
+        {coursescats?.map((item) => {
+          return (
+            <option value={item.id} key={item.id}>
+              {item.title}
+            </option>
+          );
+        })}
       </select>
       <label className={value && styles.filled}>{label}</label>
     </div>
@@ -72,12 +82,13 @@ const FloatingDatePicker = forwardRef(
     </div>
   )
 );
-const LearningIn = ({ serve }) => {
+const LearningIn = ({ serve, courses, coursescats }) => {
   const router = useRouter();
   const { id } = router.query;
+  console.log(courses, "xxx");
   //datepicker state:
   const [startDate, setStartDate] = useState("");
-  const siteName = useSelector(showSiteName);
+  const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common"]);
 
   const theserve = serve.serves || "";
@@ -86,7 +97,7 @@ const LearningIn = ({ serve }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteName} | {theserve.title}
+          {siteData["Title"]} | {theserve.title}
         </title>
       </Head>
       <div id="pageCover" className={styles.pageCover}>
@@ -209,6 +220,7 @@ const LearningIn = ({ serve }) => {
                           <div className={styles.coursesFormInput}>
                             <SelectInput
                               name="cat"
+                              coursescats={coursescats}
                               label={t("common:choosecategory")}
                             />
                           </div>
@@ -228,213 +240,74 @@ const LearningIn = ({ serve }) => {
                     </form>
                   </div>
                   <div className={styles.coursesList}>
-                    {/* item */}
-                    <div className={styles.courseItem}>
-                      <div className={styles.courseItemIn}>
-                        <div className={styles.courseItemInInside}>
-                          <div className={styles.courseItemInInsideImg}>
-                            <NavLink
-                              href="/serves/course/1"
-                              className={styles.courseItemInInsideImg_link}
-                              activeClassName={
-                                styles.courseItemInInsideImg_link
-                              }
-                            >
-                              {t("common:todetails")}
-                              <br />
-                              {t("common:andregister")}
-                            </NavLink>
-                          </div>
-                          <div className={styles.courseItemInInsideText}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideText_link}
-                              activeClassName={
-                                styles.courseItemInInsideText_link
-                              }
-                            >
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                            </NavLink>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* /item */}
-                    {/* item */}
-                    <div className={styles.courseItem}>
-                      <div className={styles.courseItemIn2}>
-                        <div className={styles.courseItemInInside2}>
-                          <div className={styles.courseItemInInside2Text}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideText_link}
-                              activeClassName={
-                                styles.courseItemInInsideText_link
-                              }
-                            >
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                            </NavLink>
-                          </div>
-                          <div className={styles.courseItemInInside2Img}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideImg_link}
-                              activeClassName={
-                                styles.courseItemInInsideImg_link
-                              }
-                            >
-                              לפרטים
-                              <br />
-                              והרשמה
-                            </NavLink>
+                    {courses?.map((item, index) => {
+                      return index % 2 === 0 ? (
+                        <div className={styles.courseItem} key={item.id}>
+                          <div className={styles.courseItemIn}>
+                            <div className={styles.courseItemInInside}>
+                              <div className={styles.courseItemInInsideImg}>
+                                <NavLink
+                                  href={`/serves/course/${item.id}`}
+                                  className={styles.courseItemInInsideImg_link}
+                                  activeClassName={
+                                    styles.courseItemInInsideImg_link
+                                  }
+                                >
+                                  {t("common:todetails")}
+                                  <br />
+                                  {t("common:andregister")}
+                                </NavLink>
+                              </div>
+                              <div className={styles.courseItemInInsideText}>
+                                <NavLink
+                                  href={`/serves/course/${item.id}`}
+                                  className={styles.courseItemInInsideText_link}
+                                  activeClassName={
+                                    styles.courseItemInInsideText_link
+                                  }
+                                >
+                                  {item.title} <br />
+                                  {item.description}
+                                </NavLink>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className={styles.courseItemCircle}></div>
-                    </div>
-                    {/* /item */}
-                    {/* item */}
-                    <div className={styles.courseItem}>
-                      <div className={styles.courseItemIn}>
-                        <div className={styles.courseItemInInside}>
-                          <div className={styles.courseItemInInsideImg}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideImg_link}
-                              activeClassName={
-                                styles.courseItemInInsideImg_link
-                              }
-                            >
-                              לפרטים
-                              <br />
-                              והרשמה
-                            </NavLink>
+                      ) : (
+                        <div className={styles.courseItem} key={item.id}>
+                          <div className={styles.courseItemIn2}>
+                            <div className={styles.courseItemInInside2}>
+                              <div className={styles.courseItemInInside2Text}>
+                                <NavLink
+                                  href={`/serves/course/${item.id}`}
+                                  className={styles.courseItemInInsideText_link}
+                                  activeClassName={
+                                    styles.courseItemInInsideText_link
+                                  }
+                                >
+                                  {item.title} <br />
+                                  {item.description}
+                                </NavLink>
+                              </div>
+                              <div className={styles.courseItemInInside2Img}>
+                                <NavLink
+                                  href={`/serves/course/${item.id}`}
+                                  className={styles.courseItemInInsideImg_link}
+                                  activeClassName={
+                                    styles.courseItemInInsideImg_link
+                                  }
+                                >
+                                  לפרטים
+                                  <br />
+                                  והרשמה
+                                </NavLink>
+                              </div>
+                            </div>
                           </div>
-                          <div className={styles.courseItemInInsideText}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideText_link}
-                              activeClassName={
-                                styles.courseItemInInsideText_link
-                              }
-                            >
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                            </NavLink>
-                          </div>
+                          <div className={styles.courseItemCircle}></div>
                         </div>
-                      </div>
-                    </div>
-                    {/* /item */}
-                    {/* item */}
-                    <div className={styles.courseItem}>
-                      <div className={styles.courseItemIn2}>
-                        <div className={styles.courseItemInInside2}>
-                          <div className={styles.courseItemInInside2Text}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideText_link}
-                              activeClassName={
-                                styles.courseItemInInsideText_link
-                              }
-                            >
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                            </NavLink>
-                          </div>
-                          <div className={styles.courseItemInInside2Img}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideImg_link}
-                              activeClassName={
-                                styles.courseItemInInsideImg_link
-                              }
-                            >
-                              לפרטים
-                              <br />
-                              והרשמה
-                            </NavLink>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.courseItemCircle}></div>
-                    </div>
-                    {/* /item */}
-                    {/* item */}
-                    <div className={styles.courseItem}>
-                      <div className={styles.courseItemIn}>
-                        <div className={styles.courseItemInInside}>
-                          <div className={styles.courseItemInInsideImg}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideImg_link}
-                              activeClassName={
-                                styles.courseItemInInsideImg_link
-                              }
-                            >
-                              לפרטים
-                              <br />
-                              והרשמה
-                            </NavLink>
-                          </div>
-                          <div className={styles.courseItemInInsideText}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideText_link}
-                              activeClassName={
-                                styles.courseItemInInsideText_link
-                              }
-                            >
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                            </NavLink>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* /item */}
-                    {/* item */}
-                    <div className={styles.courseItem}>
-                      <div className={styles.courseItemIn2}>
-                        <div className={styles.courseItemInInside2}>
-                          <div className={styles.courseItemInInside2Text}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideText_link}
-                              activeClassName={
-                                styles.courseItemInInsideText_link
-                              }
-                            >
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                              הטקסט פה פהפהפה הטקסט פה פהפהפה הטקסט פה פהפהפה
-                            </NavLink>
-                          </div>
-                          <div className={styles.courseItemInInside2Img}>
-                            <NavLink
-                              href="/products"
-                              className={styles.courseItemInInsideImg_link}
-                              activeClassName={
-                                styles.courseItemInInsideImg_link
-                              }
-                            >
-                              לפרטים
-                              <br />
-                              והרשמה
-                            </NavLink>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={styles.courseItemCircle}></div>
-                    </div>
-                    {/* /item */}
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -462,12 +335,31 @@ export async function getServerSideProps({ params, locale }) {
   );
   const serve = await res2.json();
 
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
+  let courses = null;
+  let coursescats = null;
+
+  if (
+    serve?.serves?.title?.includes("courses") ||
+    serve?.serves?.title?.includes("הדרכות") ||
+    serve?.serves?.title?.includes("קורסים")
+  ) {
+    const res3 = await fetch(`https://qrs-global.com/react/courses/index.php`);
+    courses = await res3.json();
+
+    const res4 = await fetch(`https://qrs-global.com/react/courses/cats.php`);
+    coursescats = await res4.json();
+  }
+  if (process.env.NODE_ENV === "development") {
+    // We'll pre-render only these paths at build time.
+    // { fallback: false } means other routes should 404.
+    await i18n?.reloadResources();
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
       serve,
+      courses: courses?.allcourses,
+      coursescats: coursescats?.allcoursescats,
       paths: [...paths],
       fallback: false,
     },

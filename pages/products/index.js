@@ -1,15 +1,15 @@
 import styles from "./index.module.css";
 import Image from "next/image";
 import NavLink from "../../components/NavLink";
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSelector } from "react-redux";
-import { showSiteName } from "../../store/slices/generalSlice";
+import { showSiteData } from "../../store/slices/generalSlice";
 import Head from "next/head";
 
 const Products = ({ productscats, linkdata }) => {
   const { t } = useTranslation(["common", "contact"]);
-  const siteName = useSelector(showSiteName);
+  const siteData = useSelector(showSiteData);
   if (!productscats || !linkdata) {
     //loading or return...
     return;
@@ -19,7 +19,7 @@ const Products = ({ productscats, linkdata }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteName} | {t("products:products")}
+          {siteData["Title"]} | {t("products:products")}
         </title>
       </Head>
       <div id="pageCover" className={styles.pageCover}>
@@ -30,7 +30,7 @@ const Products = ({ productscats, linkdata }) => {
           objectFit="cover"
         />
         <div className={styles.coverTitle}>
-          {t("common:implants").toUpperCase()}
+          {t("common:products").toUpperCase()}
         </div>
       </div>
       <div id="pageData" className={styles.pageData}>
@@ -109,6 +109,9 @@ export async function getStaticProps({ locale }) {
     "https://qrs-global.com/react/productscats/index.php"
   );
   const data1 = await res1.json();
+  if (process.env.NODE_ENV === "development") {
+    await i18n?.reloadResources();
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),

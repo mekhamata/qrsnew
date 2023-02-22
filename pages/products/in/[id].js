@@ -2,17 +2,17 @@
 import styles from "./indexid.module.css";
 import Image from "next/image";
 import NavLink from "../../../components/NavLink";
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { showSiteName } from "../../../store/slices/generalSlice";
+import { showSiteData } from "../../../store/slices/generalSlice";
 import Head from "next/head";
 import CheckBox from "react-animated-checkbox";
 import IconComponent from "../../../components/iconComponent";
 import { Suspense } from "react";
 
-const LeftSide = () => {
+const LeftSide = ({ product }) => {
   //the currect way to use translation!!!
   const { t } = useTranslation(["common"]);
   const [qty, setQty] = useState(1);
@@ -34,17 +34,17 @@ const LeftSide = () => {
         </div>
         <div className={styles.realLeftSide_lines_b} style={{ flex: 2 }}>
           <NavLink
-            href="/"
+            href={`/products/${product.cat_data.id}`}
             className={styles.navlink__active}
             activeClassName={styles.navlink__active}
-            title="רגולציה"
+            title={product.cat_data.title}
           />
         </div>
       </div>
       <div className={styles.productItemImg}>
         <Image
           alt="page cover"
-          src="/img/prod2.png"
+          src={`https://qrs-global.com/uploads/${product.pic}`}
           width={221}
           height={221}
           objectFit="scale-down"
@@ -117,14 +117,14 @@ const LeftSide = () => {
         </div>
         <input type="hidden" name="productData" />
         <div className={styles.realLeftSide_form_button}>
-          <button type="button">הוספה לסל</button>
+          <button type="button">{t("products:addtocart")}</button>
         </div>
       </form>
     </div>
   );
 };
-const ProductsInId = () => {
-  const siteName = useSelector(showSiteName);
+const ProductsInId = ({ product }) => {
+  const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common"]);
   //dispacher example to update states
 
@@ -143,7 +143,9 @@ const ProductsInId = () => {
     <section>
       <Head>
         <meta charSet="utf-8" />
-        <title>{siteName} | Product data</title>
+        <title>
+          {siteData["Title"]} | {product.title}
+        </title>
       </Head>
       {/* {icon.icon}
       {name.name} */}
@@ -177,10 +179,10 @@ const ProductsInId = () => {
                     />
                     /
                     <NavLink
-                      href="/products/in/1"
+                      href={`/products/${product.cat_data.id}`}
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title="Implants"
+                      title={product.cat_data.title}
                     />
                   </div>
                 </div>
@@ -189,33 +191,40 @@ const ProductsInId = () => {
                 <div className={styles.productsListIn}>
                   <div className={styles.productsListUl}>
                     <div className={styles.productContentLine}>
-                      <h1>Blue Class implant Int. Hex. Dia 3.4mm L 11.5mm</h1>
+                      <h1>{product.title}</h1>
                     </div>
                     <div className={styles.productContentLine}>
                       <div className={styles.productContentLine_a}>
-                        <h2>תיאור</h2>
+                        <h2>{t("products:description")}</h2>
                       </div>
-                      <div className={styles.productContentLine_b}>
-                        Blue Class implant NP Int. Hex. Dia 3.4mm L 11.5mm
-                      </div>
+                      <div
+                        className={styles.productContentLine_b}
+                        dangerouslySetInnerHTML={{
+                          __html: product.text,
+                        }}
+                      ></div>
                     </div>
                     <div className={styles.productContentLine}>
                       <div className={styles.productContentLine_a}>
-                        <h2>מאפיינים</h2>
+                        <h2>{t("products:features")}</h2>
                       </div>
-                      <div className={styles.productContentLine_b}>Narrow</div>
+                      <div
+                        className={styles.productContentLine_b}
+                        dangerouslySetInnerHTML={{
+                          __html: product.features,
+                        }}
+                      ></div>
                     </div>
                     <div className={styles.productContentLine}>
                       <div className={styles.productContentLine_a}>
-                        <h2>פרטים טכניים</h2>
+                        <h2>{t("products:techinfo")}</h2>
                       </div>
-                      <div className={styles.productContentLine_b}>
-                        Dimensions: Ø3.4mm 11.5mm
-                        <br />
-                        Platform: Internal Hex
-                        <br />
-                        ID Number: QBH-33011
-                      </div>
+                      <div
+                        className={styles.productContentLine_b}
+                        dangerouslySetInnerHTML={{
+                          __html: product.techinfo,
+                        }}
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -224,7 +233,7 @@ const ProductsInId = () => {
             <div className={styles.filterContainer}>
               <div className={styles.filterContainerIn}>
                 <div className={styles.filterItemsContainer}>
-                  <LeftSide />
+                  <LeftSide product={product} />
                 </div>
               </div>
               <div className={styles.filterCircle}>
@@ -239,10 +248,18 @@ const ProductsInId = () => {
 };
 // ProductsIn.title = `Products`;
 
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps({ locale, params }) {
+  const res1 = await fetch(
+    `https://qrs-global.com/react/products/product.php?id=${params.id}`
+  );
+  const data1 = await res1.json();
+  if (process.env.NODE_ENV === "development") {
+    await i18n?.reloadResources();
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
+      product: data1?.product,
       // Will be passed to the page component as props
     },
   };

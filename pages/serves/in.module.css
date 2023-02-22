@@ -17,12 +17,12 @@
   /* font-size: 2vw; */
   font-size: calc(12px + 2vw);
   color: #004b8d;
-  font-family: 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
 }
 .pageData {
   position: relative;
   min-height: 500px;
-  background-image: url('/img/gal2.png');
+  background-image: url("/img/gal2.png");
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center top;
@@ -60,7 +60,7 @@
 .navlink:hover {
   color: #004a8d;
 }
-.navlink__active{
+.navlink__active {
   font-weight: bold;
 }
 .pageRealData {
@@ -92,7 +92,7 @@
   margin: 0;
   font-size: 30px;
   color: #004b8d;
-  font-family: 'FbSpoilerBold', 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "FbSpoilerBold", "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
 }
 .contentMainTitle_copy {
   display: flex;
@@ -104,10 +104,10 @@
   margin: 0;
   font-size: 30px;
   color: #004b8d;
-  font-family: 'FbSpoilerBold', 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "FbSpoilerBold", "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
 }
 .titleIconContainer {
-  background-image: url('/img/nonhovericon.png');
+  background-image: url("/img/nonhovericon.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -134,7 +134,7 @@
   padding: 0;
   margin: 0;
   color: #004b8d;
-  font-family: 'FbSpoilerBold', 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "FbSpoilerBold", "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
   font-size: 27px;
 }
 .coursesListContainer {
@@ -151,7 +151,7 @@
 .coursesListFormFullRow {
   display: flex;
   flex: 1;
-  margin-bottom: 0.5vh;
+  margin-bottom: 10px;
 }
 .coursesListFormHalfRow {
   display: flex;
@@ -228,6 +228,7 @@
 .courseItem {
   position: relative;
   flex: 50%;
+  width: 100%;
   padding: 2px;
   display: flex;
 }
@@ -294,7 +295,7 @@
   display: flex;
   flex: 1;
   min-height: 116px;
-  background-image: url('/img/smallcircle.png');
+  background-image: url("/img/smallcircle.png");
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -305,13 +306,13 @@
   flex: 3;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .courseItemInInside2Img {
   display: flex;
   flex: 1;
   min-height: 116px;
-  background-image: url('/img/smallcircle.png');
+  background-image: url("/img/smallcircle.png");
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -322,7 +323,7 @@
   flex: 3;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .courseItemInInsideImg_link {
   color: black;
@@ -333,11 +334,11 @@
   color: black;
   line-height: 1.2;
   font-size: 15px;
-  font-family: 'EnSpoilerBold', 'Rubik', 'Roboto', sans-serif;
+  font-family: "EnSpoilerBold", "Rubik", "Roboto", sans-serif;
 }
 .courseItemInInside:hover > .courseItemInInsideImg,
 .courseItemInInside2:hover > .courseItemInInside2Img {
-  background-image: url('/img/smallcircleblue.png');
+  background-image: url("/img/smallcircleblue.png");
 }
 
 /* For extremely small screen devices (595px and below) */
@@ -379,7 +380,7 @@
 /* common mikha */
 @media only screen and (max-width: 991px) {
   .pageData {
-    background-image: url('/img/gal2.png');
+    background-image: url("/img/gal2.png");
   }
   .pageDataIn {
     flex-direction: column;
@@ -404,4 +405,7 @@
   /* .contentParagraph_copy1 {
     width: 55%;
   } */
+  .courseItem {
+    max-width: 50%;
+  }
 }

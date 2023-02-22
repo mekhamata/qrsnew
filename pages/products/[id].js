@@ -3,16 +3,16 @@ import styles from "./indexcat.module.css";
 import Image from "next/image";
 import NavLink from "../../components/NavLink";
 import { useSelector, useDispatch } from "react-redux";
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect } from "react";
-import { showSiteName } from "../../store/slices/generalSlice";
+import { showSiteData } from "../../store/slices/generalSlice";
 import Head from "next/head";
 import CheckBox from "react-animated-checkbox";
 import { useRouter } from "next/router";
 
 const ProductsIn = ({ productscats, catproducts }) => {
-  const siteName = useSelector(showSiteName);
+  const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common", "products"]);
   // const router = useRouter();
   // const { id } = router.query;
@@ -38,7 +38,7 @@ const ProductsIn = ({ productscats, catproducts }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteName} | {productscats.title}
+          {siteData["Title"]} | {productscats.title}
         </title>
       </Head>
       {/* {icon.icon}
@@ -95,34 +95,39 @@ const ProductsIn = ({ productscats, catproducts }) => {
                     catproducts.map((item) => {
                       return (
                         <li key={item.id}>
-                          <div className={styles.productItemContainer}>
-                            <div className={`${styles.layer}`}></div>
-                            <div className={styles.productItemImg}>
-                              <Image
-                                alt="page cover"
-                                src={`https://qrs-global.com/uploads/${item.pic}`}
-                                width={221}
-                                height={221}
-                                objectFit="scale-down"
-                              />
-                            </div>
-                            <div className={styles.productItemText}>
-                              {item.title}
-                            </div>
-                            <div className={styles.productItemTextFull}>
-                              <div className={styles.productItemTextFullIn}>
-                                <div className={styles.productItemText2}>
-                                  {item.title}
+                          <NavLink
+                            href={`/products/in/${item.id}`}
+                            className=""
+                          >
+                            <div className={styles.productItemContainer}>
+                              <div className={`${styles.layer}`}></div>
+                              <div className={styles.productItemImg}>
+                                <Image
+                                  alt="page cover"
+                                  src={`https://qrs-global.com/uploads/${item.pic}`}
+                                  width={221}
+                                  height={221}
+                                  objectFit="scale-down"
+                                />
+                              </div>
+                              <div className={styles.productItemText}>
+                                {item.title}
+                              </div>
+                              <div className={styles.productItemTextFull}>
+                                <div className={styles.productItemTextFullIn}>
+                                  <div className={styles.productItemText2}>
+                                    {item.title}
+                                  </div>
+                                  <div
+                                    className={styles.productItemText2_desc}
+                                    dangerouslySetInnerHTML={{
+                                      __html: item.text,
+                                    }}
+                                  ></div>
                                 </div>
-                                <div
-                                  className={styles.productItemText2_desc}
-                                  dangerouslySetInnerHTML={{
-                                    __html: item.text,
-                                  }}
-                                ></div>
                               </div>
                             </div>
-                          </div>
+                          </NavLink>
                         </li>
                       );
                     })}
@@ -502,6 +507,10 @@ export async function getServerSideProps({ locale, params }) {
     `https://qrs-global.com/react/productscats/catproducts.php?id=${params.id}`
   );
   const data2 = await res2.json();
+
+  if (process.env.NODE_ENV === "development") {
+    await i18n?.reloadResources();
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),

@@ -2,14 +2,11 @@ import styles from "./index.module.css";
 import Image from "next/image";
 import NavLink from "../../components/NavLink";
 import Head from "next/head";
-import { showSiteName } from "../../store/slices/generalSlice";
+import { showSiteData } from "../../store/slices/generalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import {
-  showSiteData,
-  getSiteDataAsync,
-} from "../../store/slices/generalSlice";
+import { useTranslation, i18n } from "next-i18next";
+import { getSiteDataAsync } from "../../store/slices/generalSlice";
 import IconComponent from "../../components/iconComponent";
 import { useState, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
@@ -204,7 +201,7 @@ const Contact = (props) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteData?.[0]?.["Title"]} | {t("common:contactus")}
+          {siteData?.["Title"]} | {t("common:contactus")}
         </title>
       </Head>
       <div id="pageCover" className={styles.pageCover}>
@@ -244,7 +241,7 @@ const Contact = (props) => {
                     <ul className={styles.contactCirclesItemUL}>
                       <li className={styles.contactCirclesItem}>
                         <NavLink
-                          href={`tel:${siteData?.[0]?.["phone"]}`}
+                          href={`tel:${siteData?.["phone"]}`}
                           className=""
                           activeClassName=""
                         >
@@ -260,13 +257,13 @@ const Contact = (props) => {
                             </div>
                           </div>
                           <div className={styles.contactCirclesItemText}>
-                            {siteData?.[0]?.["phone"]}
+                            {siteData?.["phone"]}
                           </div>
                         </NavLink>
                       </li>
                       <li className={styles.contactCirclesItem}>
                         <NavLink
-                          href={`tel:${siteData?.[0]?.["phone2"]}`}
+                          href={`tel:${siteData?.["phone2"]}`}
                           className=""
                           activeClassName=""
                         >
@@ -282,13 +279,13 @@ const Contact = (props) => {
                             </div>
                           </div>
                           <div className={styles.contactCirclesItemText}>
-                            {siteData?.[0]?.["phone2"]}
+                            {siteData?.["phone2"]}
                           </div>
                         </NavLink>
                       </li>
                       <li className={styles.contactCirclesItem}>
                         <NavLink
-                          href={`tel:${siteData?.[0]?.["phone3"]}`}
+                          href={`tel:${siteData?.["phone3"]}`}
                           className=""
                           activeClassName=""
                         >
@@ -304,13 +301,13 @@ const Contact = (props) => {
                             </div>
                           </div>
                           <div className={styles.contactCirclesItemText}>
-                            {siteData?.[0]?.["phone3"]}
+                            {siteData?.["phone3"]}
                           </div>
                         </NavLink>
                       </li>
                       <li className={styles.contactCirclesItem}>
                         <NavLink
-                          href={`mailto:${siteData?.[0]?.["email"]}`}
+                          href={`mailto:${siteData?.["email"]}`}
                           className=""
                           activeClassName=""
                         >
@@ -326,7 +323,7 @@ const Contact = (props) => {
                             </div>
                           </div>
                           <div className={styles.contactCirclesItemText}>
-                            {siteData?.[0]?.["email"]}
+                            {siteData?.["email"]}
                           </div>
                         </NavLink>
                       </li>
@@ -406,44 +403,44 @@ const Contact = (props) => {
                       </div>
                       <div id="footerText" className={styles.footerText}>
                         <div className={styles.footerTitles}>
-                          {siteData?.[0]?.["Title"]}
+                          {siteData?.["Title"]}
                         </div>
                         <div className={styles.footerInfo}>
                           <ul>
                             <li>
                               <NavLink
                                 href=""
-                                title={siteData?.[0]?.["address"]}
+                                title={siteData?.["address"]}
                                 className={styles.footerInfoLink}
                               />
                             </li>
                             <li>
                               טל.{" "}
                               <NavLink
-                                href={`tel:${siteData?.[0]?.["phone"]}`}
-                                title={siteData?.[0]?.["phone"]}
+                                href={`tel:${siteData?.["phone"]}`}
+                                title={siteData?.["phone"]}
                                 className={styles.footerInfoLink}
                               />
                             </li>
                             <li>
                               נייד.{" "}
                               <NavLink
-                                href={`tel:${siteData?.[0]?.["phone2"]}`}
-                                title={siteData?.[0]?.["phone2"]}
+                                href={`tel:${siteData?.["phone2"]}`}
+                                title={siteData?.["phone2"]}
                                 className={styles.footerInfoLink}
                               />
                             </li>
                             <li>
                               נייד.{" "}
                               <NavLink
-                                href={`tel:${siteData?.[0]?.["phone3"]}`}
-                                title={siteData?.[0]?.["phone3"]}
+                                href={`tel:${siteData?.["phone3"]}`}
+                                title={siteData?.["phone3"]}
                                 className={styles.footerInfoLink}
                               />
                             </li>
                             <li>
                               <NavLink
-                                href={`mailto:${siteData?.[0]?.["email"]}`}
+                                href={`mailto:${siteData?.["email"]}`}
                                 title={siteData?.[0]?.["email"]}
                                 className={styles.footerInfoLink}
                               />
@@ -522,6 +519,9 @@ const Contact = (props) => {
 // };
 // Serves.title = 'Serves';
 export async function getServerSideProps({ locale }) {
+  if (process.env.NODE_ENV === "development") {
+    await i18n?.reloadResources();
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),

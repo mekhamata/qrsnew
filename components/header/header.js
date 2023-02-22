@@ -8,6 +8,8 @@ import NavLink from "../NavLink";
 import {
   showSiteData,
   getSiteDataAsync,
+  getServesAsync,
+  showServesData,
 } from "../../store/slices/generalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "next-i18next";
@@ -28,6 +30,7 @@ const Header = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSiteDataAsync());
+    dispatch(getServesAsync());
   }, []);
   const [mobileView, setMobileView] = useState(false);
   const [width, height] = useWindowSize();
@@ -35,6 +38,7 @@ const Header = () => {
     setMobileView(width <= 991);
   }, [width, mobileView]);
   const siteData = useSelector(showSiteData);
+  const servesData = useSelector(showServesData);
   const { t } = useTranslation(["common"]);
   return (
     <header>
@@ -47,7 +51,7 @@ const Header = () => {
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.[0]?.["phone"]}{" "}
+                {siteData?.["phone"]}{" "}
                 <span className={styles.headerAddressSpan}>|</span>
               </NavLink>
               <NavLink
@@ -55,7 +59,7 @@ const Header = () => {
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.[0]?.["phone2"]}{" "}
+                {siteData?.["phone2"]}{" "}
                 <span className={styles.headerAddressSpan}>|</span>
               </NavLink>
               <NavLink
@@ -63,7 +67,7 @@ const Header = () => {
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.[0]?.["phone3"]}{" "}
+                {siteData?.["phone3"]}{" "}
                 <span className={styles.headerAddressSpan}>|</span>
               </NavLink>
               <NavLink
@@ -71,7 +75,7 @@ const Header = () => {
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.[0]?.["email"] + " "}
+                {siteData?.["email"] + " "}
                 <span className={styles.headerAddressSpan}>|</span>
               </NavLink>
               <NavLink
@@ -79,14 +83,18 @@ const Header = () => {
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.[0]?.["address"]}
+                {siteData?.["address"]}
               </NavLink>
             </div>
           </div>
           <div id="menuUl" className={styles.menuUl}>
             {/* <navigation-web v-if="!mobileView" />
           <navigation-mob v-if="mobileView" /> */}
-            {mobileView ? <MobHeader /> : <WebHeader />}
+            {mobileView ? (
+              <MobHeader header_allserves={servesData} />
+            ) : (
+              <WebHeader header_allserves={servesData} />
+            )}
           </div>
         </div>
         {/* <div id="headerWhite" v-if="!mobileView"> */}

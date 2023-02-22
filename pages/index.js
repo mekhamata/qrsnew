@@ -6,13 +6,10 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import {
-  showSiteName,
-  showSiteData,
-  getSiteDataAsync,
-} from "../store/slices/generalSlice";
+import { showSiteData, getSiteDataAsync } from "../store/slices/generalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home = ({ circles }) => {
@@ -34,12 +31,13 @@ const Home = ({ circles }) => {
     rtl: router.locale === "he",
   };
   const siteData = useSelector(showSiteData);
+  const { t } = useTranslation(["common", "course"]);
   return (
     <>
       <section>
         <Head>
           <meta charSet="utf-8" />
-          <title>{siteData?.[0]?.["Title"]}</title>
+          <title>{siteData?.["Title"]}</title>
         </Head>
         <Slider {...sliderSettings}>
           <div className={styles.pageCover}>
@@ -114,6 +112,9 @@ const Home = ({ circles }) => {
 export const getStaticProps = async ({ locale }) => {
   const res1 = await fetch("https://qrs-global.com/react/home/index.php");
   const data1 = await res1.json();
+  if (process.env.NODE_ENV === "development") {
+    await i18n?.reloadResources();
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),

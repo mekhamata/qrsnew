@@ -2,12 +2,12 @@ import styles from "./index.module.css";
 import Image from "next/image";
 import NavLink from "../../components/NavLink";
 import Head from "next/head";
-import { showSiteName } from "../../store/slices/generalSlice";
+import { showSiteData } from "../../store/slices/generalSlice";
 import { useSelector } from "react-redux";
-import { useTranslation } from "next-i18next";
+import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const Serves = ({ servescat, allserves }) => {
-  const siteName = useSelector(showSiteName);
+  const siteData = useSelector(showSiteData);
   const catdata = servescat.servescat;
   //all serves <--start-->
   const allservesdata = allserves.allserves;
@@ -49,7 +49,7 @@ const Serves = ({ servescat, allserves }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteName} | {catdata.title}
+          {siteData["Title"]} | {catdata.title}
         </title>
       </Head>
       <div id="pageCover" className={styles.pageCover}>
@@ -113,6 +113,10 @@ export const getServerSideProps = async ({ locale }) => {
 
   const res2 = await fetch("https://qrs-global.com/react/serves/serves.php");
   const data2 = await res2.json();
+
+  if (process.env.NODE_ENV === "development") {
+    await i18n?.reloadResources();
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),

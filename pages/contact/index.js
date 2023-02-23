@@ -14,7 +14,7 @@ import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
-import { NextProgressbarSpinner } from "nextjs-progressbar-spinner";
+import BeatLoader from "react-spinners/BeatLoader";
 function TextInput({
   type = "text",
   label,
@@ -86,7 +86,6 @@ const Contact = (props) => {
     if (inputData.from_email) {
       if (validator.isEmail(inputData.from_email.value)) {
         console.log("valid email");
-        setSendStatus(false);
       } else {
         // alert("Enter valid Email!");
         notify(`${t("contact:emailerror")}`, "error");
@@ -105,7 +104,6 @@ const Contact = (props) => {
         })
       ) {
         console.log("valid name");
-        setSendStatus(false);
       } else {
         notify(`${t("contact:fullnameerror")}`, "error");
         setSendStatus(false);
@@ -115,7 +113,6 @@ const Contact = (props) => {
     if (inputData.phone && inputData.phone.value.trim() !== "") {
       if (validator.isMobilePhone(inputData.phone.value, ["he-IL"])) {
         console.log("valid phone");
-        setSendStatus(false);
       } else {
         notify(`${t("contact:phoneerror")}`, "error");
         setSendStatus(false);
@@ -132,7 +129,6 @@ const Contact = (props) => {
         })
       ) {
         console.log("valid message");
-        setSendStatus(false);
       } else {
         notify(`${t("contact:messageerror")}`, "error");
         setSendStatus(false);
@@ -149,7 +145,6 @@ const Contact = (props) => {
         })
       ) {
         console.log("valid company");
-        setSendStatus(false);
       } else {
         notify(`${t("contact:companyerror")}`, "error");
         setSendStatus(false);
@@ -395,7 +390,16 @@ const Contact = (props) => {
                             </div>
                             <div className={styles.formSubmit}>
                               <button disabled={sendStatus}>
-                                {sendStatus ? <div>a</div> : t("common:send")}
+                                {sendStatus ? (
+                                  <BeatLoader
+                                    color="#ffffff"
+                                    size={15}
+                                    aria-label="Loading Spinner"
+                                    data-testid="loader"
+                                  />
+                                ) : (
+                                  t("common:send")
+                                )}
                               </button>
                             </div>
                           </div>

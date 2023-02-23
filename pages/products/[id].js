@@ -5,31 +5,61 @@ import NavLink from "../../components/NavLink";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { showSiteData } from "../../store/slices/generalSlice";
 import Head from "next/head";
-import CheckBox from "react-animated-checkbox";
+// import CheckBox from "react-animated-checkbox";
 import { useRouter } from "next/router";
+import { Checkbox, useCheckboxState } from "ariakit/checkbox";
+import { Group, GroupLabel } from "ariakit/group";
+import BeatLoader from "react-spinners/BeatLoader";
 
-const ProductsIn = ({ productscats, catproducts }) => {
+const ProductsIn = ({ productscats, catproducts, features }) => {
   const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common", "products"]);
-  // const router = useRouter();
-  // const { id } = router.query;
-  //dispacher example to update states
+  const form = useRef();
+  const checkbox = useCheckboxState({ defaultValue: [] });
+  //may i need to use later...
+  const [checkboxes, setCheckboxes] = useState(checkbox.value);
+  //may i need to use later...
+  const [products, setProducts] = useState(catproducts);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const router = useRouter();
+  const { id } = router.query;
+  useEffect(() => {
+    setProducts(catproducts);
+  }, []);
+  const updateProducts = async (evt) => {
+    setLoadingProducts(true);
+    let newarr = [...checkbox.value];
+    const value = evt.target.value;
+    if (newarr.includes(value)) {
+      //remove
+      const index = newarr.indexOf(value);
+      if (index > -1) {
+        // only splice array when item is found
+        newarr.splice(index, 1); // 2nd parameter means remove one item only
+      }
+    } else {
+      //add
+      newarr.push(value);
+    }
+    setCheckboxes(newarr);
+    console.log(JSON.stringify(newarr), "zz");
+    const res2 = await fetch(
+      typeof newarr !== undefined && newarr.length > 0
+        ? `https://qrs-global.com/react/productscats/catproducts.php?id=${id}&features=${JSON.stringify(
+            newarr
+          )}`
+        : `https://qrs-global.com/react/productscats/catproducts.php?id=${id}`
+    );
+    const data2 = await res2.json();
+    setProducts([]);
+    data2 && setProducts(data2.catproducts);
+    setLoadingProducts(false);
+  };
 
-  // const dispatcher = useDispatch();
-  // useEffect(() => {
-  //   name.name === 'mikha'
-  //     ? dispatcher(nameAction.nameSamar())
-  //     : dispatcher(nameAction.nameMikha());
-  // }, []);
-
-  //useSelector example to read states
-
-  // let icon = useSelector((state) => state.icon);
-  // let name = useSelector((state) => state.name);
-  if (!productscats) {
+  if (!products) {
     //loading or return...
     return;
   }
@@ -91,8 +121,8 @@ const ProductsIn = ({ productscats, catproducts }) => {
             <div className={styles.productsList}>
               <div className={styles.productsListIn}>
                 <ul className={styles.productsListUl}>
-                  {catproducts &&
-                    catproducts.map((item) => {
+                  {!loadingProducts && products ? (
+                    products.map((item) => {
                       return (
                         <li key={item.id}>
                           <NavLink
@@ -130,7 +160,17 @@ const ProductsIn = ({ productscats, catproducts }) => {
                           </NavLink>
                         </li>
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className={styles.loader}>
+                      <BeatLoader
+                        color="#004b8d"
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </div>
+                  )}
                 </ul>
               </div>
             </div>
@@ -147,343 +187,52 @@ const ProductsIn = ({ productscats, catproducts }) => {
                 />
               </div>
               <div className={styles.filterItemsContainer}>
-                <form>
-                  <div className={styles.filterItemCat}>
-                    <div className={styles.filterItemTitle}>Trade Name</div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
+                <form ref={form}>
+                  {features?.map((item) => {
+                    return (
+                      <div
+                        className={styles.filterItemCat}
+                        key={item.cat_data.id}
+                      >
+                        {item.cat_items.length > 0 && (
+                          <Group className="wrapper">
+                            <div className={styles.filterItemTitle}>
+                              <GroupLabel>{item.cat_data.title}</GroupLabel>
+                            </div>
+                            {item.cat_items.map((catitem) => {
+                              return (
+                                <div
+                                  className={styles.filterItemInput}
+                                  key={catitem.id}
+                                >
+                                  {/* <input
+                                  type="checkbox"
+                                  id={`option${catitem.id}`}
+                                  name={`option${catitem.id}`}
+                                  checked={isChecked?.[`option${catitem.id}`]}
+                                  value={isChecked[`option${catitem.id}`]}
+                                  onClick={toggle}
+                                />
+                                <div className={styles.filterItemInputLabel}>
+                                  {catitem.title}
+                                </div> */}
+                                  <label className={styles.container}>
+                                    <Checkbox
+                                      state={checkbox}
+                                      value={catitem.id}
+                                      className={styles.checkbox}
+                                      onChange={updateProducts}
+                                    />{" "}
+                                    {catitem.title}
+                                  </label>
+                                </div>
+                              );
+                            })}
+                          </Group>
+                        )}
                       </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                  </div>
-                  {/*  */}
-                  <div className={styles.filterItemCat}>
-                    <div className={styles.filterItemTitle}>Trade Name</div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                  </div>
-                  {/*  */}
-                  <div className={styles.filterItemCat}>
-                    <div className={styles.filterItemTitle}>Trade Name</div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                  </div>
-                  {/*  */}
-                  <div className={styles.filterItemCat}>
-                    <div className={styles.filterItemTitle}>Trade Name</div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                    <div className={styles.filterItemInput}>
-                      <CheckBox
-                        // checked={this.state.checked}
-                        checked={true}
-                        checkBoxStyle={{
-                          checkedColor: "#004b8d",
-                          size: 15,
-                          unCheckedColor: "#b8b8b8",
-                        }}
-                        duration={400}
-                        // onClick={()=>this.handleClick()}
-                      />
-                      <div className={styles.filterItemInputLabel}>
-                        Blue Class
-                      </div>
-                    </div>
-                  </div>
-                  {/*  */}
+                    );
+                  })}
                 </form>
               </div>
             </div>
@@ -508,6 +257,11 @@ export async function getServerSideProps({ locale, params }) {
   );
   const data2 = await res2.json();
 
+  const res3 = await fetch(
+    `https://qrs-global.com/react/products/features.php`
+  );
+  const data3 = await res3.json();
+
   if (process.env.NODE_ENV === "development") {
     await i18n?.reloadResources();
   }
@@ -516,6 +270,7 @@ export async function getServerSideProps({ locale, params }) {
       ...(await serverSideTranslations(locale ?? "he")),
       productscats: data1?.productscats,
       catproducts: data2?.catproducts,
+      features: data3?.productsfeatures,
       // Will be passed to the page component as props
     },
   };

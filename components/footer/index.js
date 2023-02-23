@@ -14,6 +14,7 @@ import emailjs from "@emailjs/browser";
 import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import BeatLoader from "react-spinners/BeatLoader";
 // import FloatingLabel from 'react-bootstrap/FloatingLabel';
 // import Form from 'react-bootstrap/Form';
 function TextInput({
@@ -96,7 +97,6 @@ const Footer = () => {
     if (inputData.from_email) {
       if (validator.isEmail(inputData.from_email.value)) {
         console.log("valid email");
-        setSendStatus(false);
       } else {
         // alert("Enter valid Email!");
         notify(`${t("contact:emailerror")}`, "error");
@@ -115,7 +115,6 @@ const Footer = () => {
         })
       ) {
         console.log("valid name");
-        setSendStatus(false);
       } else {
         notify(`${t("contact:fullnameerror")}`, "error");
         setSendStatus(false);
@@ -125,7 +124,6 @@ const Footer = () => {
     if (inputData.phone && inputData.phone.value.trim() !== "") {
       if (validator.isMobilePhone(inputData.phone.value, ["he-IL"])) {
         console.log("valid phone");
-        setSendStatus(false);
       } else {
         notify(`${t("contact:phoneerror")}`, "error");
         setSendStatus(false);
@@ -142,7 +140,6 @@ const Footer = () => {
         })
       ) {
         console.log("valid message");
-        setSendStatus(false);
       } else {
         notify(`${t("contact:messageerror")}`, "error");
         setSendStatus(false);
@@ -159,7 +156,6 @@ const Footer = () => {
         })
       ) {
         console.log("valid company");
-        setSendStatus(false);
       } else {
         notify(`${t("contact:companyerror")}`, "error");
         setSendStatus(false);
@@ -260,7 +256,16 @@ const Footer = () => {
                   </div>
                   <div className={styles.formSubmit}>
                     <button disabled={sendStatus}>
-                      {sendStatus ? <div>a</div> : t("common:send")}
+                      {sendStatus ? (
+                        <BeatLoader
+                          color="#ffffff"
+                          size={15}
+                          aria-label="Loading Spinner"
+                          data-testid="loader"
+                        />
+                      ) : (
+                        t("common:send")
+                      )}
                     </button>
                   </div>
                 </div>

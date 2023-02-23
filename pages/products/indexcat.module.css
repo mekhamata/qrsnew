@@ -263,8 +263,28 @@
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.filterItemInput label {
+  display: flex;
+}
 .filterItemInputLabel {
   margin-inline-start: 5px;
+}
+/****/
+.checkbox {
+  width: 20px;
+  margin: 2px;
+}
+.checkbox:focus-visible,
+.checkbox[data-focus-visible] {
+  outline: 2px solid #004b8d;
+  outline-offset: 2px;
+}
+.loader {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 /* For extremely small screen devices (595px and below) */

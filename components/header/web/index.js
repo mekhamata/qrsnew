@@ -4,9 +4,11 @@ import styles from "./index.module.css";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
-const WebHeader = ({ header_allserves }) => {
+import { useHEADER } from "../../contexts/HeaderContext";
+const WebHeader = () => {
   const router = useRouter();
   const { t } = useTranslation(["common"]);
+  const { serves } = useHEADER();
   return (
     <ul id="headerUlComponent" className={styles.headerUlComponent}>
       <li key={1}>
@@ -54,7 +56,7 @@ const WebHeader = ({ header_allserves }) => {
           <div className={styles.subUl}>
             <div className={styles.subUlRelative}>
               <ul>
-                {header_allserves?.map((item) => {
+                {serves?.map((item) => {
                   return (
                     <li key={item.id}>
                       <NavLink

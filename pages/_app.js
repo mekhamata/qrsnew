@@ -10,6 +10,7 @@ import { appWithTranslation } from "next-i18next";
 import { Provider } from "react-redux";
 import store from "../store/index";
 import { NextProgressbarSpinner } from "nextjs-progressbar-spinner";
+import { HEADERContextProvider } from "../components/contexts/HeaderContext";
 
 // function Loading() {
 //   const router = useRouter();
@@ -51,40 +52,42 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Provider store={store}>
-        <Layout>
-          <>
-            {loading ? (
-              <>
-                <div className="spinner-wrapper" style={{ zIndex: 5 }}>
-                  <NextProgressbarSpinner
-                    NextNProgressProps={{
-                      color: "#61DCFB",
-                      progressBarVisibility: "hidden",
-                      startPosition: 0.3,
-                      stopDelayMs: 200,
-                      height: 1,
-                      showOnShallow: true,
-                      options: { showSpinner: true },
-                    }}
-                    spinnerType="CircleLoader"
-                    spinnerProps={{
-                      size: "2rem",
-                      color: "#61DCFB",
-                      // cssOverride: {},
-                      // speedMultiplier: 2.5,
-                      // height: 5,
-                      // width: 5,
-                      // radius: 5,
-                      // margin: 5,
-                    }}
-                  />
-                </div>
-              </>
-            ) : (
-              <Component {...pageProps} />
-            )}
-          </>
-        </Layout>
+        <HEADERContextProvider>
+          <Layout>
+            <>
+              {loading ? (
+                <>
+                  <div className="spinner-wrapper" style={{ zIndex: 5 }}>
+                    <NextProgressbarSpinner
+                      NextNProgressProps={{
+                        color: "#61DCFB",
+                        progressBarVisibility: "hidden",
+                        startPosition: 0.3,
+                        stopDelayMs: 200,
+                        height: 1,
+                        showOnShallow: true,
+                        options: { showSpinner: true },
+                      }}
+                      spinnerType="CircleLoader"
+                      spinnerProps={{
+                        size: "2rem",
+                        color: "#61DCFB",
+                        // cssOverride: {},
+                        // speedMultiplier: 2.5,
+                        // height: 5,
+                        // width: 5,
+                        // radius: 5,
+                        // margin: 5,
+                      }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <Component {...pageProps} />
+              )}
+            </>
+          </Layout>
+        </HEADERContextProvider>
       </Provider>
     </>
   );

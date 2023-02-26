@@ -8,7 +8,7 @@ import NavLink from "../NavLink";
 import {
   showSiteData,
   getSiteDataAsync,
-  getServesAsync,
+  // getServesAsync,
   showServesData,
 } from "../../store/slices/generalSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -30,7 +30,7 @@ const Header = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSiteDataAsync());
-    dispatch(getServesAsync());
+    // dispatch(getServesAsync());
   }, []);
   const [mobileView, setMobileView] = useState(false);
   const [width, height] = useWindowSize();
@@ -38,7 +38,7 @@ const Header = () => {
     setMobileView(width <= 991);
   }, [width, mobileView]);
   const siteData = useSelector(showSiteData);
-  const servesData = useSelector(showServesData);
+  // const servesData = useSelector(showServesData);
   const { t } = useTranslation(["common"]);
   return (
     <header>
@@ -91,9 +91,11 @@ const Header = () => {
             {/* <navigation-web v-if="!mobileView" />
           <navigation-mob v-if="mobileView" /> */}
             {mobileView ? (
-              <MobHeader header_allserves={servesData} />
+              // <MobHeader header_allserves={servesData} />
+              <MobHeader />
             ) : (
-              <WebHeader header_allserves={servesData} />
+              // <WebHeader header_allserves={servesData} />
+              <WebHeader />
             )}
           </div>
         </div>

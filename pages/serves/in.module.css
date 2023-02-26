@@ -340,6 +340,13 @@
 .courseItemInInside2:hover > .courseItemInInside2Img {
   background-image: url("/img/smallcircleblue.png");
 }
+.loader {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: center;
+}
 
 /* For extremely small screen devices (595px and below) */
 @media only screen and (max-width: 595px) {

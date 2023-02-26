@@ -346,10 +346,10 @@
   font-weight: bold;
 }
 .realLeftSide_lines {
-  height: 53px;
+  min-height: 53px;
   display: flex;
+  flex-direction: column;
   border-bottom: 1px solid #d3d9de;
-  align-items: center;
   color: #004b8d;
   font-size: 22px;
 }
@@ -357,9 +357,13 @@
   display: flex;
   flex: 2;
 }
+.realLeftSide_lines_a_item {
+  font-size: 18px;
+}
 .realLeftSide_lines_b {
   display: flex;
-  flex: 3;
+  flex-direction: column;
+  flex: 1;
   justify-content: center;
 }
 .realLeftSide_lines_b_iconContainer {

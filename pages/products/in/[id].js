@@ -18,8 +18,28 @@ const LeftSide = ({ product }) => {
   const [qty, setQty] = useState(1);
   const changeQuantity = (action) => {
     if (action !== "plus" && action !== "minus") return;
-    action === "plus" ? setQty(qty + 1) : qty >= 1 ? setQty(qty - 1) : false;
+    action === "plus" ? setQty(qty + 1) : qty >= 2 ? setQty(qty - 1) : false;
   };
+  const [radios, setRadios] = useState({});
+  function handleRadios(e, param) {
+    if (
+      radios[param] &&
+      radios[param] !== "" &&
+      radios[param] === e.target.value
+    ) {
+      const { [param]: tmp, ...rest } = radios;
+      setRadios(rest);
+    } else {
+      setRadios({
+        ...radios,
+        [param]: e.target.value,
+      });
+    }
+  }
+  function addToCart() {
+    alert(qty);
+  }
+  console.log(radios, "rrrr");
   return (
     <div className={styles.realLeftSide}>
       <div
@@ -54,30 +74,148 @@ const LeftSide = ({ product }) => {
         {t("products:toorder")}
       </div>
       <div style={{ direction: "ltr" }}>
-        <div className={styles.realLeftSide_lines}>
-          <div className={styles.realLeftSide_lines_a}>HEIGHT</div>
-          <div className={styles.realLeftSide_lines_b}>11.5 mm</div>
-        </div>
-        <div className={styles.realLeftSide_lines}>
+        {product.tissuelevel !== "" && (
+          <div className={styles.realLeftSide_lines}>
+            <div className={styles.realLeftSide_lines_a}>Tissue Level</div>
+            <div className={styles.realLeftSide_lines_b}>
+              {Array.isArray(product.tissuelevel) &&
+                product.tissuelevel.map((item) => {
+                  return (
+                    <div
+                      key={item}
+                      className={styles.realLeftSide_lines_a_item}
+                    >
+                      <div className={styles.realLeftSide_lines_b}>
+                        <label>
+                          <input
+                            type="radio"
+                            name={item}
+                            value={item}
+                            onClick={(event) =>
+                              handleRadios(event, "tissuelevel")
+                            }
+                            checked={radios.tissuelevel === item}
+                          />
+                          {item}
+                        </label>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
+        {product.height !== "" && (
+          <div className={styles.realLeftSide_lines}>
+            <div className={styles.realLeftSide_lines_a}>HEIGHT</div>
+            <div className={styles.realLeftSide_lines_b}>
+              {Array.isArray(product.height) &&
+                product.height.map((item) => {
+                  return (
+                    <div
+                      key={item}
+                      className={styles.realLeftSide_lines_a_item}
+                    >
+                      <div className={styles.realLeftSide_lines_b}>
+                        <label>
+                          <input
+                            type="radio"
+                            name={item}
+                            value={item}
+                            onClick={(event) => handleRadios(event, "height")}
+                            checked={radios.height === item}
+                          />
+                          {item}
+                        </label>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
+        {product.diameter !== "" && (
+          <div className={styles.realLeftSide_lines}>
+            <div className={styles.realLeftSide_lines_a}>DIAMETER</div>
+            <div className={styles.realLeftSide_lines_b}>
+              {Array.isArray(product.diameter) &&
+                product.diameter.map((item) => {
+                  return (
+                    <div
+                      key={item}
+                      className={styles.realLeftSide_lines_a_item}
+                    >
+                      <div className={styles.realLeftSide_lines_b}>
+                        <label>
+                          <input
+                            type="radio"
+                            name={item}
+                            value={item}
+                            onClick={(event) => handleRadios(event, "diameter")}
+                            checked={radios.diameter === item}
+                          />
+                          {item}
+                        </label>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
+        {product.product_features !== "" && (
+          <div className={styles.realLeftSide_lines}>
+            {Array.isArray(product.product_features) &&
+              product.product_features.map((item) => {
+                return (
+                  <div key={item.featurecat}>
+                    <div className={styles.realLeftSide_lines_a}>
+                      {item.featurecatname}
+                    </div>
+                    {Array.isArray(item.features) &&
+                      item.features.map((itemfeatures) => {
+                        return (
+                          <div
+                            key={itemfeatures.featureid}
+                            className={styles.realLeftSide_lines_a_item}
+                          >
+                            <div className={styles.realLeftSide_lines_b}>
+                              <label>
+                                <input
+                                  type="radio"
+                                  name={itemfeatures.featurename}
+                                  value={itemfeatures.featureid}
+                                  onClick={(event) =>
+                                    handleRadios(
+                                      event,
+                                      itemfeatures.featurename
+                                        .toLowerCase()
+                                        .replace(/\s/g, "_")
+                                    )
+                                  }
+                                  checked={
+                                    radios[
+                                      itemfeatures.featurename
+                                        .toLowerCase()
+                                        .replace(/\s/g, "_")
+                                    ] === itemfeatures.featureid
+                                  }
+                                />
+                                {itemfeatures.featurename}
+                              </label>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                );
+              })}
+          </div>
+        )}
+        {/* <div className={styles.realLeftSide_lines}>
           <div className={styles.realLeftSide_lines_a}>DIAMETER</div>
           <div className={styles.realLeftSide_lines_b}>3.4 mm</div>
-        </div>
-        <div className={styles.realLeftSide_lines}>
-          <div className={styles.realLeftSide_lines_a}>DIAMETER</div>
-          <div className={styles.realLeftSide_lines_b}>3.4 mm</div>
-        </div>
-        <div className={styles.realLeftSide_lines}>
-          <div className={styles.realLeftSide_lines_a}>DIAMETER</div>
-          <div className={styles.realLeftSide_lines_b}>3.4 mm</div>
-        </div>
-        <div className={styles.realLeftSide_lines}>
-          <div className={styles.realLeftSide_lines_a}>DIAMETER</div>
-          <div className={styles.realLeftSide_lines_b}>3.4 mm</div>
-        </div>
-        <div className={styles.realLeftSide_lines}>
-          <div className={styles.realLeftSide_lines_a}>TYPE</div>
-          <div className={styles.realLeftSide_lines_b}>Two Thread Start</div>
-        </div>
+        </div> */}
       </div>
       <form>
         <div className={styles.realLeftSide_form_input}>
@@ -117,7 +255,9 @@ const LeftSide = ({ product }) => {
         </div>
         <input type="hidden" name="productData" />
         <div className={styles.realLeftSide_form_button}>
-          <button type="button">{t("products:addtocart")}</button>
+          <button type="button" onClick={() => addToCart()}>
+            {t("products:addtocart")}
+          </button>
         </div>
       </form>
     </div>

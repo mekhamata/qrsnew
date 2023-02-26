@@ -21,7 +21,6 @@ const ProductsIn = ({ productscats, catproducts, features }) => {
   const checkbox = useCheckboxState({ defaultValue: [] });
   //may i need to use later...
   const [checkboxes, setCheckboxes] = useState(checkbox.value);
-  //may i need to use later...
   const [products, setProducts] = useState(catproducts);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const router = useRouter();

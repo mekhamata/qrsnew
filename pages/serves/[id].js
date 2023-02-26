@@ -4,20 +4,29 @@ import NavLink from "../../components/NavLink";
 import IconComponent from "../../components/iconComponent";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useRef } from "react";
 import { showSiteData } from "../../store/slices/generalSlice";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import validator from "validator";
+import BeatLoader from "react-spinners/BeatLoader";
 
 //create floating text input
-function TextInput({ type = "text", label, name, onclick }) {
-  const [value, setValue] = useState("");
+function TextInput({
+  type = "text",
+  label,
+  name,
+  required = false,
+  value,
+  setter,
+}) {
+  // const [value, setValue] = useState("");
 
   function handleChange(e) {
-    setValue(e.target.value);
+    setter(e.target.value);
   }
 
   return (
@@ -26,7 +35,8 @@ function TextInput({ type = "text", label, name, onclick }) {
         type={type}
         value={value}
         onChange={handleChange}
-        onClick={onclick}
+        name={name}
+        required={required}
       />
       <label className={value && styles.filled} htmlFor={name}>
         {label}
@@ -41,11 +51,13 @@ function SelectInput({
   name,
   onclick,
   coursescats = undefined,
+  setter,
+  value,
 }) {
-  const [value, setValue] = useState("");
+  // const [value, setValue] = useState("");
 
   function handleChange(e) {
-    setValue(e.target.value);
+    setter(e.target.value);
   }
 
   return (
@@ -57,16 +69,18 @@ function SelectInput({
         onClick={onclick}
       /> */}
       <select onClick={onclick} onChange={handleChange}>
-        <option selected value=""></option>
+        <option defaultValue={""} value=""></option>
         {coursescats?.map((item) => {
           return (
-            <option value={item.id} key={item.id}>
+            <option value={item.id} key={item.id} defaultValue={value}>
               {item.title}
             </option>
           );
         })}
       </select>
-      <label className={value && styles.filled}>{label}</label>
+      <label className={value && styles.filled} htmlFor={name}>
+        {label}
+      </label>
     </div>
   );
 }
@@ -85,13 +99,72 @@ const FloatingDatePicker = forwardRef(
 const LearningIn = ({ serve, courses, coursescats }) => {
   const router = useRouter();
   const { id } = router.query;
-  console.log(courses, "xxx");
   //datepicker state:
-  const [startDate, setStartDate] = useState("");
+
   const siteData = useSelector(showSiteData);
+  const [thecourses, setTheCourses] = useState(courses);
+  const [loadingCourses, setLoadingCourses] = useState(false);
   const { t } = useTranslation(["common"]);
 
   const theserve = serve.serves || "";
+  const form = useRef();
+  const [filter_title, setFilterTitle] = useState("");
+  const [filter_cat, setFilterCat] = useState(0);
+  const [startDate, setStartDate] = useState("");
+  const filterCourses = async (e) => {
+    setLoadingCourses(true);
+    e.preventDefault();
+    // const inputData = e.target.elements;
+    let coursedate = "";
+    let searchParam = "";
+    //validate date
+    if (startDate !== "") {
+      if (validator.isDate(startDate)) {
+        let month = String(startDate.getUTCMonth() + 1); //months from 1-12
+        if (month.length === 1) {
+          month = "0" + month;
+        }
+        const day = startDate.getUTCDate();
+        const year = startDate.getUTCFullYear();
+        // const newdate = year + "/" + month + "/" + day;
+        coursedate = year + "-" + month;
+        searchParam += `&date=${coursedate}`;
+        console.log("dateeee", coursedate);
+      } else {
+        console.log("not dateeee");
+        return;
+      }
+    }
+    if (filter_title !== "") {
+      if (
+        validator.isAlphanumeric(filter_title, ["he"], {
+          ignore: " ",
+        }) ||
+        validator.isAlphanumeric(filter_title, ["en-US"], {
+          ignore: " ",
+        })
+      ) {
+        console.log("titleeee");
+        searchParam += `&title=${filter_title}`;
+      } else {
+        console.log("wrong title");
+        return;
+      }
+    }
+    if (filter_cat !== "") {
+      searchParam += `&cat=${filter_cat}`;
+    }
+    let searchStr = searchParam !== "" ? searchParam.substring(1) : "";
+    searchStr = searchStr !== "" ? "?" + searchStr : searchStr;
+    console.log(searchStr);
+    const res = await fetch(
+      `https://qrs-global.com/react/courses/index.php${searchStr}`
+    );
+    const courses = await res.json();
+    setTheCourses([]);
+    courses && setTheCourses(courses.allcourses);
+    setLoadingCourses(false);
+  };
   return (
     <section>
       <Head>
@@ -184,9 +257,15 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                 </div>
                 <div className={styles.coursesListContainer}>
                   <div className={styles.coursesListFormContainer}>
-                    <form>
+                    <form ref={form} onSubmit={filterCourses}>
                       <div className={styles.coursesListFormFullRow}>
-                        <TextInput label={t("common:address")} name="address" />
+                        <TextInput
+                          label={t("common:title")}
+                          name="address"
+                          type="input"
+                          setter={setFilterTitle}
+                          value={filter_title}
+                        />
                       </div>
                       <div className={styles.coursesListFormFullRow}>
                         <div
@@ -194,6 +273,7 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                           style={{ paddingInlineEnd: "10px" }}
                         >
                           <DatePicker
+                            type="input"
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
                             customInput={
@@ -202,7 +282,7 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                                 label={t("common:fromdate")}
                               />
                             }
-                            dateFormat="dd/MM/yyyy"
+                            dateFormat="MM/dd/yyyy"
                             // dateFormat='Pp'
                           />
                           {startDate ? (
@@ -220,6 +300,8 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                           <div className={styles.coursesFormInput}>
                             <SelectInput
                               name="cat"
+                              value={filter_cat}
+                              setter={setFilterCat}
                               coursescats={coursescats}
                               label={t("common:choosecategory")}
                             />
@@ -229,10 +311,7 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                           className={styles.coursesListFormHalfRow}
                           style={{ flex: 0.7, marginInlineStart: "0.5vw" }}
                         >
-                          <button
-                            type="button"
-                            className={styles.coursesFormButton}
-                          >
+                          <button className={styles.coursesFormButton}>
                             {t("common:search")}
                           </button>
                         </div>
@@ -240,74 +319,93 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                     </form>
                   </div>
                   <div className={styles.coursesList}>
-                    {courses?.map((item, index) => {
-                      return index % 2 === 0 ? (
-                        <div className={styles.courseItem} key={item.id}>
-                          <div className={styles.courseItemIn}>
-                            <div className={styles.courseItemInInside}>
-                              <div className={styles.courseItemInInsideImg}>
-                                <NavLink
-                                  href={`/serves/course/${item.id}`}
-                                  className={styles.courseItemInInsideImg_link}
-                                  activeClassName={
-                                    styles.courseItemInInsideImg_link
-                                  }
-                                >
-                                  {t("common:todetails")}
-                                  <br />
-                                  {t("common:andregister")}
-                                </NavLink>
-                              </div>
-                              <div className={styles.courseItemInInsideText}>
-                                <NavLink
-                                  href={`/serves/course/${item.id}`}
-                                  className={styles.courseItemInInsideText_link}
-                                  activeClassName={
-                                    styles.courseItemInInsideText_link
-                                  }
-                                >
-                                  {item.title} <br />
-                                  {item.description}
-                                </NavLink>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className={styles.courseItem} key={item.id}>
-                          <div className={styles.courseItemIn2}>
-                            <div className={styles.courseItemInInside2}>
-                              <div className={styles.courseItemInInside2Text}>
-                                <NavLink
-                                  href={`/serves/course/${item.id}`}
-                                  className={styles.courseItemInInsideText_link}
-                                  activeClassName={
-                                    styles.courseItemInInsideText_link
-                                  }
-                                >
-                                  {item.title} <br />
-                                  {item.description}
-                                </NavLink>
-                              </div>
-                              <div className={styles.courseItemInInside2Img}>
-                                <NavLink
-                                  href={`/serves/course/${item.id}`}
-                                  className={styles.courseItemInInsideImg_link}
-                                  activeClassName={
-                                    styles.courseItemInInsideImg_link
-                                  }
-                                >
-                                  לפרטים
-                                  <br />
-                                  והרשמה
-                                </NavLink>
+                    {!loadingCourses && thecourses ? (
+                      thecourses?.map((item, index) => {
+                        return index % 2 === 0 ? (
+                          <div className={styles.courseItem} key={item.id}>
+                            <div className={styles.courseItemIn}>
+                              <div className={styles.courseItemInInside}>
+                                <div className={styles.courseItemInInsideImg}>
+                                  <NavLink
+                                    href={`/serves/course/${item.id}`}
+                                    className={
+                                      styles.courseItemInInsideImg_link
+                                    }
+                                    activeClassName={
+                                      styles.courseItemInInsideImg_link
+                                    }
+                                  >
+                                    {t("common:todetails")}
+                                    <br />
+                                    {t("common:andregister")}
+                                  </NavLink>
+                                </div>
+                                <div className={styles.courseItemInInsideText}>
+                                  <NavLink
+                                    href={`/serves/course/${item.id}`}
+                                    className={
+                                      styles.courseItemInInsideText_link
+                                    }
+                                    activeClassName={
+                                      styles.courseItemInInsideText_link
+                                    }
+                                  >
+                                    {item.title} <br />
+                                    {item.description}
+                                  </NavLink>
+                                </div>
                               </div>
                             </div>
                           </div>
-                          <div className={styles.courseItemCircle}></div>
-                        </div>
-                      );
-                    })}
+                        ) : (
+                          <div className={styles.courseItem} key={item.id}>
+                            <div className={styles.courseItemIn2}>
+                              <div className={styles.courseItemInInside2}>
+                                <div className={styles.courseItemInInside2Text}>
+                                  <NavLink
+                                    href={`/serves/course/${item.id}`}
+                                    className={
+                                      styles.courseItemInInsideText_link
+                                    }
+                                    activeClassName={
+                                      styles.courseItemInInsideText_link
+                                    }
+                                  >
+                                    {item.title} <br />
+                                    {item.description}
+                                  </NavLink>
+                                </div>
+                                <div className={styles.courseItemInInside2Img}>
+                                  <NavLink
+                                    href={`/serves/course/${item.id}`}
+                                    className={
+                                      styles.courseItemInInsideImg_link
+                                    }
+                                    activeClassName={
+                                      styles.courseItemInInsideImg_link
+                                    }
+                                  >
+                                    לפרטים
+                                    <br />
+                                    והרשמה
+                                  </NavLink>
+                                </div>
+                              </div>
+                            </div>
+                            <div className={styles.courseItemCircle}></div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div className={styles.loader}>
+                        <BeatLoader
+                          color="#004b8d"
+                          size={15}
+                          aria-label="Loading Spinner"
+                          data-testid="loader"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -358,8 +456,8 @@ export async function getServerSideProps({ params, locale }) {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
       serve,
-      courses: courses?.allcourses,
-      coursescats: coursescats?.allcoursescats,
+      courses: courses?.allcourses || null,
+      coursescats: coursescats?.allcoursescats || null,
       paths: [...paths],
       fallback: false,
     },

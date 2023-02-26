@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
-const MobHeader = ({ header_allserves }) => {
+const MobHeader = () => {
   const [showNav, setShowNav] = useState(false);
   let classlist = "classlist";
   const toggleMenu = () => {

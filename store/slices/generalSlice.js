@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const axios = require("axios");
-const API_URL = `${process.env.API_URL}/react/general/index.php`;
+const THEAPI = `${process.env.API_URL}/react/general/index.php`;
 // create a slice
 export const generalSlice = createSlice({
   name: "siteData",
@@ -23,7 +23,7 @@ export const getSiteDataAsync = () => async (dispatch) => {
     const headers = {
       "Content-Type": "application/json",
     };
-    const response = await axios.get(API_URL, { headers });
+    const response = await axios.get(THEAPI, { headers });
     dispatch(getSiteData(response.data["data"]));
   } catch (err) {
     throw new Error(err);

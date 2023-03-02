@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const axios = require("axios");
-const API_URL = "https://qrs-global.com/react/general/index.php";
+const API_URL = `${process.env.API_URL}/react/general/index.php`;
 // create a slice
 export const generalSlice = createSlice({
   name: "siteData",

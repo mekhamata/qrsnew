@@ -22,21 +22,23 @@
 }
 @font-face {
   font-family: "EnSpoilerBold";
-  src: url("/fonts/spoiler/EnSpoilerBold.eot");
-  src: url("/fonts/spoiler/EnSpoilerBold.eot") format("embedded-opentype"),
-    url("/fonts/spoiler/EnSpoilerBold.woff2") format("woff2"),
-    url("/fonts/spoiler/EnSpoilerBold.woff") format("woff"),
-    url("/fonts/spoiler/EnSpoilerBold.ttf") format("truetype"),
-    url("/fonts/spoiler/EnSpoilerBold.svg#EnSpoilerBold") format("svg");
+  src: url("/assets/fonts/spoiler/EnSpoilerBold.eot");
+  src: url("/assets/fonts/spoiler/EnSpoilerBold.eot")
+      format("embedded-opentype"),
+    url("/assets/fonts/spoiler/EnSpoilerBold.woff2") format("woff2"),
+    url("/assets/fonts/spoiler/EnSpoilerBold.woff") format("woff"),
+    url("/assets/fonts/spoiler/EnSpoilerBold.ttf") format("truetype"),
+    url("/assets/fonts/spoiler/EnSpoilerBold.svg#EnSpoilerBold") format("svg");
 }
 @font-face {
   font-family: "FbSpoilerBold";
-  src: url("/fonts/spoiler/FbSpoilerBold.eot");
-  src: url("/fonts/spoiler/FbSpoilerBold.eot") format("embedded-opentype"),
-    url("/fonts/spoiler/FbSpoilerBold.woff2") format("woff2"),
-    url("/fonts/spoiler/FbSpoilerBold.woff") format("woff"),
-    url("/fonts/spoiler/FbSpoilerBold.ttf") format("truetype"),
-    url("/fonts/spoiler/FbSpoilerBold.svg#FbSpoilerBold") format("svg");
+  src: url("/assets/fonts/spoiler/FbSpoilerBold.eot");
+  src: url("/assets/fonts/spoiler/FbSpoilerBold.eot")
+      format("embedded-opentype"),
+    url("/assets/fonts/spoiler/FbSpoilerBold.woff2") format("woff2"),
+    url("/assets/fonts/spoiler/FbSpoilerBold.woff") format("woff"),
+    url("/assets/fonts/spoiler/FbSpoilerBold.ttf") format("truetype"),
+    url("/assets/fonts/spoiler/FbSpoilerBold.svg#FbSpoilerBold") format("svg");
 }
 html {
   margin: 0;

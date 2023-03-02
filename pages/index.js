@@ -17,6 +17,7 @@ const Home = ({ circles, lang }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSiteDataAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const router = useRouter();
   const sliderSettings = {

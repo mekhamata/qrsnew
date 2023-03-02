@@ -34,6 +34,7 @@ const Header = () => {
   useEffect(() => {
     dispatch(getSiteDataAsync());
     // dispatch(getServesAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const router = useRouter();
   const [mobileView, setMobileView] = useState(false);

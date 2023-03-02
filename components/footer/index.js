@@ -66,6 +66,7 @@ const Footer = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSiteDataAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const siteData = useSelector(showSiteData);
   // const { t } = useTranslation(["common", "contact"]);

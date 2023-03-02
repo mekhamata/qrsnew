@@ -136,9 +136,9 @@ const LeftSide = ({ course, lang }) => {
   };
 
   const TeacherRow = ({ lang }) => {
-    return teachers_arr.map((item) => {
+    return teachers_arr.map((item, index) => {
       return (
-        <div className={styles.realLeftSide_lines}>
+        <div className={styles.realLeftSide_lines} key={index}>
           <div className={styles.realLeftSide_lines_a}>
             {whatLanguage(lang, item, "teacher")}
           </div>

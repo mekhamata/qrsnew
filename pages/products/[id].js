@@ -28,6 +28,7 @@ const ProductsIn = ({ productscats, catproducts, features, lang }) => {
   const { id } = router.query;
   useEffect(() => {
     setProducts(catproducts);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const updateProducts = async (evt) => {
     setLoadingProducts(true);

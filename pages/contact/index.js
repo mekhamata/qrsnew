@@ -57,7 +57,7 @@ const Contact = ({ lang }) => {
   const siteData = useSelector(showSiteData);
   //all serves <--start-->
   const myLoader = ({ src, width, quality }) => {
-    return `https://qrs-global.com/uploads/${src}?w=${width}&q=${
+    return `${process.env.API_URL}/uploads/${src}?w=${width}&q=${
       quality || 75
     }`;
   };

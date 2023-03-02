@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const axios = require("axios");
-const THEAPI = `${process.env.API_URL}/react/general/index.php`;
+const THEAPI = `${process.env.NEXT_PUBLIC_API_URL}/react/general/index.php`;
 // create a slice
 export const generalSlice = createSlice({
   name: "siteData",

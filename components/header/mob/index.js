@@ -3,15 +3,26 @@ import Image from "next/image";
 import styles from "./index.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import IconComponent from "../../iconComponent";
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+
 const MobHeader = () => {
   const [showNav, setShowNav] = useState(false);
   let classlist = "classlist";
   const toggleMenu = () => {
     setShowNav(!showNav);
   };
+  const router = useRouter();
   const { t } = useTranslation(["common"]);
+  //close menu on every router change
+  useEffect(() => {
+    setShowNav(false);
+  }, [router.pathname]);
+  const cartItemsNumber = useSelector((state) => state.cart.cart).length | 0;
   return (
     <div id="container" className={styles.container}>
       <div id="mobileMenuOpener" className={styles.mobileMenuOpener}>
@@ -86,6 +97,14 @@ const MobHeader = () => {
           <li key={6}>
             <Link href="/contact">
               <a className={styles.navlink}>{t("common:contactus")}</a>
+            </Link>
+          </li>
+          <li key={7}>
+            <Link href="/cart">
+              <a className={styles.navlink}>
+                <IconComponent type="fab" name="fa-shopping-cart" />{" "}
+                {cartItemsNumber > 0 && <>({cartItemsNumber})</>}
+              </a>
             </Link>
           </li>
         </ul>

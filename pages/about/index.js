@@ -6,6 +6,7 @@ import { showSiteData } from "../../store/slices/generalSlice";
 import { useSelector } from "react-redux";
 import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { whatLanguage } from "../../utils/helperFunctions";
 const About = ({ about, eman, lang }) => {
   const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common"]);
@@ -14,7 +15,8 @@ const About = ({ about, eman, lang }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteData["Title"]} | {about.title}
+          {/* {siteData["Title"]} | {about[`title${lang === "en" ? "_en" : ""}`]} */}
+          {siteData["Title"]} | {whatLanguage(lang, about, "title")}
         </title>
       </Head>
       <div id="pageCover" className={styles.pageCover}>
@@ -27,28 +29,35 @@ const About = ({ about, eman, lang }) => {
               <Image alt="page main pic" src="/img/iman.png" layout="fill" />
             </div>
             <div className={styles.imanTitle}>
-              <span>{eman.title}</span> {eman.description}
+              <span>{whatLanguage(lang, eman, "title")}</span>{" "}
+              {whatLanguage(lang, eman, "description")}
             </div>
             <div
               className={styles.imanDesc}
-              dangerouslySetInnerHTML={{ __html: eman.text }}
+              dangerouslySetInnerHTML={{
+                __html: whatLanguage(lang, eman, "text"),
+              }}
             ></div>
             <div className={styles.imanBold}>{t("common:emansentence")}</div>
           </div>
           <div id="contentDiv" className={styles.contentDiv}>
             <div className={styles.contentParagraph}>
               <div className={styles.contentMainTitle}>
-                <h1>{about.title}</h1>
+                <h1>{whatLanguage(lang, about, "title")}</h1>
               </div>
               <div
                 className={styles.contentText}
-                dangerouslySetInnerHTML={{ __html: about.text }}
+                dangerouslySetInnerHTML={{
+                  __html: whatLanguage(lang, about, "text"),
+                }}
               ></div>
             </div>
             <div className={styles.contentParagraph}>
               <div
                 className={styles.contentText}
-                dangerouslySetInnerHTML={{ __html: about.extra_text }}
+                dangerouslySetInnerHTML={{
+                  __html: whatLanguage(lang, about, "extra_text"),
+                }}
               ></div>
             </div>
           </div>

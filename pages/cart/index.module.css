@@ -355,6 +355,64 @@
   width: 100%;
   height: 630px;
 }
+/*table*/
+.tableContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tableContainer table {
+  width: 100%;
+}
+
+.tableContainer th {
+  border-bottom: 2px solid #a7a7a7;
+}
+.tableContainer table .spacing {
+  border-bottom: 1px solid #a7a7a7;
+}
+.tableTitle {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.tableContainer td {
+  text-align: center;
+}
+.tableContainer td div {
+  width: 100%;
+}
+.qtyContainer {
+  display: flex;
+  direction: rtl;
+}
+.qtyInput input {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #a7a7a7;
+  text-align: center;
+  background-color: #eeeeee;
+}
+/* Chrome, Safari, Edge, Opera */
+.qtyInput input::-webkit-outer-spin-button,
+.qtyInput input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.qtyInput input[type="number"] {
+  -moz-appearance: textfield;
+}
+.qtyBtn button {
+  border: 0;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+}
 
 /* For extremely small screen devices (595px and below) */
 @media only screen and (max-width: 595px) {
@@ -398,16 +456,16 @@
   .footerContainer_in {
     flex-direction: column;
   }
-  .footerFormInput,
+  /* .footerFormInput,
   .formSubmit,
   .footerFormTextArea,
   .footerFormTextAreaTitle,
   .formSubscription {
     padding: 10px;
-  }
-  .footerInfo {
+  } */
+  /* .footerInfo {
     display: none;
-  }
+  } */
 }
 
 /* Small screen devices (992px and above) */

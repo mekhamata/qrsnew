@@ -11,8 +11,12 @@ import Head from "next/head";
 import CheckBox from "react-animated-checkbox";
 import IconComponent from "../../../components/iconComponent";
 import { Suspense } from "react";
+import { whatLanguage } from "../../../utils/helperFunctions";
+import { addToCart } from "../../../store/slices/cartSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const LeftSide = ({ product }) => {
+const LeftSide = ({ product, lang }) => {
   //the currect way to use translation!!!
   const { t } = useTranslation(["common"]);
   const [qty, setQty] = useState(1);
@@ -21,6 +25,8 @@ const LeftSide = ({ product }) => {
     action === "plus" ? setQty(qty + 1) : qty >= 2 ? setQty(qty - 1) : false;
   };
   const [radios, setRadios] = useState({});
+  const [radioserrors, setRadiosErrors] = useState([]);
+  const dispatch = useDispatch();
   function handleRadios(e, param) {
     if (
       radios[param] &&
@@ -36,10 +42,96 @@ const LeftSide = ({ product }) => {
       });
     }
   }
-  function addToCart() {
-    alert(qty);
-  }
-  console.log(radios, "rrrr");
+  const notify = (msg, type) => {
+    toast.dismiss();
+    if (type === "success") {
+      return toast.success(<div style={{ textAlign: "center" }}>{msg}</div>, {
+        theme: "colored",
+      });
+    } else {
+      return toast.error(<div style={{ textAlign: "center" }}>{msg}</div>, {
+        theme: "colored",
+      });
+    }
+  };
+  const addToCartFunc = () => {
+    let newerrarray = [...radioserrors];
+    if (product.diameter?.length > 0) {
+      if (radios["diameter"]) {
+        console.log("exists diameter");
+        const index = newerrarray.indexOf("diameter");
+        if (index > -1) {
+          // only splice array when item is found
+          newerrarray.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        setRadiosErrors(newerrarray);
+      } else {
+        if (!newerrarray.includes("diameter")) {
+          newerrarray.push("diameter");
+          setRadiosErrors(newerrarray);
+        }
+      }
+    }
+    if (product.height?.length > 0) {
+      if (radios["height"]) {
+        console.log("exists height");
+        const index = newerrarray.indexOf("height");
+        if (index > -1) {
+          // only splice array when item is found
+          newerrarray.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        setRadiosErrors(newerrarray);
+      } else {
+        if (!newerrarray.includes("height")) {
+          newerrarray.push("height");
+          setRadiosErrors(newerrarray);
+        }
+      }
+    }
+    if (product.tissuelevel?.length > 0) {
+      if (radios["tissuelevel"]) {
+        console.log("exists tissuelevel");
+        const index = newerrarray.indexOf("tissuelevel");
+        if (index > -1) {
+          // only splice array when item is found
+          newerrarray.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        setRadiosErrors(newerrarray);
+      } else {
+        if (!newerrarray.includes("tissuelevel")) {
+          newerrarray.push("tissuelevel");
+          setRadiosErrors(newerrarray);
+        }
+      }
+    }
+
+    product.product_features?.map((item) => {
+      const feaname = item.featurecatname.toLowerCase().replace(/\s/g, "_");
+      if (radios[feaname]) {
+        const index = newerrarray.indexOf(feaname);
+        if (index > -1) {
+          // only splice array when item is found
+          newerrarray.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        setRadiosErrors(newerrarray);
+      } else {
+        if (!newerrarray.includes(feaname)) {
+          newerrarray.push(feaname);
+          setRadiosErrors(newerrarray);
+        }
+      }
+    });
+    if (newerrarray.length > 0) {
+      notify(`${t("common:fixaddtocart")}`, "error");
+    } else {
+      dispatch(addToCart({ ...product, qty: qty }));
+      setQty(1);
+      notify(`${t("common:productaddedtocart")}`, "success");
+      setRadios({});
+    }
+
+    // alert(qty);
+  };
   return (
     <div className={styles.realLeftSide}>
       <div
@@ -57,7 +149,7 @@ const LeftSide = ({ product }) => {
             href={`/products/${product.cat_data.id}`}
             className={styles.navlink__active}
             activeClassName={styles.navlink__active}
-            title={product.cat_data.title}
+            title={whatLanguage(lang, product.cat_data, "title")}
           />
         </div>
       </div>
@@ -76,7 +168,14 @@ const LeftSide = ({ product }) => {
       <div style={{ direction: "ltr" }}>
         {product.tissuelevel !== "" && (
           <div className={styles.realLeftSide_lines}>
-            <div className={styles.realLeftSide_lines_a}>Tissue Level</div>
+            <div
+              className={`${styles.realLeftSide_lines_a} ${
+                radioserrors.includes("tissuelevel") &&
+                styles.realLeftSide_lines_a_error
+              }`}
+            >
+              <span style={{ color: "red" }}>*</span>Tissue Level
+            </div>
             <div className={styles.realLeftSide_lines_b}>
               {Array.isArray(product.tissuelevel) &&
                 product.tissuelevel.map((item) => {
@@ -107,7 +206,14 @@ const LeftSide = ({ product }) => {
         )}
         {product.height !== "" && (
           <div className={styles.realLeftSide_lines}>
-            <div className={styles.realLeftSide_lines_a}>HEIGHT</div>
+            <div
+              className={`${styles.realLeftSide_lines_a} ${
+                radioserrors.includes("height") &&
+                styles.realLeftSide_lines_a_error
+              }`}
+            >
+              <span style={{ color: "red" }}>*</span>HEIGHT
+            </div>
             <div className={styles.realLeftSide_lines_b}>
               {Array.isArray(product.height) &&
                 product.height.map((item) => {
@@ -136,7 +242,14 @@ const LeftSide = ({ product }) => {
         )}
         {product.diameter !== "" && (
           <div className={styles.realLeftSide_lines}>
-            <div className={styles.realLeftSide_lines_a}>DIAMETER</div>
+            <div
+              className={`${styles.realLeftSide_lines_a} ${
+                radioserrors.includes("diameter") &&
+                styles.realLeftSide_lines_a_error
+              }`}
+            >
+              <span style={{ color: "red" }}>*</span>DIAMETER
+            </div>
             <div className={styles.realLeftSide_lines_b}>
               {Array.isArray(product.diameter) &&
                 product.diameter.map((item) => {
@@ -169,7 +282,14 @@ const LeftSide = ({ product }) => {
               product.product_features.map((item) => {
                 return (
                   <div key={item.featurecat}>
-                    <div className={styles.realLeftSide_lines_a}>
+                    <div
+                      className={`${styles.realLeftSide_lines_a} ${
+                        radioserrors.includes(
+                          item.featurecatname.toLowerCase().replace(/\s/g, "_")
+                        ) && styles.realLeftSide_lines_a_error
+                      }`}
+                    >
+                      <span style={{ color: "red" }}>*</span>
                       {item.featurecatname}
                     </div>
                     {Array.isArray(item.features) &&
@@ -188,14 +308,14 @@ const LeftSide = ({ product }) => {
                                   onClick={(event) =>
                                     handleRadios(
                                       event,
-                                      itemfeatures.featurename
+                                      item.featurecatname
                                         .toLowerCase()
                                         .replace(/\s/g, "_")
                                     )
                                   }
                                   checked={
                                     radios[
-                                      itemfeatures.featurename
+                                      item.featurecatname
                                         .toLowerCase()
                                         .replace(/\s/g, "_")
                                     ] === itemfeatures.featureid
@@ -255,7 +375,7 @@ const LeftSide = ({ product }) => {
         </div>
         <input type="hidden" name="productData" />
         <div className={styles.realLeftSide_form_button}>
-          <button type="button" onClick={() => addToCart()}>
+          <button type="button" onClick={() => addToCartFunc()}>
             {t("products:addtocart")}
           </button>
         </div>
@@ -263,7 +383,7 @@ const LeftSide = ({ product }) => {
     </div>
   );
 };
-const ProductsInId = ({ product }) => {
+const ProductsInId = ({ product, lang }) => {
   const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common"]);
   //dispacher example to update states
@@ -284,7 +404,7 @@ const ProductsInId = ({ product }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteData["Title"]} | {product.title}
+          {siteData["Title"]} | {whatLanguage(lang, product, "title")}
         </title>
       </Head>
       {/* {icon.icon}
@@ -322,7 +442,7 @@ const ProductsInId = ({ product }) => {
                       href={`/products/${product.cat_data.id}`}
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title={product.cat_data.title}
+                      title={whatLanguage(lang, product.cat_data, "title")}
                     />
                   </div>
                 </div>
@@ -331,7 +451,7 @@ const ProductsInId = ({ product }) => {
                 <div className={styles.productsListIn}>
                   <div className={styles.productsListUl}>
                     <div className={styles.productContentLine}>
-                      <h1>{product.title}</h1>
+                      <h1>{whatLanguage(lang, product, "title")}</h1>
                     </div>
                     <div className={styles.productContentLine}>
                       <div className={styles.productContentLine_a}>
@@ -340,7 +460,7 @@ const ProductsInId = ({ product }) => {
                       <div
                         className={styles.productContentLine_b}
                         dangerouslySetInnerHTML={{
-                          __html: product.text,
+                          __html: whatLanguage(lang, product, "text"),
                         }}
                       ></div>
                     </div>
@@ -351,7 +471,7 @@ const ProductsInId = ({ product }) => {
                       <div
                         className={styles.productContentLine_b}
                         dangerouslySetInnerHTML={{
-                          __html: product.features,
+                          __html: whatLanguage(lang, product, "features"),
                         }}
                       ></div>
                     </div>
@@ -362,7 +482,7 @@ const ProductsInId = ({ product }) => {
                       <div
                         className={styles.productContentLine_b}
                         dangerouslySetInnerHTML={{
-                          __html: product.techinfo,
+                          __html: whatLanguage(lang, product, "techinfo"),
                         }}
                       ></div>
                     </div>
@@ -373,7 +493,7 @@ const ProductsInId = ({ product }) => {
             <div className={styles.filterContainer}>
               <div className={styles.filterContainerIn}>
                 <div className={styles.filterItemsContainer}>
-                  <LeftSide product={product} />
+                  <LeftSide product={product} lang={lang} />
                 </div>
               </div>
               <div className={styles.filterCircle}>
@@ -400,6 +520,7 @@ export async function getServerSideProps({ locale, params }) {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
       product: data1?.product,
+      lang: locale ?? "he",
       // Will be passed to the page component as props
     },
   };

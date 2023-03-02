@@ -13,8 +13,9 @@ import { useRouter } from "next/router";
 import { Checkbox, useCheckboxState } from "ariakit/checkbox";
 import { Group, GroupLabel } from "ariakit/group";
 import BeatLoader from "react-spinners/BeatLoader";
+import { whatLanguage } from "../../utils/helperFunctions";
 
-const ProductsIn = ({ productscats, catproducts, features }) => {
+const ProductsIn = ({ productscats, catproducts, features, lang }) => {
   const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common", "products"]);
   const form = useRef();
@@ -67,7 +68,7 @@ const ProductsIn = ({ productscats, catproducts, features }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteData["Title"]} | {productscats.title}
+          {siteData["Title"]} | {whatLanguage(lang, productscats, "title")}
         </title>
       </Head>
       {/* {icon.icon}
@@ -89,7 +90,7 @@ const ProductsIn = ({ productscats, catproducts, features }) => {
               </div>
               <div className={styles.productsHeaderActive}>
                 <div className={styles.productsHeaderActiveTitle}>
-                  <h1>{productscats.title}</h1>
+                  <h1>{whatLanguage(lang, productscats, "title")}</h1>
                 </div>
                 <div className={styles.productsHeaderActiveNav}>
                   <div className={styles.pageNavigator}>
@@ -111,7 +112,7 @@ const ProductsIn = ({ productscats, catproducts, features }) => {
                       href={`/products/${productscats.id}`}
                       className={styles.navlink}
                       activeClassName={styles.navlink__active}
-                      title={productscats.title}
+                      title={whatLanguage(lang, productscats, "title")}
                     />
                   </div>
                 </div>
@@ -140,17 +141,17 @@ const ProductsIn = ({ productscats, catproducts, features }) => {
                                 />
                               </div>
                               <div className={styles.productItemText}>
-                                {item.title}
+                                {whatLanguage(lang, item, "title")}
                               </div>
                               <div className={styles.productItemTextFull}>
                                 <div className={styles.productItemTextFullIn}>
                                   <div className={styles.productItemText2}>
-                                    {item.title}
+                                    {whatLanguage(lang, item, "title")}
                                   </div>
                                   <div
                                     className={styles.productItemText2_desc}
                                     dangerouslySetInnerHTML={{
-                                      __html: item.text,
+                                      __html: whatLanguage(lang, item, "text"),
                                     }}
                                   ></div>
                                 </div>
@@ -196,7 +197,9 @@ const ProductsIn = ({ productscats, catproducts, features }) => {
                         {item.cat_items.length > 0 && (
                           <Group className="wrapper">
                             <div className={styles.filterItemTitle}>
-                              <GroupLabel>{item.cat_data.title}</GroupLabel>
+                              <GroupLabel>
+                                {whatLanguage(lang, item.cat_data, "title")}
+                              </GroupLabel>
                             </div>
                             {item.cat_items.map((catitem) => {
                               return (
@@ -222,7 +225,7 @@ const ProductsIn = ({ productscats, catproducts, features }) => {
                                       className={styles.checkbox}
                                       onChange={updateProducts}
                                     />{" "}
-                                    {catitem.title}
+                                    {whatLanguage(lang, catitem, "title")}
                                   </label>
                                 </div>
                               );
@@ -270,6 +273,7 @@ export async function getServerSideProps({ locale, params }) {
       productscats: data1?.productscats,
       catproducts: data2?.catproducts,
       features: data3?.productsfeatures,
+      lang: locale ?? "he",
       // Will be passed to the page component as props
     },
   };

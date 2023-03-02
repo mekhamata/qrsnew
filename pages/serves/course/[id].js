@@ -16,8 +16,9 @@ import "react-toastify/dist/ReactToastify.css";
 import emailjs from "@emailjs/browser";
 import validator from "validator";
 import BeatLoader from "react-spinners/BeatLoader";
+import { whatLanguage } from "../../../utils/helperFunctions";
 
-const LeftSide = ({ course }) => {
+const LeftSide = ({ course, lang }) => {
   const { t } = useTranslation(["common", "course"]);
   const form = useRef();
   const [from_email, setFromEmail] = useState("");
@@ -25,18 +26,32 @@ const LeftSide = ({ course }) => {
   const [phone, setPhone] = useState("");
   const message = `הרשמה לקורס: <a href='${window.location.href}'>${course.title}</a>`;
   const [sendStatus, setSendStatus] = useState(false);
-  const teachers_arr = [{ teacher: course.teacher1, phone: course.phone1 }];
+  const teachers_arr = [
+    { teacher: whatLanguage(lang, course, "teacher1"), phone: course.phone1 },
+  ];
   if (course.teacher2 && course.teacher2.trim() !== "") {
-    teachers_arr.push({ teacher: course.teacher2, phone: course.phone2 });
+    teachers_arr.push({
+      teacher: whatLanguage(lang, course, "teacher2"),
+      phone: course.phone2,
+    });
   }
   if (course.teacher3 && course.teacher3.trim() !== "") {
-    teachers_arr.push({ teacher: course.teacher3, phone: course.phone3 });
+    teachers_arr.push({
+      teacher: whatLanguage(lang, course, "teacher3"),
+      phone: course.phone3,
+    });
   }
   if (course.teacher4 && course.teacher4.trim() !== "") {
-    teachers_arr.push({ teacher: course.teacher4, phone: course.phone4 });
+    teachers_arr.push({
+      teacher: whatLanguage(lang, course, "teacher4"),
+      phone: course.phone4,
+    });
   }
   if (course.teacher5 && course.teacher5.trim() !== "") {
-    teachers_arr.push({ teacher: course.teacher5, phone: course.phone5 });
+    teachers_arr.push({
+      teacher: whatLanguage(lang, course, "teacher5"),
+      phone: course.phone5,
+    });
   }
 
   console.log(sendStatus, "ttt");
@@ -120,11 +135,13 @@ const LeftSide = ({ course }) => {
       );
   };
 
-  const TeacherRow = () => {
+  const TeacherRow = ({ lang }) => {
     return teachers_arr.map((item) => {
       return (
         <div className={styles.realLeftSide_lines}>
-          <div className={styles.realLeftSide_lines_a}>{item.teacher}</div>
+          <div className={styles.realLeftSide_lines_a}>
+            {whatLanguage(lang, item, "teacher")}
+          </div>
           <div className={styles.realLeftSide_lines_b}>
             <NavLink
               href={`tel:${item.phone}`}
@@ -155,7 +172,7 @@ const LeftSide = ({ course }) => {
             href=""
             className={styles.navlink__active}
             activeClassName={styles.navlink__active}
-            title={course.cat_data.title}
+            title={whatLanguage(lang, course.cat_data, "title")}
           />
         </div>
       </div>
@@ -163,7 +180,9 @@ const LeftSide = ({ course }) => {
         <div className={styles.realLeftSide_lines_a}>
           {t("course:courselength")}:
         </div>
-        <div className={styles.realLeftSide_lines_b}>{course.coursetime}</div>
+        <div className={styles.realLeftSide_lines_b}>
+          {whatLanguage(lang, course, "coursetime")}
+        </div>
       </div>
       <div className={styles.realLeftSide_lines}>
         <div className={styles.realLeftSide_lines_a}>
@@ -174,7 +193,7 @@ const LeftSide = ({ course }) => {
       <div className={styles.realLeftSide_greyTitle}>
         {t("course:coursecoo")}
       </div>
-      <TeacherRow />
+      <TeacherRow lang={lang} />
       {/* <div className={styles.realLeftSide_lines}>
         <div className={styles.realLeftSide_lines_a}>סמאח אלקוט ח'טיב</div>
         <div className={styles.realLeftSide_lines_b}>0547256024</div>
@@ -189,9 +208,9 @@ const LeftSide = ({ course }) => {
         <div className={styles.realLeftSide_lines_b}>
           <RWebShare
             data={{
-              text: `${course.description}`,
+              text: `${whatLanguage(lang, course, "description")}`,
               url: window.location.href,
-              title: `${course.title}`,
+              title: `${whatLanguage(lang, course, "title")}`,
             }}
             onClick={() => console.log("shared successfully!")}
           >
@@ -215,7 +234,11 @@ const LeftSide = ({ course }) => {
         </div>
         <div className={styles.realLeftSide_lines_b}>
           <NavLink
-            href={`https://qrs-global.com/uploads/${course.file}`}
+            href={`https://qrs-global.com/uploads/${whatLanguage(
+              lang,
+              course,
+              "file"
+            )}`}
             className={styles.navlink__active}
             activeClassName={styles.navlink__active}
             title=""
@@ -300,7 +323,7 @@ const LeftSide = ({ course }) => {
     </div>
   );
 };
-const CourseIn = ({ course }) => {
+const CourseIn = ({ course, lang }) => {
   const siteData = useSelector(showSiteData);
   const { t } = useTranslation(["common", "course"]);
   //dispacher example to update states
@@ -324,7 +347,7 @@ const CourseIn = ({ course }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteData["Title"]} | {course.title}
+          {siteData["Title"]} | {whatLanguage(lang, course, "title")}
         </title>
       </Head>
       {/* {icon.icon}
@@ -350,7 +373,7 @@ const CourseIn = ({ course }) => {
                     className={styles.titleIcon}
                   />
                 </div>
-                <h1>{course.title}</h1>
+                <h1>{whatLanguage(lang, course, "title")}</h1>
               </div>
             </div>
             <div className={styles.courseInfoNav}>
@@ -390,7 +413,7 @@ const CourseIn = ({ course }) => {
               className={`${styles.courseInfoTitle} ${styles.courseInfoTitle2}`}
             >
               <div className={styles.contentMainTitle_copy}>
-                <h1>{course.title}</h1>
+                <h1>{whatLanguage(lang, course, "title")}</h1>
               </div>
             </div>
           </div>
@@ -407,7 +430,9 @@ const CourseIn = ({ course }) => {
                 <div className={styles.productsListIn}>
                   <div
                     className={styles.productsListUl}
-                    dangerouslySetInnerHTML={{ __html: course.text }}
+                    dangerouslySetInnerHTML={{
+                      __html: whatLanguage(lang, course, "text"),
+                    }}
                   ></div>
                 </div>
               </div>
@@ -415,7 +440,7 @@ const CourseIn = ({ course }) => {
             <div className={styles.filterContainer}>
               <div className={styles.filterContainerIn}>
                 <div className={styles.filterItemsContainer}>
-                  <LeftSide course={course} />
+                  <LeftSide course={course} lang={lang} />
                 </div>
               </div>
               <div className={styles.filterCircle}>
@@ -441,6 +466,7 @@ export async function getServerSideProps({ locale, params }) {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
       course: course?.allcourses,
+      lang: locale ?? "he",
       // Will be passed to the page component as props
     },
   };

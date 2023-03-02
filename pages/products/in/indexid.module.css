@@ -357,6 +357,9 @@
   display: flex;
   flex: 2;
 }
+.realLeftSide_lines_a_error {
+  color: red;
+}
 .realLeftSide_lines_a_item {
   font-size: 18px;
 }
@@ -530,7 +533,7 @@
 @media only screen and (max-width: 991px) {
   .pageDataIn {
     flex-direction: column;
-    padding: 20px;
+    padding: 5px;
   }
   .productsListUl {
     padding: 0;

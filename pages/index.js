@@ -11,8 +11,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { whatLanguage } from "../utils/helperFunctions";
 
-const Home = ({ circles }) => {
+const Home = ({ circles, lang }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSiteDataAsync());
@@ -78,7 +79,7 @@ const Home = ({ circles }) => {
                   return (
                     <div className={styles.homeCircleItem} key={item.id}>
                       <NavLink
-                        href={`/${item.url}`}
+                        href={`/${whatLanguage(lang, item, "url")}`}
                         className={styles.circlelink}
                       >
                         <div className={styles.homeCircleItem__img}>
@@ -93,10 +94,10 @@ const Home = ({ circles }) => {
                           </div>
                         </div>
                         <div className={styles.homeCircleItem__title}>
-                          {item.title}
+                          {whatLanguage(lang, item, "title")}
                         </div>
                         <div className={styles.homeCircleItem__desc}>
-                          {item.description}
+                          {whatLanguage(lang, item, "description")}
                         </div>
                       </NavLink>
                     </div>
@@ -119,6 +120,7 @@ export const getStaticProps = async ({ locale }) => {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
       circles: data1,
+      lang: locale ?? "he",
     },
   };
 };

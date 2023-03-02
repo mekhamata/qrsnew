@@ -13,6 +13,9 @@ import {
 } from "../../store/slices/generalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { whatLanguage } from "../../utils/helperFunctions";
+import IconComponent from "../iconComponent";
 
 function useWindowSize() {
   const [size, setSize] = useState([0, 0]);
@@ -32,6 +35,7 @@ const Header = () => {
     dispatch(getSiteDataAsync());
     // dispatch(getServesAsync());
   }, []);
+  const router = useRouter();
   const [mobileView, setMobileView] = useState(false);
   const [width, height] = useWindowSize();
   useLayoutEffect(() => {
@@ -47,43 +51,64 @@ const Header = () => {
           <div id="headerBlueIn" className={styles.headerBlueIn}>
             <div id="headerAddress" className={styles.headerAddress}>
               <NavLink
-                href="/en"
+                href={`tel:${siteData?.["phone"]}`}
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.["phone"]}{" "}
-                <span className={styles.headerAddressSpan}>|</span>
+                <div className={styles.headerBarText}>
+                  {siteData?.["phone"]}{" "}
+                  <span className={styles.headerAddressSpan}>|</span>
+                </div>
+                <div className={styles.headerBarIcons}>
+                  <IconComponent type="fab" name="fa-solid fa-phone" />
+                </div>
               </NavLink>
               <NavLink
-                href="/en"
+                href={`tel:${siteData?.["phone2"]}`}
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.["phone2"]}{" "}
-                <span className={styles.headerAddressSpan}>|</span>
+                <div className={styles.headerBarText}>
+                  {siteData?.["phone2"]}{" "}
+                  <span className={styles.headerAddressSpan}>|</span>
+                </div>
+                <div className={styles.headerBarIcons}>
+                  <IconComponent type="fab" name="fa-solid fa-mobile" />
+                </div>
               </NavLink>
               <NavLink
-                href="/en"
+                href={`tel:${siteData?.["phone3"]}`}
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.["phone3"]}{" "}
-                <span className={styles.headerAddressSpan}>|</span>
+                <div className={styles.headerBarText}>
+                  {siteData?.["phone3"]}{" "}
+                  <span className={styles.headerAddressSpan}>|</span>
+                </div>
+                <div className={styles.headerBarIcons}>
+                  <IconComponent type="fab" name="fa-solid fa-mobile" />
+                </div>
               </NavLink>
               <NavLink
-                href="/en"
+                href={`mailto:${siteData?.["email"]}`}
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.["email"] + " "}
-                <span className={styles.headerAddressSpan}>|</span>
+                <div className={styles.headerBarText}>
+                  {siteData?.["email"] + " "}
+                  <span className={styles.headerAddressSpan}>|</span>
+                </div>
+                <div className={styles.headerBarIcons}>
+                  <IconComponent type="fab" name="fa-solid fa-envelope" />
+                </div>
               </NavLink>
               <NavLink
-                href="/en"
+                target="_blank"
+                href={siteData?.["wazelink"]}
                 className={styles.headerAddressLink}
                 activeClassName={styles.navlink_active}
               >
-                {siteData?.["address"]}
+                {whatLanguage(router.locale, siteData, "address")}
               </NavLink>
             </div>
           </div>

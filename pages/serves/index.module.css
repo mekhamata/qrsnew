@@ -42,7 +42,7 @@
   display: flex;
   flex: 1;
   max-height: 35px;
-  justify-content: flex-end;
+  justify-content: left;
   align-items: center;
   margin-top: -5%;
   margin-bottom: 30px;
@@ -164,6 +164,7 @@
 @media only screen and (max-width: 991px) {
   .pageDataIn {
     flex-direction: column;
+    padding: 5px;
   }
   .pageNavigator {
     margin-top: 0;

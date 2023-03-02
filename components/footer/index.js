@@ -15,6 +15,7 @@ import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BeatLoader from "react-spinners/BeatLoader";
+import { whatLanguage } from "../../utils/helperFunctions";
 // import FloatingLabel from 'react-bootstrap/FloatingLabel';
 // import Form from 'react-bootstrap/Form';
 function TextInput({
@@ -194,8 +195,7 @@ const Footer = () => {
   return (
     <footer>
       <div id="footerContainer" className={styles.footerContainer}>
-        <TheToast />
-        {router?.pathname !== "/contact" && (
+        {router?.pathname !== "/contact" && router?.pathname !== "/cart" && (
           <div id="footerContainer_in" className={styles.footerContainer_in}>
             <div id="footerForm" className={styles.footerForm}>
               <div className={styles.footerTitles}>{t("common:contactus")}</div>
@@ -277,38 +277,39 @@ const Footer = () => {
                 <ul>
                   <li>
                     <NavLink
-                      href=""
-                      title={siteData?.["address"]}
+                      target="_blank"
+                      href={siteData?.["wazelink"]}
+                      title={whatLanguage(router.locale, siteData, "address")}
                       className={styles.footerInfoLink}
                     />
                   </li>
                   <li>
-                    טל.{" "}
+                    {t("common:phone")}.{" "}
                     <NavLink
-                      href=""
+                      href={`tel:${siteData?.["phone"]}`}
                       title={siteData?.["phone"]}
                       className={styles.footerInfoLink}
                     />
                   </li>
                   <li>
-                    נייד.{" "}
+                    {t("common:cellphone")}.{" "}
                     <NavLink
-                      href=""
+                      href={`tel:${siteData?.["phone2"]}`}
                       title={siteData?.["phone2"]}
                       className={styles.footerInfoLink}
                     />
                   </li>
                   <li>
-                    נייד.{" "}
+                    {t("common:cellphone")}.{" "}
                     <NavLink
-                      href=""
+                      href={`tel:${siteData?.["phone3"]}`}
                       title={siteData?.["phone3"]}
                       className={styles.footerInfoLink}
                     />
                   </li>
                   <li>
                     <NavLink
-                      href=""
+                      href={`mailto:${siteData?.["email"]}`}
                       title={siteData?.["email"]}
                       className={styles.footerInfoLink}
                     />
@@ -318,12 +319,20 @@ const Footer = () => {
               <div className={styles.footerSocial}>
                 <ul>
                   <li>
-                    <NavLink href="" className={styles.socialIcons}>
-                      <IconComponent type="fab" name="fa-brands fa-twitter" />
+                    <NavLink
+                      target="_blank"
+                      href={siteData?.["linkedin"]}
+                      className={styles.socialIcons}
+                    >
+                      <IconComponent type="fab" name="fa-brands fa-linkedin" />
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink href="" className={styles.socialIcons}>
+                    <NavLink
+                      target="_blank"
+                      href={siteData?.["facebook"]}
+                      className={styles.socialIcons}
+                    >
                       <IconComponent
                         type="fab"
                         name="fa-brands fa-square-facebook"
@@ -331,13 +340,18 @@ const Footer = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink href="" className={styles.socialIcons}>
+                    <NavLink
+                      target="_blank"
+                      href={siteData?.["utube"]}
+                      className={styles.socialIcons}
+                    >
                       <IconComponent type="fab" name="fa-brands fa-youtube" />
                     </NavLink>
                   </li>
                 </ul>
               </div>
             </div>
+            <TheToast />
           </div>
         )}
       </div>

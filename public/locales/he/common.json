@@ -24,5 +24,13 @@
   "todetails": "לפרטים",
   "andregister": "והרשמה",
   "emansentence": "אמינות, זמינות ומחויבות לשירות הטוב ביותר ולשביעות רצונם של לקוחותינו",
-  "title": "כותרת"
+  "title": "כותרת",
+  "shoppingcart": "סל הקניות",
+  "order": "הזמנה",
+  "cartempty": "סל הקניות ריק!",
+  "action": "פעולה",
+  "cartproduct": "מוצר",
+  "quantity": "כמות",
+  "fixaddtocart": "בבקשה בחר מאפייני החובה של המוצר!",
+  "productaddedtocart": "המוצר התווסף לסל הקניות בהצלחה!"
 }

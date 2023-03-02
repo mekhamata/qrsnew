@@ -5,10 +5,14 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { useHEADER } from "../../contexts/HeaderContext";
+import { whatLanguage } from "../../../utils/helperFunctions";
+import IconComponent from "../../iconComponent";
+import { useSelector, useDispatch } from "react-redux";
 const WebHeader = () => {
   const router = useRouter();
   const { t } = useTranslation(["common"]);
   const { serves } = useHEADER();
+  const cartItemsNumber = useSelector((state) => state.cart.cart).length | 0;
   return (
     <ul id="headerUlComponent" className={styles.headerUlComponent}>
       <li key={1}>
@@ -60,7 +64,7 @@ const WebHeader = () => {
                   return (
                     <li key={item.id}>
                       <NavLink
-                        title={item.title}
+                        title={whatLanguage(router.locale, item, "title")}
                         href={`/serves/${item.id}`}
                         className={styles.subMenuLink}
                       />
@@ -87,6 +91,16 @@ const WebHeader = () => {
           className={styles.navlink}
           activeClassName={styles.navlink_active}
         />
+      </li>
+      <li key={7}>
+        <NavLink
+          href="/cart"
+          className={styles.navlink}
+          activeClassName={styles.navlink_active}
+        >
+          <IconComponent type="fab" name="fa-shopping-cart" />{" "}
+          {cartItemsNumber > 0 && <>({cartItemsNumber})</>}
+        </NavLink>
       </li>
     </ul>
   );

@@ -315,6 +315,7 @@
 @media only screen and (max-width: 991px) {
   .pageDataIn {
     flex-direction: column;
+    padding: 5px;
   }
   .productsListIn {
     border: 0;

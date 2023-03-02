@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import BeatLoader from "react-spinners/BeatLoader";
+import { whatLanguage } from "../../utils/helperFunctions";
 function TextInput({
   type = "text",
   label,
@@ -44,7 +45,7 @@ function TextInput({
     </div>
   );
 }
-const Contact = (props) => {
+const Contact = ({ lang }) => {
   const router = useRouter();
   const { t } = useTranslation(["common", "contact"]);
   const form = useRef();
@@ -413,13 +414,14 @@ const Contact = (props) => {
                           <ul>
                             <li>
                               <NavLink
-                                href=""
-                                title={siteData?.["address"]}
+                                target="_blank"
+                                href={siteData?.["wazelink"]}
+                                title={whatLanguage(lang, siteData, "address")}
                                 className={styles.footerInfoLink}
                               />
                             </li>
                             <li>
-                              טל.{" "}
+                              {t("common:phone")}.{" "}
                               <NavLink
                                 href={`tel:${siteData?.["phone"]}`}
                                 title={siteData?.["phone"]}
@@ -427,7 +429,7 @@ const Contact = (props) => {
                               />
                             </li>
                             <li>
-                              נייד.{" "}
+                              {t("common:cellphone")}.{" "}
                               <NavLink
                                 href={`tel:${siteData?.["phone2"]}`}
                                 title={siteData?.["phone2"]}
@@ -435,7 +437,7 @@ const Contact = (props) => {
                               />
                             </li>
                             <li>
-                              נייד.{" "}
+                              {t("common:cellphone")}.{" "}
                               <NavLink
                                 href={`tel:${siteData?.["phone3"]}`}
                                 title={siteData?.["phone3"]}
@@ -454,15 +456,23 @@ const Contact = (props) => {
                         <div className={styles.footerSocial}>
                           <ul>
                             <li>
-                              <NavLink href="" className={styles.socialIcons}>
+                              <NavLink
+                                target="_blank"
+                                href={siteData?.["linkedin"]}
+                                className={styles.socialIcons}
+                              >
                                 <IconComponent
                                   type="fab"
-                                  name="fa-brands fa-twitter"
+                                  name="fa-brands fa-linkedin"
                                 />
                               </NavLink>
                             </li>
                             <li>
-                              <NavLink href="" className={styles.socialIcons}>
+                              <NavLink
+                                target="_blank"
+                                href={siteData?.["facebook"]}
+                                className={styles.socialIcons}
+                              >
                                 <IconComponent
                                   type="fab"
                                   name="fa-brands fa-square-facebook"
@@ -470,7 +480,11 @@ const Contact = (props) => {
                               </NavLink>
                             </li>
                             <li>
-                              <NavLink href="" className={styles.socialIcons}>
+                              <NavLink
+                                target="_blank"
+                                href={siteData?.["utube"]}
+                                className={styles.socialIcons}
+                              >
                                 <IconComponent
                                   type="fab"
                                   name="fa-brands fa-youtube"
@@ -529,6 +543,7 @@ export async function getServerSideProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
+      lang: locale ?? "he",
       // Will be passed to the page component as props
     },
   };

@@ -24,5 +24,13 @@
   "todetails": "Details &",
   "andregister": "Register",
   "emansentence": "Reliability, availability and commitment to the best service and satisfaction of our customers",
-  "title": "Title"
+  "title": "Title",
+  "shoppingcart": "Shopping Cart",
+  "order": "Order",
+  "cartempty": "Cart is empty!",
+  "action": "Action",
+  "cartproduct": "Product",
+  "quantity": "Quantity",
+  "fixaddtocart": "Please choose the required product features!",
+  "productaddedtocart": "Product added to your cart!"
 }

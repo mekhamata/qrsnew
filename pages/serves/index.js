@@ -6,7 +6,8 @@ import { showSiteData } from "../../store/slices/generalSlice";
 import { useSelector } from "react-redux";
 import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-const Serves = ({ servescat, allserves }) => {
+import { whatLanguage } from "../../utils/helperFunctions";
+const Serves = ({ servescat, allserves, lang }) => {
   const siteData = useSelector(showSiteData);
   const catdata = servescat.servescat;
   //all serves <--start-->
@@ -17,7 +18,7 @@ const Serves = ({ servescat, allserves }) => {
     }`;
   };
   const { t } = useTranslation(["common"]);
-  const Allservescircles = () => {
+  const Allservescircles = ({ lang }) => {
     return (
       allservesdata &&
       allservesdata.map((item) => {
@@ -36,7 +37,9 @@ const Serves = ({ servescat, allserves }) => {
                   />
                 </div>
               </div>
-              <div className={styles.homeCircleItem__title}>{item.title}</div>
+              <div className={styles.homeCircleItem__title}>
+                {whatLanguage(lang, item, "title")}
+              </div>
             </NavLink>
           </div>
         );
@@ -49,7 +52,7 @@ const Serves = ({ servescat, allserves }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteData["Title"]} | {catdata.title}
+          {siteData["Title"]} | {whatLanguage(lang, catdata, "title")}
         </title>
       </Head>
       <div id="pageCover" className={styles.pageCover}>
@@ -68,7 +71,7 @@ const Serves = ({ servescat, allserves }) => {
               href="/serves"
               className={styles.navlink}
               activeClassName={styles.navlink__active}
-              title={catdata.title}
+              title={whatLanguage(lang, catdata, "title")}
             />
             /
             <NavLink
@@ -81,11 +84,13 @@ const Serves = ({ servescat, allserves }) => {
           <div className={styles.pageRealData}>
             <div className={styles.contentParagraph}>
               <div className={styles.contentMainTitle}>
-                <h1>{catdata.title}</h1>
+                <h1>{whatLanguage(lang, catdata, "title")}</h1>
               </div>
               <div
                 className={styles.contentText}
-                dangerouslySetInnerHTML={{ __html: catdata.description }}
+                dangerouslySetInnerHTML={{
+                  __html: whatLanguage(lang, catdata, "description"),
+                }}
               ></div>
             </div>
             <div className={styles.contentParagraph}>
@@ -94,7 +99,7 @@ const Serves = ({ servescat, allserves }) => {
                 className={styles.homeCircleContainer}
               >
                 <div id="homeCircleCenter" className={styles.homeCircleCenter}>
-                  <Allservescircles />
+                  <Allservescircles lang={lang} />
                 </div>
               </div>
             </div>
@@ -122,6 +127,7 @@ export const getServerSideProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale ?? "he")),
       servescat: data1,
       allserves: data2,
+      lang: locale ?? "he",
     },
   };
 };

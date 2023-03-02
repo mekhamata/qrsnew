@@ -6,8 +6,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useSelector } from "react-redux";
 import { showSiteData } from "../../store/slices/generalSlice";
 import Head from "next/head";
+import { whatLanguage } from "../../utils/helperFunctions";
 
-const Products = ({ productscats, linkdata }) => {
+const Products = ({ productscats, linkdata, lang }) => {
   const { t } = useTranslation(["common", "contact"]);
   const siteData = useSelector(showSiteData);
   if (!productscats || !linkdata) {
@@ -53,11 +54,13 @@ const Products = ({ productscats, linkdata }) => {
           <div className={styles.pageRealData}>
             <div className={styles.contentParagraph}>
               <div className={styles.contentMainTitle}>
-                <h1>{linkdata.title}</h1>
+                <h1>{whatLanguage(lang, linkdata, "title")}</h1>
               </div>
               <div
                 className={styles.contentText}
-                dangerouslySetInnerHTML={{ __html: linkdata.text }}
+                dangerouslySetInnerHTML={{
+                  __html: whatLanguage(lang, linkdata, "text"),
+                }}
               ></div>
             </div>
             <div className={styles.contentParagraph}>
@@ -84,7 +87,7 @@ const Products = ({ productscats, linkdata }) => {
                             </div>
                           </div>
                           <div className={styles.homeCircleItem__title}>
-                            {item.title}
+                            {whatLanguage(lang, item, "title")}
                           </div>
                         </NavLink>
                       </div>
@@ -117,6 +120,7 @@ export async function getStaticProps({ locale }) {
       ...(await serverSideTranslations(locale ?? "he")),
       productscats: data1?.productscats,
       linkdata: linkData?.linkdata,
+      lang: locale ?? "he",
       // Will be passed to the page component as props
     },
   };

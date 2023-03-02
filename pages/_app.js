@@ -8,7 +8,9 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { appWithTranslation } from "next-i18next";
 import { Provider } from "react-redux";
-import store from "../store/index";
+import { store, persistor } from "../store/index";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 import { NextProgressbarSpinner } from "nextjs-progressbar-spinner";
 import { HEADERContextProvider } from "../components/contexts/HeaderContext";
 
@@ -42,52 +44,55 @@ import { HEADERContextProvider } from "../components/contexts/HeaderContext";
 //     )
 //   );
 // }
-
+// let persistor = persistStore(store);
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     router.isReady && setLoading(false);
   }, []);
+
   return (
     <>
       <Provider store={store}>
-        <HEADERContextProvider>
-          <Layout>
-            <>
-              {loading ? (
-                <>
-                  <div className="spinner-wrapper" style={{ zIndex: 5 }}>
-                    <NextProgressbarSpinner
-                      NextNProgressProps={{
-                        color: "#61DCFB",
-                        progressBarVisibility: "hidden",
-                        startPosition: 0.3,
-                        stopDelayMs: 200,
-                        height: 1,
-                        showOnShallow: true,
-                        options: { showSpinner: true },
-                      }}
-                      spinnerType="CircleLoader"
-                      spinnerProps={{
-                        size: "2rem",
-                        color: "#61DCFB",
-                        // cssOverride: {},
-                        // speedMultiplier: 2.5,
-                        // height: 5,
-                        // width: 5,
-                        // radius: 5,
-                        // margin: 5,
-                      }}
-                    />
-                  </div>
-                </>
-              ) : (
-                <Component {...pageProps} />
-              )}
-            </>
-          </Layout>
-        </HEADERContextProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <HEADERContextProvider>
+            <Layout>
+              <>
+                {loading ? (
+                  <>
+                    <div className="spinner-wrapper" style={{ zIndex: 5 }}>
+                      <NextProgressbarSpinner
+                        NextNProgressProps={{
+                          color: "#61DCFB",
+                          progressBarVisibility: "hidden",
+                          startPosition: 0.3,
+                          stopDelayMs: 200,
+                          height: 1,
+                          showOnShallow: true,
+                          options: { showSpinner: true },
+                        }}
+                        spinnerType="CircleLoader"
+                        spinnerProps={{
+                          size: "2rem",
+                          color: "#61DCFB",
+                          // cssOverride: {},
+                          // speedMultiplier: 2.5,
+                          // height: 5,
+                          // width: 5,
+                          // radius: 5,
+                          // margin: 5,
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <Component {...pageProps} />
+                )}
+              </>
+            </Layout>
+          </HEADERContextProvider>
+        </PersistGate>
       </Provider>
     </>
   );

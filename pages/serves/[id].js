@@ -13,6 +13,7 @@ import { useTranslation, i18n } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import validator from "validator";
 import BeatLoader from "react-spinners/BeatLoader";
+import { whatLanguage } from "../../utils/helperFunctions";
 
 //create floating text input
 function TextInput({
@@ -53,6 +54,7 @@ function SelectInput({
   coursescats = undefined,
   setter,
   value,
+  lang,
 }) {
   // const [value, setValue] = useState("");
 
@@ -73,7 +75,7 @@ function SelectInput({
         {coursescats?.map((item) => {
           return (
             <option value={item.id} key={item.id} defaultValue={value}>
-              {item.title}
+              {whatLanguage(lang, item, "title")}
             </option>
           );
         })}
@@ -96,7 +98,7 @@ const FloatingDatePicker = forwardRef(
     </div>
   )
 );
-const LearningIn = ({ serve, courses, coursescats }) => {
+const LearningIn = ({ serve, courses, coursescats, lang }) => {
   const router = useRouter();
   const { id } = router.query;
   //datepicker state:
@@ -170,7 +172,7 @@ const LearningIn = ({ serve, courses, coursescats }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          {siteData["Title"]} | {theserve.title}
+          {siteData["Title"]} | {whatLanguage(lang, theserve, "title")}
         </title>
       </Head>
       <div id="pageCover" className={styles.pageCover}>
@@ -219,7 +221,7 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                 href={`/serves/${id}`}
                 className={styles.navlink}
                 activeClassName={styles.navlink__active}
-                title={`${theserve.title}`}
+                title={`${whatLanguage(lang, theserve, "title")}`}
               />
             </div>
             <div className={styles.contentParagraph_copy1}>
@@ -231,11 +233,13 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                       className={styles.titleIcon}
                     />
                   </div>
-                  <h1>{theserve.title}</h1>
+                  <h1>{whatLanguage(lang, theserve, "title")}</h1>
                 </div>
                 <div
                   className={styles.contentText}
-                  dangerouslySetInnerHTML={{ __html: theserve.text }}
+                  dangerouslySetInnerHTML={{
+                    __html: whatLanguage(lang, theserve, "text"),
+                  }}
                 ></div>
               </div>
               <div className={styles.contentParagraph_copy1_img}>
@@ -304,6 +308,7 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                               setter={setFilterCat}
                               coursescats={coursescats}
                               label={t("common:choosecategory")}
+                              lang={lang}
                             />
                           </div>
                         </div>
@@ -350,8 +355,8 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                                       styles.courseItemInInsideText_link
                                     }
                                   >
-                                    {item.title} <br />
-                                    {item.description}
+                                    {whatLanguage(lang, item, "title")} <br />
+                                    {whatLanguage(lang, item, "description")}
                                   </NavLink>
                                 </div>
                               </div>
@@ -371,8 +376,8 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                                       styles.courseItemInInsideText_link
                                     }
                                   >
-                                    {item.title} <br />
-                                    {item.description}
+                                    {whatLanguage(lang, item, "title")} <br />
+                                    {whatLanguage(lang, item, "description")}
                                   </NavLink>
                                 </div>
                                 <div className={styles.courseItemInInside2Img}>
@@ -385,9 +390,9 @@ const LearningIn = ({ serve, courses, coursescats }) => {
                                       styles.courseItemInInsideImg_link
                                     }
                                   >
-                                    לפרטים
+                                    {t("common:todetails")}
                                     <br />
-                                    והרשמה
+                                    {t("common:andregister")}
                                   </NavLink>
                                 </div>
                               </div>
@@ -455,6 +460,7 @@ export async function getServerSideProps({ params, locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "he")),
+      lang: locale ?? "he",
       serve,
       courses: courses?.allcourses || null,
       coursescats: coursescats?.allcoursescats || null,

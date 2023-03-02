@@ -1,51 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Assistant&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Rubik:wght@300;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Assistant&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Rubik:wght@300;500&display=swap");
 @font-face {
-  font-family: 'EnSpoiler';
-  src: url('../assets/fonts/spoiler/EnSpoiler.eot');
-  src: url('../assets/fonts/spoiler/EnSpoiler.eot') format('embedded-opentype'),
-    url('../assets/fonts/spoiler/EnSpoiler.woff2') format('woff2'),
-    url('../assets/fonts/spoiler/EnSpoiler.woff') format('woff'),
-    url('../assets/fonts/spoiler/EnSpoiler.ttf') format('truetype'),
-    url('../assets/fonts/spoiler/EnSpoiler.svg#EnSpoiler') format('svg');
+  font-family: "EnSpoiler";
+  src: url("/assets/fonts/spoiler/EnSpoiler.eot");
+  src: url("/assets/fonts/spoiler/EnSpoiler.eot") format("embedded-opentype"),
+    url("/assets/fonts/spoiler/EnSpoiler.woff2") format("woff2"),
+    url("/assets/fonts/spoiler/EnSpoiler.woff") format("woff"),
+    url("/assets/fonts/spoiler/EnSpoiler.ttf") format("truetype"),
+    url("/assets/fonts/spoiler/EnSpoiler.svg#EnSpoiler") format("svg");
 }
 @font-face {
-  font-family: 'FbSpoilerRegular';
-  src: url('../assets/fonts/spoiler/FbSpoilerRegular.eot');
-  src: url('../assets/fonts/spoiler/FbSpoilerRegular.eot')
-      format('embedded-opentype'),
-    url('../assets/fonts/spoiler/FbSpoilerRegular.woff2') format('woff2'),
-    url('../assets/fonts/spoiler/FbSpoilerRegular.woff') format('woff'),
-    url('../assets/fonts/spoiler/FbSpoilerRegular.ttf') format('truetype'),
-    url('../assets/fonts/spoiler/FbSpoilerRegular.svg#FbSpoilerRegular')
-      format('svg');
+  font-family: "FbSpoilerRegular";
+  src: url("/assets/fonts/spoiler/FbSpoilerRegular.eot");
+  src: url("/assets/fonts/spoiler/FbSpoilerRegular.eot")
+      format("embedded-opentype"),
+    url("/assets/fonts/spoiler/FbSpoilerRegular.woff2") format("woff2"),
+    url("/assets/fonts/spoiler/FbSpoilerRegular.woff") format("woff"),
+    url("/assets/fonts/spoiler/FbSpoilerRegular.ttf") format("truetype"),
+    url("/assets/fonts/spoiler/FbSpoilerRegular.svg#FbSpoilerRegular")
+      format("svg");
 }
 @font-face {
-  font-family: 'EnSpoilerBold';
-  src: url('../assets/fonts/spoiler/EnSpoilerBold.eot');
-  src: url('../assets/fonts/spoiler/EnSpoilerBold.eot')
-      format('embedded-opentype'),
-    url('../assets/fonts/spoiler/EnSpoilerBold.woff2') format('woff2'),
-    url('../assets/fonts/spoiler/EnSpoilerBold.woff') format('woff'),
-    url('../assets/fonts/spoiler/EnSpoilerBold.ttf') format('truetype'),
-    url('../assets/fonts/spoiler/EnSpoilerBold.svg#EnSpoilerBold') format('svg');
+  font-family: "EnSpoilerBold";
+  src: url("/fonts/spoiler/EnSpoilerBold.eot");
+  src: url("/fonts/spoiler/EnSpoilerBold.eot") format("embedded-opentype"),
+    url("/fonts/spoiler/EnSpoilerBold.woff2") format("woff2"),
+    url("/fonts/spoiler/EnSpoilerBold.woff") format("woff"),
+    url("/fonts/spoiler/EnSpoilerBold.ttf") format("truetype"),
+    url("/fonts/spoiler/EnSpoilerBold.svg#EnSpoilerBold") format("svg");
 }
 @font-face {
-  font-family: 'FbSpoilerBold';
-  src: url('../assets/fonts/spoiler/FbSpoilerBold.eot');
-  src: url('../assets/fonts/spoiler/FbSpoilerBold.eot')
-      format('embedded-opentype'),
-    url('../assets/fonts/spoiler/FbSpoilerBold.woff2') format('woff2'),
-    url('../assets/fonts/spoiler/FbSpoilerBold.woff') format('woff'),
-    url('../assets/fonts/spoiler/FbSpoilerBold.ttf') format('truetype'),
-    url('../assets/fonts/spoiler/FbSpoilerBold.svg#FbSpoilerBold') format('svg');
+  font-family: "FbSpoilerBold";
+  src: url("/fonts/spoiler/FbSpoilerBold.eot");
+  src: url("/fonts/spoiler/FbSpoilerBold.eot") format("embedded-opentype"),
+    url("/fonts/spoiler/FbSpoilerBold.woff2") format("woff2"),
+    url("/fonts/spoiler/FbSpoilerBold.woff") format("woff"),
+    url("/fonts/spoiler/FbSpoilerBold.ttf") format("truetype"),
+    url("/fonts/spoiler/FbSpoilerBold.svg#FbSpoilerBold") format("svg");
 }
 html {
   margin: 0;
   padding: 0;
 }
 body {
-  font-family: 'FbSpoilerRegular', 'EnSpoiler', 'Rubik', 'Roboto', sans-serif;
+  font-family: "FbSpoilerRegular", "EnSpoiler", "Rubik", "Roboto", sans-serif;
   font-weight: 500;
   margin: 0;
   padding: 0;

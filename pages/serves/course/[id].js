@@ -234,7 +234,7 @@ const LeftSide = ({ course, lang }) => {
         </div>
         <div className={styles.realLeftSide_lines_b}>
           <NavLink
-            href={`https://qrs-global.com/uploads/${whatLanguage(
+            href={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${whatLanguage(
               lang,
               course,
               "file"
@@ -456,7 +456,7 @@ const CourseIn = ({ course, lang }) => {
 // ProductsIn.title = `Products`;
 export async function getServerSideProps({ locale, params }) {
   const res = await fetch(
-    `https://qrs-global.com/react/courses/index.php?id=${params.id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/react/courses/index.php?id=${params.id}`
   );
   const course = await res.json();
   if (process.env.NODE_ENV === "development") {

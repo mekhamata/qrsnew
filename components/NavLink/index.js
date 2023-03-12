@@ -41,7 +41,12 @@ const NavLink = ({ children, ...props }) => {
   //   </Link>
   // );
   return props.target === "_blank" ? (
-    <a href={props.href} target={props.target} rel="noopener noreferrer">
+    <a
+      href={props.href}
+      target={props.target}
+      rel="noopener noreferrer"
+      className={props.aClass && props.aClass !== "" ? props.aClass : ""}
+    >
       <div
         className={
           router.pathname === props.href || router.asPath === props.href

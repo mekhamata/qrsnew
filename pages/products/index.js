@@ -80,7 +80,7 @@ const Products = ({ productscats, linkdata, lang }) => {
                             <div className={styles.homeCircleItem__img_wrapper}>
                               <Image
                                 alt="page cover"
-                                src={`https://qrs-global.com/uploads/${item.pic}`}
+                                src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.pic}`}
                                 layout="fill"
                                 objectFit="contain"
                               />
@@ -105,11 +105,11 @@ const Products = ({ productscats, linkdata, lang }) => {
 // Products.title = 'Products';
 export async function getStaticProps({ locale }) {
   const link = await fetch(
-    "https://qrs-global.com/react/links/index.php?id=23"
+    `${process.env.NEXT_PUBLIC_API_URL}/react/links/index.php?id=23`
   );
   const linkData = await link.json();
   const res1 = await fetch(
-    "https://qrs-global.com/react/productscats/index.php"
+    `${process.env.NEXT_PUBLIC_API_URL}/react/productscats/index.php`
   );
   const data1 = await res1.json();
   if (process.env.NODE_ENV === "development") {

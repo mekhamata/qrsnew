@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "lint": "next lint"
+    "test": "jest"
   },
   "dependencies": {
     "@createnextapp/async-local-storage": "^1.0.1",
@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "eslint": "8.22.0",
-    "eslint-config-next": "^13.0.4"
+    "eslint-config-next": "^13.0.4",
+    "jest": "^29.5.0"
   }
 }

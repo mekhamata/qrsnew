@@ -13,7 +13,7 @@ const Serves = ({ servescat, allserves, lang }) => {
   //all serves <--start-->
   const allservesdata = allserves.allserves;
   const myLoader = ({ src, width, quality }) => {
-    return `https://qrs-global.com/uploads/${src}?w=${width}&q=${
+    return `${process.env.NEXT_PUBLIC_API_URL}/uploads/${src}?w=${width}&q=${
       quality || 75
     }`;
   };
@@ -112,11 +112,13 @@ const Serves = ({ servescat, allserves, lang }) => {
 
 export const getServerSideProps = async ({ locale }) => {
   const res1 = await fetch(
-    "https://qrs-global.com/react/serves/servescat.php?id=5"
+    `${process.env.NEXT_PUBLIC_API_URL}/react/serves/servescat.php?id=5`
   );
   const data1 = await res1.json();
 
-  const res2 = await fetch("https://qrs-global.com/react/serves/serves.php");
+  const res2 = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/react/serves/serves.php`
+  );
   const data2 = await res2.json();
 
   if (process.env.NODE_ENV === "development") {

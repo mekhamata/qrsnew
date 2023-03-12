@@ -160,7 +160,7 @@ const LearningIn = ({ serve, courses, coursescats, lang }) => {
     searchStr = searchStr !== "" ? "?" + searchStr : searchStr;
     console.log(searchStr);
     const res = await fetch(
-      `https://qrs-global.com/react/courses/index.php${searchStr}`
+      `${process.env.NEXT_PUBLIC_API_URL}/react/courses/index.php${searchStr}`
     );
     const courses = await res.json();
     setTheCourses([]);
@@ -425,7 +425,9 @@ const LearningIn = ({ serve, courses, coursescats, lang }) => {
 // This function gets called at build time
 export async function getServerSideProps({ params, locale }) {
   // Call an external API endpoint to get posts
-  const res = await fetch("https://qrs-global.com/react/serves/serves.php");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/react/serves/serves.php`
+  );
   const serves = await res.json();
 
   // Get the paths we want to pre-render based on posts
@@ -434,7 +436,7 @@ export async function getServerSideProps({ params, locale }) {
   }));
 
   const res2 = await fetch(
-    `https://qrs-global.com/react/serves/index.php?id=${params.id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/react/serves/index.php?id=${params.id}`
   );
   const serve = await res2.json();
 
@@ -446,10 +448,14 @@ export async function getServerSideProps({ params, locale }) {
     serve?.serves?.title?.includes("הדרכות") ||
     serve?.serves?.title?.includes("קורסים")
   ) {
-    const res3 = await fetch(`https://qrs-global.com/react/courses/index.php`);
+    const res3 = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/react/courses/index.php`
+    );
     courses = await res3.json();
 
-    const res4 = await fetch(`https://qrs-global.com/react/courses/cats.php`);
+    const res4 = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/react/courses/cats.php`
+    );
     coursescats = await res4.json();
   }
   if (process.env.NODE_ENV === "development") {

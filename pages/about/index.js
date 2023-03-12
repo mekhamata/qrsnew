@@ -67,13 +67,15 @@ const About = ({ about, eman, lang }) => {
   );
 };
 
-export const getStaticProps = async ({ locale }) => {
+export const getServerSideProps = async ({ locale }) => {
   const res1 = await fetch(
-    "https://qrs-global.com/react/about/index.php?id=28"
+    `${process.env.NEXT_PUBLIC_API_URL}/react/about/index.php?id=28`
   );
   const data1 = await res1.json();
 
-  const res2 = await fetch("https://qrs-global.com/react/about/index.php?id=3");
+  const res2 = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/react/about/index.php?id=3`
+  );
   const data2 = await res2.json();
   if (process.env.NODE_ENV === "development") {
     await i18n?.reloadResources();

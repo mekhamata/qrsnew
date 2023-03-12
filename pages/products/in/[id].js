@@ -156,7 +156,7 @@ const LeftSide = ({ product, lang }) => {
       <div className={styles.productItemImg}>
         <Image
           alt="page cover"
-          src={`https://qrs-global.com/uploads/${product.pic}`}
+          src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.pic}`}
           width={221}
           height={221}
           objectFit="scale-down"
@@ -194,6 +194,7 @@ const LeftSide = ({ product, lang }) => {
                               handleRadios(event, "tissuelevel")
                             }
                             checked={radios.tissuelevel === item}
+                            readOnly
                           />
                           {item}
                         </label>
@@ -230,6 +231,7 @@ const LeftSide = ({ product, lang }) => {
                             value={item}
                             onClick={(event) => handleRadios(event, "height")}
                             checked={radios.height === item}
+                            readOnly
                           />
                           {item}
                         </label>
@@ -266,6 +268,7 @@ const LeftSide = ({ product, lang }) => {
                             value={item}
                             onClick={(event) => handleRadios(event, "diameter")}
                             checked={radios.diameter === item}
+                            readOnly
                           />
                           {item}
                         </label>
@@ -320,6 +323,7 @@ const LeftSide = ({ product, lang }) => {
                                         .replace(/\s/g, "_")
                                     ] === itemfeatures.featureid
                                   }
+                                  readOnly
                                 />
                                 {itemfeatures.featurename}
                               </label>
@@ -345,17 +349,10 @@ const LeftSide = ({ product, lang }) => {
               changeQuantity("plus");
             }}
           >
-            <div
-              className={styles.realLeftSide_form_input_opp_in}
-              unselectable="on"
-              onselectstart="return false;"
-              onmousedown="return false;"
-            >
-              +
-            </div>
+            <div className={styles.realLeftSide_form_input_opp_in}>+</div>
           </div>
-          <div>
-            <input type="number" value={qty} />
+          <div className={styles.realLeftSide_form_input_opp_number}>
+            <input type="number" value={qty} disabled />
           </div>
           <div
             className={styles.realLeftSide_form_input_opp}
@@ -363,14 +360,7 @@ const LeftSide = ({ product, lang }) => {
               changeQuantity("minus");
             }}
           >
-            <div
-              className={styles.realLeftSide_form_input_opp_in}
-              unselectable="on"
-              onselectstart="return false;"
-              onmousedown="return false;"
-            >
-              -
-            </div>
+            <div className={styles.realLeftSide_form_input_opp_in}>-</div>
           </div>
         </div>
         <input type="hidden" name="productData" />
@@ -486,6 +476,46 @@ const ProductsInId = ({ product, lang }) => {
                         }}
                       ></div>
                     </div>
+                    {(product.file !== "" || product.file_en !== "") && (
+                      <div className={styles.productContentLine}>
+                        <div className={styles.productContentLine_a}>
+                          <NavLink
+                            target="_blank"
+                            href={`${
+                              lang === "he"
+                                ? product.file !== ""
+                                  ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.file}`
+                                  : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.file_en}`
+                                : product.file_en !== ""
+                                ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.file_en}`
+                                : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.file}`
+                            }`}
+                            className={styles.downloadLink}
+                            aClass={styles.downloadLink}
+                            activeClassName={styles.downloadLink}
+                          >
+                            <div
+                              style={{
+                                display: "flex",
+                              }}
+                            >
+                              <IconComponent
+                                type="fab"
+                                name="fa fa-cloud-download"
+                              />{" "}
+                              <h2
+                                style={{
+                                  marginTop: "-5px",
+                                  marginInlineStart: "5px",
+                                }}
+                              >
+                                {t("products:usermanual")}
+                              </h2>
+                            </div>
+                          </NavLink>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -510,7 +540,7 @@ const ProductsInId = ({ product, lang }) => {
 
 export async function getServerSideProps({ locale, params }) {
   const res1 = await fetch(
-    `https://qrs-global.com/react/products/product.php?id=${params.id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/react/products/product.php?id=${params.id}`
   );
   const data1 = await res1.json();
   if (process.env.NODE_ENV === "development") {

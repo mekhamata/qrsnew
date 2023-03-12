@@ -11,7 +11,7 @@ export function HEADERContextProvider({ children }) {
         "Content-Type": "application/json",
       };
       const { data } = await axios.get(
-        `https://qrs-global.com/react/serves/serves.php`,
+        `${process.env.NEXT_PUBLIC_API_URL}/react/serves/serves.php`,
         { headers }
       );
       console.log(data);

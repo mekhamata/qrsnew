@@ -408,7 +408,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 53px;
+  min-height: 53px;
 }
 .realLeftSide_form_input_opp {
   display: flex;
@@ -419,6 +419,13 @@
   background-color: #d3d9de;
   border-radius: 20px;
   cursor: pointer;
+}
+.realLeftSide_form_input_opp_number input {
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 20px !important;
 }
 .realLeftSide_form_input_opp_in {
   display: flex;
@@ -491,6 +498,10 @@
 .productContentLine_a {
   display: flex;
   flex: 1;
+}
+.downloadLink {
+  color: #004b8d;
+  text-decoration: underline;
 }
 .productContentLine_b {
   display: flex;

@@ -197,6 +197,16 @@
   /* Firefox 18- */
   color: white;
 }
+.cr_div {
+  background-color: #004b8d;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+.logoContainer {
+  width: 46px;
+  height: 50px;
+}
 
 /* For extremely small screen devices (595px and below) */
 @media only screen and (max-width: 595px) {

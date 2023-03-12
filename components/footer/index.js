@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./index.module.css";
 import NavLink from "../NavLink";
 import IconComponent from "../iconComponent";
@@ -355,6 +356,20 @@ const Footer = () => {
             <TheToast />
           </div>
         )}
+      </div>
+      <div className={styles.cr_div}>
+        <div className={styles.logoContainer}>
+          <NavLink target="_blank" href={`https://dgw.co.il`} className={``}>
+            <Image
+              src="/img/cr.png"
+              width="46"
+              height="50"
+              alt="logo"
+              layout="responsive"
+              priority={true}
+            />
+          </NavLink>
+        </div>
       </div>
     </footer>
   );

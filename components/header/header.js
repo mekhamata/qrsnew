@@ -49,7 +49,16 @@ const Header = () => {
     <header>
       <div id="headerPass" className={styles.headerPass}>
         <div id="headerBlue" className={styles.headerBlue}>
-          <div id="headerBlueIn" className={styles.headerBlueIn}>
+          <div
+            id="headerBlueIn"
+            className={styles.headerBlueIn}
+            style={{
+              backgroundImage: `url('/img/bluecurve_${router.locale}.png')`,
+              backgroundPosition: `${
+                router.locale === "en" ? "right top" : "left top"
+              }`,
+            }}
+          >
             <div id="headerAddress" className={styles.headerAddress}>
               <NavLink
                 href={`tel:${siteData?.["phone"]}`}
@@ -129,7 +138,16 @@ const Header = () => {
         {!mobileView && (
           <div id="headerWhite" className={styles.headerWhite}>
             <div id="catalogBtn" className={styles.catalogBtn}>
-              <div id="catalogBtnIn" className={styles.catalogBtnIn}>
+              <div
+                id="catalogBtnIn"
+                className={styles.catalogBtnIn}
+                style={{
+                  backgroundImage: `url('/img/catbtn_${router.locale}.png')`,
+                  backgroundPosition: `${
+                    router.locale === "en" ? "right center" : "left center"
+                  }`,
+                }}
+              >
                 <NavLink
                   href=""
                   title={t("common:catalog")}

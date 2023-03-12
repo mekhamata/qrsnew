@@ -87,7 +87,7 @@ const Home = ({ circles, lang }) => {
                           <div className={styles.homeCircleItem__img_wrapper}>
                             <Image
                               alt="page cover"
-                              src={`https://qrs-global.com/uploads/${item.pic}`}
+                              src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.pic}`}
                               layout="responsive"
                               width={286}
                               height={284}
@@ -111,8 +111,10 @@ const Home = ({ circles, lang }) => {
     </>
   );
 };
-export const getStaticProps = async ({ locale }) => {
-  const res1 = await fetch("https://qrs-global.com/react/home/index.php");
+export const getServerSideProps = async ({ locale }) => {
+  const res1 = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/react/home/index.php`
+  );
   const data1 = await res1.json();
   if (process.env.NODE_ENV === "development") {
     await i18n?.reloadResources();

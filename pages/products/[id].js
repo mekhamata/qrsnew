@@ -49,10 +49,12 @@ const ProductsIn = ({ productscats, catproducts, features, lang }) => {
     console.log(JSON.stringify(newarr), "zz");
     const res2 = await fetch(
       typeof newarr !== undefined && newarr.length > 0
-        ? `https://qrs-global.com/react/productscats/catproducts.php?id=${id}&features=${JSON.stringify(
+        ? `${
+            process.env.NEXT_PUBLIC_API_URL
+          }/react/productscats/catproducts.php?id=${id}&features=${JSON.stringify(
             newarr
           )}`
-        : `https://qrs-global.com/react/productscats/catproducts.php?id=${id}`
+        : `${process.env.NEXT_PUBLIC_API_URL}/react/productscats/catproducts.php?id=${id}`
     );
     const data2 = await res2.json();
     setProducts([]);
@@ -135,7 +137,7 @@ const ProductsIn = ({ productscats, catproducts, features, lang }) => {
                               <div className={styles.productItemImg}>
                                 <Image
                                   alt="page cover"
-                                  src={`https://qrs-global.com/uploads/${item.pic}`}
+                                  src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.pic}`}
                                   width={221}
                                   height={221}
                                   objectFit="scale-down"
@@ -181,7 +183,7 @@ const ProductsIn = ({ productscats, catproducts, features, lang }) => {
               <div className={styles.filterImg}>
                 <Image
                   alt="page cover"
-                  src={`https://qrs-global.com/uploads/${productscats.pic}`}
+                  src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${productscats.pic}`}
                   width={218}
                   height={171}
                   objectFit="scale-down"
@@ -251,17 +253,17 @@ const ProductsIn = ({ productscats, catproducts, features, lang }) => {
 // ProductsIn.title = `Products`;
 export async function getServerSideProps({ locale, params }) {
   const res1 = await fetch(
-    `https://qrs-global.com/react/productscats/index.php?id=${params.id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/react/productscats/index.php?id=${params.id}`
   );
   const data1 = await res1.json();
 
   const res2 = await fetch(
-    `https://qrs-global.com/react/productscats/catproducts.php?id=${params.id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/react/productscats/catproducts.php?id=${params.id}`
   );
   const data2 = await res2.json();
 
   const res3 = await fetch(
-    `https://qrs-global.com/react/products/features.php`
+    `${process.env.NEXT_PUBLIC_API_URL}/react/products/features.php`
   );
   const data3 = await res3.json();
 

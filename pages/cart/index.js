@@ -67,7 +67,7 @@ const Cart = ({ lang }) => {
 
   //all serves <--start-->
   const myLoader = ({ src, width, quality }) => {
-    return `https://qrs-global.com/uploads/${src}?w=${width}&q=${
+    return `${process.env.NEXT_PUBLIC_API_URL}/uploads/${src}?w=${width}&q=${
       quality || 75
     }`;
   };

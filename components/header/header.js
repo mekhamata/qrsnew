@@ -149,7 +149,8 @@ const Header = () => {
                 }}
               >
                 <NavLink
-                  href=""
+                  target="_blank"
+                  href={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${siteData?.["file1"]}`}
                   title={t("common:catalog")}
                   className={styles.catalogBtnInLink}
                 />
